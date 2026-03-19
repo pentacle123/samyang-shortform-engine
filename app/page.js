@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { keywordPool } from "./keywordPool";
 
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
@@ -38,6 +39,13 @@ const shortformTypeData={
 
 const brandInsights={"1963":{searchVolume:9140,trend:"stable",profile:{male:53.3,age30:34.0,age40:31.1},topKeyword:{keyword:"우지라면",volume:49006,note:"브랜드명보다 5배 큼"},searchJourneys:["'우지라면 뜻' → '삼양 우지라면' → 구매 탐색","'프리미엄 라면' → '장인라면/더미식' (삼양1963 부재)","'야식 라면 추천' → '야식 라면 건강' → '밤에 라면 먹으면'"],competitors:"'프리미엄 라면' 검색 시 장인라면/더미식으로 흐름. 삼양1963은 이 여정에 부재.",findings:[{icon:"🔥",title:"스토리가 진입점",detail:"'우지라면' 월 49,006회 — 브랜드명(9,140회)보다 5배. 우지파동 서사가 최강의 콘텐츠 자산."},{icon:"📊",title:"프리미엄 여정 부재",detail:"'프리미엄 라면' 검색 시 장인라면/더미식으로 흐름. 이 검색 여정에 삼양1963 콘텐츠가 없음."},{icon:"⚡",title:"화제성 vs 채널 갭",detail:"출시 1개월 700만개, 자발적 콘텐츠 8,000만뷰인데 유튜브 채널 검색량 0. 관심을 흡수하지 못하고 있음."}]},"mep":{searchVolume:7713,trend:"declining -58%",profile:{female:64.1,age30:34.6,age40:26.7},topKeyword:{keyword:"맵탱 마늘조개라면",volume:1620,note:"가장 인기 맛"},searchJourneys:["'맵소디(오뚜기)' → '맵탱' — 경쟁 제품에서 이탈 유입","'매운 라면 추천' → '매운 라면 순위' (맵탱 발견 기회)","'스트레스 해소 음식' → '스트레스 풀리는 매운 음식'"],competitors:"'매운 라면 추천' 검색(월 790회)에서 맵탱이 발견되지 않음. 신라면이 지배.",findings:[{icon:"🔥",title:"맵소디에서 유입",detail:"PathFinder: '맵소디 라면' → '오뚜기 맵소디' → '맵탱' 유입 경로 확인."},{icon:"📊",title:"스트레스 매운맛 경로",detail:"'스트레스 해소 음식' → '스트레스 풀리는 매운 음식' 경로 실제 존재."},{icon:"⚡",title:"하락 추세 대응 필요",detail:"검색량 -58% 하락 중. 출시 피크 후 관심 유지를 위한 지속적 숏폼 콘텐츠가 절실."}]},"tgl":{searchVolume:7040,trend:"declining -24%",profile:{female:76.1,age30:34.3,age25_29:20.5},topKeyword:{keyword:"탱글 파스타 다이어트",volume:100,note:"다이어트 맥락이 핵심"},searchJourneys:["'다이어트 면' → '콩담백면'(월 11,156회) — 탱글 부재","'운동 후 식사추천' → '운동 후 라면'(월 278회)","'다이어트 중 라면 먹고 싶을때'(월 201회)"],competitors:"실제 경쟁자는 곤약면이 아니라 콩담백면(청정원, 월 11,156회 · 여성 85%).",findings:[{icon:"🔥",title:"실제 경쟁자 = 콩담백면",detail:"'다이어트 면' 검색 시 콩담백면(월 11,156회)으로 흐르는 여정 압도적."},{icon:"📊",title:"'운동 후 라면' 경로",detail:"PathFinder: '운동 후 식사추천' → '운동 후 라면' 경로 실제 존재(월 278회)."},{icon:"⚡",title:"PAIN 검증됨",detail:"'다이어트 중 라면 먹고 싶을때' 월 201회 실제 검색."}]},"pls":{searchVolume:1033,trend:"growing +87%",profile:{female:81.1,age30:52.5,age25_29:20.0},topKeyword:{keyword:"잭앤펄스",volume:173,note:"구 브랜드명, 하락 중"},searchJourneys:["'건강 간식' → '단백질 간식' → '단백질 간식 추천' → '다이어트 간식 추천'","'식물성 단백질' → '식물성 단백질 흡수율' → '유청 단백질' 비교","'사무실 건강 간식 추천' CPC $2.62 · 여성 84%"],competitors:"브랜드 검색 자체가 거의 없으므로 카테고리(단백질 간식, 월 4,703회) 진입이 유일한 방법.",findings:[{icon:"🔥",title:"카테고리 진입만이 답",detail:"펄스랩 검색 월 1,033회. '단백질 간식'(월 4,703회) 카테고리에서 발견되게 해야 함."},{icon:"📊",title:"B2B 간식 고가 키워드",detail:"'사무실 건강 간식 추천' CPC $2.62(최고가!), 여성 84%, 30대 42%."},{icon:"⚡",title:"+87% 급성장",detail:"인지도 제로에서 월 1,033회까지 급성장. 지금이 숏폼으로 인지도를 폭발시킬 최적의 타이밍."}]}};
 const PERSP=[{id:"all",l:"AI 자동 추천"},{id:"A",l:"A. 소비자 맥락 조합"},{id:"B",l:"B. 검색 여정 발견"},{id:"C",l:"C. 크로스 카테고리"}];
+
+const getKeywordsForBrand = (brandId) => {
+  return keywordPool
+    .filter(k => k.brand === brandId || k.brand === "all" || k.brand.includes(brandId))
+    .sort((a, b) => b.vol - a.vol);
+};
+
 const sf=(title,hook,hookD,scenes,proof,cta,tags,time,cluster)=>({title,hook,hookD,scenes,proof,cta,tags,time,cluster});
 
 // ── BRAND DATA (compressed) ──
@@ -675,6 +683,64 @@ const BrandInsight=({b,go})=>{
       </div>)}
     </div>
 
+    {/* 기회의 크기 차트 */}
+    {(()=>{
+      const kwList=getKeywordsForBrand(b.id);
+      const top10=kwList.slice(0,10);
+      const maxVol=top10.length>0?top10[0].vol:1;
+      const totalVol=kwList.reduce((s,k)=>s+k.vol,0);
+      const brandVol=data.searchVolume||0;
+      return top10.length>0?(
+      <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
+        <div style={{marginBottom:16}}>
+          <div style={{fontSize:14,fontWeight:900,color:G,marginBottom:4}}>{"🔍 카테고리 기회의 크기"}</div>
+          <div style={{fontSize:10,color:"#999",lineHeight:1.6}}>{"이 카테고리의 소비자 검색량이 곧 숏폼 콘텐츠의 기회입니다"}</div>
+        </div>
+        {/* 총 검색량 & 브랜드 비교 */}
+        <div style={{display:"flex",gap:12,marginBottom:18}}>
+          <div style={{flex:1,background:b.c+"06",borderRadius:10,padding:"14px 16px",border:`1px solid ${b.c}10`}}>
+            <div style={{fontSize:9,fontWeight:700,color:"#999",marginBottom:4}}>카테고리 총 검색량</div>
+            <div style={{fontSize:24,fontWeight:900,color:b.c}}>{totalVol.toLocaleString()}<span style={{fontSize:10,fontWeight:400,color:"#999"}}> 회/월</span></div>
+          </div>
+          <div style={{flex:1,background:"#f8f8fa",borderRadius:10,padding:"14px 16px",border:"1px solid #f0f0f0"}}>
+            <div style={{fontSize:9,fontWeight:700,color:"#999",marginBottom:4}}>브랜드 vs 카테고리</div>
+            <div style={{display:"flex",alignItems:"baseline",gap:6}}>
+              <span style={{fontSize:18,fontWeight:900,color:G}}>{brandVol.toLocaleString()}</span>
+              <span style={{fontSize:10,color:"#999"}}>/ {totalVol.toLocaleString()}</span>
+            </div>
+            <div style={{marginTop:6,height:6,background:"#eee",borderRadius:3,overflow:"hidden"}}>
+              <div style={{height:"100%",width:`${Math.min((brandVol/totalVol)*100,100)}%`,background:b.c,borderRadius:3}}/>
+            </div>
+            <div style={{fontSize:9,color:"#999",marginTop:4}}>브랜드 점유율 {(brandVol/totalVol*100).toFixed(1)}%</div>
+          </div>
+        </div>
+        {/* TOP 10 바 차트 */}
+        <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {top10.map((k,i)=>{
+            const pct=Math.max((k.vol/maxVol)*100,3);
+            const trendArrow=k.trend>0?"↑":k.trend<0?"↓":"→";
+            const trendColor=k.trend>0?"#16a34a":k.trend<0?"#dc2626":"#999";
+            return(
+            <div key={i} style={{display:"flex",alignItems:"center",gap:8}}>
+              <span style={{fontSize:9,color:"#bbb",width:16,textAlign:"right",flexShrink:0}}>{i+1}</span>
+              <div style={{flex:1}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:3}}>
+                  <span style={{fontSize:10,fontWeight:700,color:G}}>{k.kw}</span>
+                  <div style={{display:"flex",alignItems:"center",gap:4}}>
+                    <span style={{fontSize:10,fontWeight:700,color:"#555"}}>{k.vol.toLocaleString()}</span>
+                    <span style={{fontSize:9,color:trendColor,fontWeight:700}}>{trendArrow}</span>
+                  </div>
+                </div>
+                <div style={{height:10,background:"#f5f5f5",borderRadius:4,overflow:"hidden"}}>
+                  <div style={{height:"100%",width:`${pct}%`,background:b.c,borderRadius:4,opacity:.6,transition:"width .3s"}}/>
+                </div>
+              </div>
+            </div>);
+          })}
+        </div>
+      </div>):null;
+    })()}
+
     {/* CTA */}
     <div style={{textAlign:"center"}}>
       <button onClick={go} style={{background:`linear-gradient(135deg,${b.c},${b.c}CC)`,color:"#fff",border:"none",borderRadius:12,padding:"14px 36px",fontSize:13,fontWeight:800,cursor:"pointer",boxShadow:`0 4px 16px ${b.c}25`}}>
@@ -782,6 +848,11 @@ ${b.dp.join(", ")}
 
 ## CEP 인사이트
 ${b.cep.join("\n")}
+
+## 카테고리 키워드 풀 (검색량 = 기회의 크기)
+${getKeywordsForBrand(b.id).slice(0,20).map(k => `- ${k.kw}: 월 ${k.vol.toLocaleString()}회 (태그: ${k.tags.join(', ')})`).join('\n')}
+
+가장 큰 기회(검색량이 높은 키워드)부터 숏폼 아이디어를 만들어.
 
 ## 3가지 관점
 A. 소비자 맥락 조합: WHO/WHEN/WHERE/PAIN/NEED/INTEREST 중 2~3개를 조합. 소비자 상황에서 출발.
