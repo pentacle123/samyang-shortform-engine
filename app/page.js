@@ -149,88 +149,194 @@ const BRANDS=[
 ];
 
 // ── TAB1: 채널 진단 (YouTube API + fallback) ──
+const fmtNum=n=>{if(n>=10000)return(n/10000).toFixed(1)+"만";if(n>=1000)return(n/1000).toFixed(1)+"천";return n.toLocaleString();};
 const TabDiag=()=>{
   const [ytData,setYtData]=useState(null);
   const [loading,setLoading]=useState(true);
   const [apiErr,setApiErr]=useState(false);
+  const [errMsg,setErrMsg]=useState("");
 
   useEffect(()=>{
-    const API_KEY=typeof window!=='undefined'?process.env.NEXT_PUBLIC_YOUTUBE_API_KEY:null;
-    if(!API_KEY){setApiErr(true);setLoading(false);return;}
+    const API_KEY=process.env.NEXT_PUBLIC_YOUTUBE_API_KEY||null;
+    if(!API_KEY){setApiErr(true);setErrMsg("환경변수 NEXT_PUBLIC_YOUTUBE_API_KEY를 설정해주세요.");setLoading(false);return;}
     (async()=>{
       try{
-        const chRes=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+        // 1. Channel stats
+        const chRes=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics,snippet&id=${CHANNEL_ID}&key=${API_KEY}`);
         const chData=await chRes.json();
-        const chStats=chData.items?.[0]?.statistics||{};
+        if(chData.error){setApiErr(true);setErrMsg(chData.error.message||"API 오류");setLoading(false);return;}
+        const chItem=chData.items?.[0];
+        const chStats=chItem?.statistics||{};
+        const chTitle=chItem?.snippet?.title||"삼양식품";
+        const chThumb=chItem?.snippet?.thumbnails?.default?.url||"";
+        // 2. Search recent shorts
         const srRes=await fetch(`https://www.googleapis.com/youtube/v3/search?part=id&channelId=${CHANNEL_ID}&type=video&videoDuration=short&maxResults=50&order=date&key=${API_KEY}`);
         const srData=await srRes.json();
+        if(srData.error){setApiErr(true);setErrMsg(srData.error.message||"검색 API 오류");setLoading(false);return;}
         const ids=(srData.items||[]).map(i=>i.id.videoId).filter(Boolean).join(',');
-        if(!ids){setApiErr(true);setLoading(false);return;}
+        if(!ids){setApiErr(true);setErrMsg("최근 쇼츠를 찾을 수 없습니다.");setLoading(false);return;}
+        // 3. Video details
         const vRes=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${ids}&key=${API_KEY}`);
         const vData=await vRes.json();
+        if(vData.error){setApiErr(true);setErrMsg(vData.error.message||"영상 API 오류");setLoading(false);return;}
         const videos=(vData.items||[]).map(v=>{
           const s=v.statistics;const views=Number(s.viewCount||0);const likes=Number(s.likeCount||0);const comments=Number(s.commentCount||0);
           const engRate=views>0?(likes/views)*100:0;
-          let cat="organic",catColor="#16a34a";
-          if(engRate<0.5){cat="ad_suspected";catColor="#dc2626";}else if(engRate<3.0){cat="normal";catColor="#eab308";}
-          return{title:v.snippet.title,views,likes,comments,engRate,cat,catColor};
+          const commentRate=views>0?(comments/views)*100:0;
+          let cat="organic",catLabel="오가닉",catColor="#16a34a";
+          if(engRate<0.5){cat="ad_suspected";catLabel="광고 의심";catColor="#dc2626";}
+          else if(engRate<3.0){cat="normal";catLabel="보통";catColor="#eab308";}
+          const thumb=v.snippet.thumbnails?.medium?.url||v.snippet.thumbnails?.default?.url||"";
+          const publishedAt=v.snippet.publishedAt||"";
+          return{id:v.id,title:v.snippet.title,views,likes,comments,engRate,commentRate,cat,catLabel,catColor,thumb,publishedAt};
         });
-        const organic=videos.filter(v=>v.cat==="organic").length;
-        const adSuspected=videos.filter(v=>v.cat==="ad_suspected").length;
+        // Compute averages for outlier detection
+        const avgViews=videos.reduce((s,v)=>s+v.views,0)/videos.length;
+        videos.forEach(v=>{
+          if(v.views>avgViews*10&&v.engRate<1.0)v.outlier=true;
+          if(v.commentRate<0.01&&v.engRate<0.5)v.lowComment=true;
+        });
+        const organic=videos.filter(v=>v.cat==="organic");
+        const adSuspected=videos.filter(v=>v.cat==="ad_suspected");
+        const normal=videos.filter(v=>v.cat==="normal");
         const totalViews=videos.reduce((s,v)=>s+v.views,0);
-        setYtData({subscribers:Number(chStats.subscriberCount||0),totalVideos:Number(chStats.videoCount||0),videos,organic,adSuspected,totalViews});
-      }catch(e){console.error(e);setApiErr(true);}
+        const avgEng=videos.reduce((s,v)=>s+v.engRate,0)/videos.length;
+        setYtData({
+          chTitle,chThumb,
+          subscribers:Number(chStats.subscriberCount||0),
+          totalVideos:Number(chStats.videoCount||0),
+          videos,organic,adSuspected,normal,totalViews,avgViews,avgEng
+        });
+      }catch(e){console.error(e);setApiErr(true);setErrMsg(e.message||"네트워크 오류");}
       setLoading(false);
     })();
   },[]);
 
-  if(loading)return <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:300}}><div style={{width:40,height:40,border:`3px solid ${O}18`,borderTopColor:O,borderRadius:"50%",animation:"sp .7s linear infinite"}}/></div>;
+  if(loading)return <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:300,flexDirection:"column",gap:12}}>
+    <div style={{width:40,height:40,border:`3px solid ${O}18`,borderTopColor:O,borderRadius:"50%",animation:"sp .7s linear infinite"}}/>
+    <div style={{fontSize:11,color:"#999"}}>YouTube API에서 최근 50개 쇼츠를 분석하고 있습니다...</div>
+  </div>;
+
+  // Video card component
+  const VCard=({v,rank})=>(
+    <div style={{background:"#fff",borderRadius:12,padding:14,border:`2px solid ${v.catColor}20`,display:"flex",gap:12,alignItems:"flex-start",transition:"all .2s"}}
+      onMouseEnter={e=>{e.currentTarget.style.borderColor=v.catColor+"60";e.currentTarget.style.transform="translateY(-1px)";e.currentTarget.style.boxShadow=`0 4px 16px ${v.catColor}10`}}
+      onMouseLeave={e=>{e.currentTarget.style.borderColor=v.catColor+"20";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none"}}>
+      <div style={{position:"relative",flexShrink:0}}>
+        {v.thumb?<img src={v.thumb} alt="" style={{width:120,height:68,borderRadius:8,objectFit:"cover",background:"#f0f0f0"}}/>
+        :<div style={{width:120,height:68,borderRadius:8,background:"#f0f0f0",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>📺</div>}
+        {rank!=null&&<div style={{position:"absolute",top:-6,left:-6,width:20,height:20,borderRadius:"50%",background:v.catColor,color:"#fff",fontSize:9,fontWeight:900,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          {rank}
+        </div>}
+      </div>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{fontSize:11,fontWeight:700,color:G,marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{v.title}</div>
+        <div style={{display:"flex",gap:8,marginBottom:6,flexWrap:"wrap"}}>
+          <span style={{fontSize:9,color:"#888"}}>조회수 <strong style={{color:"#555"}}>{fmtNum(v.views)}</strong></span>
+          <span style={{fontSize:9,color:"#888"}}>좋아요 <strong style={{color:"#555"}}>{fmtNum(v.likes)}</strong></span>
+          <span style={{fontSize:9,color:"#888"}}>댓글 <strong style={{color:"#555"}}>{fmtNum(v.comments)}</strong></span>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:6}}>
+          <div style={{flex:1,height:6,background:"#f0f0f0",borderRadius:3,overflow:"hidden"}}>
+            <div style={{height:"100%",width:`${Math.min(100,v.engRate*10)}%`,background:v.catColor,borderRadius:3,transition:"width .5s"}}/>
+          </div>
+          <span style={{fontSize:11,fontWeight:900,color:v.catColor}}>{v.engRate.toFixed(2)}%</span>
+        </div>
+        <div style={{marginTop:4,display:"flex",alignItems:"center",gap:4}}>
+          <span style={{background:v.catColor+"12",color:v.catColor,padding:"1px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>
+            {v.cat==="organic"?"✅ 오가닉 알고리즘 추천":v.cat==="ad_suspected"?"⚠️ 광고 부스팅 의심":"◉ 일반 성과"}
+          </span>
+          {v.outlier&&<span style={{background:"#dc262610",color:"#dc2626",padding:"1px 6px",borderRadius:4,fontSize:7,fontWeight:700}}>이상치</span>}
+        </div>
+      </div>
+    </div>
+  );
 
   return(
   <div style={{animation:"fi .5s"}}>
-    <div style={{marginBottom:20}}>
-      <h2 style={{fontSize:18,fontWeight:900,marginBottom:4}}>📊 삼양식품 숏폼 채널 진단</h2>
-      <p style={{fontSize:11,color:"#999"}}>귀사의 숏폼 데이터를 분석했습니다. 조회수에 속지 마세요.</p>
+    {/* 섹션 A: 채널 요약 헤더 */}
+    <div style={{background:"linear-gradient(135deg,#1a1a1a,#2d2d2d)",borderRadius:14,padding:"24px 28px",marginBottom:20,color:"#fff",position:"relative",overflow:"hidden"}}>
+      <div style={{position:"absolute",top:-30,right:-30,width:120,height:120,borderRadius:"50%",background:"rgba(255,0,0,0.06)"}}/>
+      <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:14}}>
+        {ytData?.chThumb?<img src={ytData.chThumb} alt="" style={{width:48,height:48,borderRadius:"50%",border:"2px solid rgba(255,255,255,0.15)"}}/>
+        :<div style={{width:48,height:48,borderRadius:"50%",background:"rgba(255,255,255,0.1)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>📺</div>}
+        <div>
+          <div style={{fontSize:16,fontWeight:900}}>📺 {ytData?.chTitle||"삼양식품"} YouTube Shorts 채널 진단</div>
+          <div style={{fontSize:10,opacity:.6,marginTop:2}}>@samyangfoods · 구독자 {ytData?fmtNum(ytData.subscribers):"--"} · 총 영상 {ytData?ytData.totalVideos.toLocaleString():"--"}개</div>
+        </div>
+      </div>
+      <div style={{fontSize:12,opacity:.7,lineHeight:1.7}}>
+        {ytData?`"최근 ${ytData.videos.length}개 쇼츠를 AI가 분석했습니다"`:"\"귀사의 숏폼 데이터를 분석했습니다. 조회수에 속지 마세요.\""}
+      </div>
+      <div style={{fontSize:9,opacity:.4,marginTop:6}}>분석 기준: Engagement Rate (좋아요/조회수) + 댓글/조회수 비율 + 이상치 탐지</div>
     </div>
 
     {apiErr&&<div style={{background:"#fef3c7",border:"1px solid #fde68a",borderRadius:10,padding:"14px 20px",marginBottom:16}}>
-      <div style={{fontSize:11,fontWeight:700,color:"#92400e",marginBottom:4}}>⚠️ YouTube API 키가 필요합니다</div>
-      <div style={{fontSize:10,color:"#a16207"}}>환경변수 NEXT_PUBLIC_YOUTUBE_API_KEY를 설정해주세요. 아래는 정적 검색 데이터입니다.</div>
+      <div style={{fontSize:11,fontWeight:700,color:"#92400e",marginBottom:4}}>⚠️ YouTube API 연결 실패</div>
+      <div style={{fontSize:10,color:"#a16207"}}>{errMsg}</div>
+      <div style={{fontSize:9,color:"#b45309",marginTop:6}}>아래는 ListeningMind 검색 데이터 기반 정적 분석입니다.</div>
     </div>}
 
-    {/* 핵심 진단 카드 4개 */}
+    {/* 섹션 B: 핵심 진단 카드 4개 */}
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:12,marginBottom:20}}>
       {[
-        {label:"오가닉 성과",value:ytData?`${ytData.organic}개 / ${ytData.videos.length}개`:"분석 필요",sub:"알고리즘이 민 영상",color:"#16a34a",bg:"#f0fdf4"},
-        {label:"광고 부스팅 의심",value:ytData?`${ytData.adSuspected}개 / ${ytData.videos.length}개`:"분석 필요",sub:"광고비가 만든 조회수",color:"#dc2626",bg:"#fef2f2"},
-        {label:"채널 검색량",value:"월 15회",sub:"거의 검색 안 됨",color:"#f59e0b",bg:"#fffbeb"},
-        {label:"경쟁사 비교",value:"농심 월 130회",sub:"8.6배 격차",color:"#3b82f6",bg:"#eff6ff"},
+        {label:"오가닉 성과",value:ytData?`${ytData.organic.length}개 / ${ytData.videos.length}개`:"분석 필요",sub:"알고리즘이 민 영상",color:"#16a34a",bg:"#f0fdf4",pct:ytData?`${((ytData.organic.length/ytData.videos.length)*100).toFixed(0)}%`:null},
+        {label:"광고 부스팅 의심",value:ytData?`${ytData.adSuspected.length}개 / ${ytData.videos.length}개`:"분석 필요",sub:"광고비가 만든 조회수",color:"#dc2626",bg:"#fef2f2",pct:ytData?`${((ytData.adSuspected.length/ytData.videos.length)*100).toFixed(0)}%`:null},
+        {label:"채널 검색량",value:"월 15회",sub:"거의 검색 안 됨",color:"#f59e0b",bg:"#fffbeb",pct:null},
+        {label:"경쟁사 비교",value:"농심 월 130회",sub:"8.6배 격차",color:"#3b82f6",bg:"#eff6ff",pct:null},
       ].map((c,i)=><div key={i} style={{background:c.bg,borderRadius:12,padding:"18px 16px",border:`1px solid ${c.color}15`}}>
         <div style={{fontSize:9,fontWeight:700,color:c.color,letterSpacing:1,marginBottom:8}}>{c.label}</div>
         <div style={{fontSize:20,fontWeight:900,color:c.color,marginBottom:4}}>{c.value}</div>
         <div style={{fontSize:9,color:"#888"}}>{c.sub}</div>
+        {c.pct&&<div style={{marginTop:6,height:4,background:c.color+"15",borderRadius:2,overflow:"hidden"}}><div style={{height:"100%",width:c.pct,background:c.color,borderRadius:2}}/></div>}
       </div>)}
     </div>
 
-    {/* 영상별 Engagement Rate 차트 */}
+    {/* 섹션 C: 영상별 Engagement Rate 차트 */}
     {ytData&&ytData.videos.length>0&&<div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
-      <div style={{fontSize:13,fontWeight:800,marginBottom:14}}>영상별 Engagement Rate (%)</div>
-      <div style={{display:"flex",alignItems:"flex-end",gap:2,height:140}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+        <div style={{fontSize:13,fontWeight:800}}>영상별 Engagement Rate (%)</div>
+        <div style={{fontSize:10,color:"#999"}}>평균 {ytData.avgEng.toFixed(2)}%</div>
+      </div>
+      <div style={{display:"flex",alignItems:"flex-end",gap:2,height:140,position:"relative"}}>
+        {/* Average line */}
+        <div style={{position:"absolute",left:0,right:0,bottom:`${Math.min(130,(ytData.avgEng/5)*130)}px`,height:1,borderTop:"1.5px dashed #FF6B00",zIndex:1,opacity:.5}}/>
         {ytData.videos.map((v,i)=>{
           const h=Math.max(4,Math.min(130,(v.engRate/5)*130));
           return <div key={i} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-end",height:"100%",position:"relative"}} title={`${v.title}\n조회수: ${v.views.toLocaleString()}\n좋아요: ${v.likes.toLocaleString()}\nEngagement: ${v.engRate.toFixed(2)}%`}>
-            <div style={{width:"100%",maxWidth:14,height:h,background:v.catColor,borderRadius:"3px 3px 0 0",opacity:.8,transition:"all .3s"}}/>
+            <div style={{width:"100%",maxWidth:14,height:h,background:v.catColor,borderRadius:"3px 3px 0 0",opacity:.8,transition:"all .3s",cursor:"pointer"}}
+              onMouseEnter={e=>{e.currentTarget.style.opacity="1";e.currentTarget.style.transform="scaleY(1.05)"}}
+              onMouseLeave={e=>{e.currentTarget.style.opacity=".8";e.currentTarget.style.transform="none"}}/>
           </div>;
         })}
       </div>
       <div style={{display:"flex",justifyContent:"center",gap:16,marginTop:12}}>
-        {[{c:"#16a34a",l:"오가닉 (≥3%)"},{c:"#eab308",l:"보통 (0.5~3%)"},{c:"#dc2626",l:"광고 의심 (<0.5%)"}].map((x,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:4}}><div style={{width:8,height:8,borderRadius:2,background:x.c}}/><span style={{fontSize:9,color:"#888"}}>{x.l}</span></div>)}
+        {[{c:"#16a34a",l:`오가닉 ≥3% (${ytData.organic.length}개)`},{c:"#eab308",l:`보통 0.5~3% (${ytData.normal.length}개)`},{c:"#dc2626",l:`광고 의심 <0.5% (${ytData.adSuspected.length}개)`}].map((x,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:4}}><div style={{width:8,height:8,borderRadius:2,background:x.c}}/><span style={{fontSize:9,color:"#888"}}>{x.l}</span></div>)}
       </div>
     </div>}
 
-    {/* 검색 데이터 비교 */}
+    {/* 섹션 C-2: 오가닉 TOP vs 광고 의심 영상 비교 */}
+    {ytData&&ytData.videos.length>0&&<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:20}}>
+      <div>
+        <div style={{fontSize:12,fontWeight:800,color:"#16a34a",marginBottom:10,display:"flex",alignItems:"center",gap:4}}>✅ 오가닉 TOP 영상</div>
+        <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {[...ytData.organic].sort((a,b)=>b.engRate-a.engRate).slice(0,3).map((v,i)=><VCard key={v.id} v={v} rank={i+1}/>)}
+          {ytData.organic.length===0&&<div style={{background:"#f0fdf4",borderRadius:10,padding:16,fontSize:10,color:"#888",textAlign:"center"}}>오가닉 성과 영상이 없습니다</div>}
+        </div>
+      </div>
+      <div>
+        <div style={{fontSize:12,fontWeight:800,color:"#dc2626",marginBottom:10,display:"flex",alignItems:"center",gap:4}}>⚠️ 광고 부스팅 의심 영상</div>
+        <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {[...ytData.adSuspected].sort((a,b)=>b.views-a.views).slice(0,3).map((v,i)=><VCard key={v.id} v={v} rank={i+1}/>)}
+          {ytData.adSuspected.length===0&&<div style={{background:"#fef2f2",borderRadius:10,padding:16,fontSize:10,color:"#888",textAlign:"center"}}>광고 부스팅 의심 영상이 없습니다</div>}
+        </div>
+      </div>
+    </div>}
+
+    {/* 섹션 D: 검색 데이터 갭 분석 */}
     <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
-      <div style={{fontSize:13,fontWeight:800,marginBottom:14}}>채널 검색량 vs 제품 검색량</div>
+      <div style={{fontSize:13,fontWeight:800,marginBottom:4}}>📊 제품 검색 vs 영상 검색 — 데이터 갭</div>
+      <div style={{fontSize:9,color:"#999",marginBottom:14}}>소비자는 제품을 검색하지만, 귀사의 숏폼 콘텐츠는 찾지 않습니다.</div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
         <div>
           <div style={{fontSize:10,fontWeight:700,color:"#dc2626",marginBottom:8}}>📺 영상 채널 검색량 (미미)</div>
@@ -249,15 +355,30 @@ const TabDiag=()=>{
           </div>)}
         </div>
       </div>
+      <div style={{marginTop:12,background:"#fef2f2",borderRadius:8,padding:"10px 14px",borderLeft:"3px solid #dc2626"}}>
+        <div style={{fontSize:10,color:"#555",lineHeight:1.7}}>4개 브랜드 합계 월 <strong style={{color:"#dc2626"}}>24,926회</strong> 제품 검색 vs 영상 검색 <strong style={{color:"#dc2626"}}>0회</strong> — 이 갭을 메우는 것이 알고리즘 숏폼입니다.</div>
+      </div>
     </div>
 
-    {/* 인사이트 메시지 */}
+    {/* 섹션 E: 진단 결과 3가지 인사이트 */}
     <div style={{background:`linear-gradient(135deg,${O}08,#fff)`,borderRadius:14,padding:"20px 24px",border:`1px solid ${O}15`}}>
-      <div style={{fontSize:12,fontWeight:800,color:O,marginBottom:8}}>💡 핵심 인사이트</div>
-      <div style={{fontSize:11,color:"#555",lineHeight:1.8}}>
-        제품 검색량은 폭발(삼양1963 월 9,140회)하고 있지만, 유튜브 채널 검색량은 월 15회에 불과합니다.<br/>
-        <strong style={{color:"#dc2626"}}>문제: 광고를 끄면 조회수도 멈춥니다.</strong><br/>
-        <strong style={{color:"#16a34a"}}>해결: 알고리즘이 자연스럽게 밀어주는 콘텐츠를 만들어야 합니다.</strong>
+      <div style={{fontSize:12,fontWeight:800,color:O,marginBottom:12}}>🔍 진단 결과 3가지</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:14}}>
+        {[
+          {n:"1",title:"조회수 ≠ 성과",detail:ytData?`최근 ${ytData.videos.length}개 쇼츠 중 오가닉 성과는 ${((ytData.organic.length/ytData.videos.length)*100).toFixed(0)}%에 불과`:"최근 쇼츠 중 오가닉 성과는 소수에 불과",color:"#dc2626"},
+          {n:"2",title:"채널 인지도 부재",detail:"'삼양식품 유튜브' 검색 월 15회 (농심 130회의 1/8)",color:"#f59e0b"},
+          {n:"3",title:"제품-채널 갭",detail:"4개 브랜드 합계 월 24,926회 검색 vs 영상 검색 0회",color:"#3b82f6"},
+        ].map((ins,i)=><div key={i} style={{background:"#fff",borderRadius:10,padding:"14px 16px",border:`1px solid ${ins.color}15`}}>
+          <div style={{width:22,height:22,borderRadius:"50%",background:ins.color+"12",color:ins.color,fontSize:10,fontWeight:900,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:8}}>{ins.n}</div>
+          <div style={{fontSize:12,fontWeight:800,color:G,marginBottom:4}}>{ins.title}</div>
+          <div style={{fontSize:10,color:"#666",lineHeight:1.6}}>{ins.detail}</div>
+        </div>)}
+      </div>
+      <div style={{background:"#1a1a1a",borderRadius:10,padding:"14px 20px"}}>
+        <div style={{fontSize:11,color:"#fff",lineHeight:1.8}}>
+          <strong style={{color:"#dc2626"}}>→ 광고를 끄면 조회수도 멈춥니다.</strong><br/>
+          <strong style={{color:"#16a34a"}}>→ 알고리즘이 자연스럽게 밀어주는 콘텐츠를 만들어야 합니다.</strong>
+        </div>
       </div>
     </div>
   </div>);
