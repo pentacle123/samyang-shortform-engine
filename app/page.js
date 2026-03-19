@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { keywordPool } from "./keywordPool";
+import { keywordPool, brandAssets } from "./keywordPool";
 
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
@@ -683,6 +683,56 @@ const BrandInsight=({b,go})=>{
       </div>)}
     </div>
 
+    {/* 🔬 제품 자산 분석 */}
+    {(()=>{
+      const assetData=brandAssets[b.id];
+      if(!assetData)return null;
+      const assets=[...assetData.assets].sort((a,bx)=>bx.totalVolume-a.totalVolume);
+      const maxAssetVol=assets.length>0?assets[0].totalVolume:1;
+      const totalAssetVol=assets.reduce((s,a)=>s+a.totalVolume,0);
+      const brandVol=data.searchVolume||0;
+      const multiplier=brandVol>0?Math.round(totalAssetVol/brandVol):0;
+      return(
+      <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
+        <div style={{marginBottom:16}}>
+          <div style={{fontSize:14,fontWeight:900,color:G,marginBottom:4}}>🔬 제품 자산 분석</div>
+          <div style={{fontSize:10,color:"#999",lineHeight:1.6}}>이 제품의 핵심 자산을 분해하고, 각 자산이 연결되는 카테고리 기회를 분석했습니다</div>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          {assets.map((a,i)=>{
+            const pct=Math.max((a.totalVolume/maxAssetVol)*100,3);
+            return(
+            <div key={i} style={{background:"#f8f8fa",borderRadius:12,padding:"14px 16px",border:"1px solid #f0f0f0"}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                <div style={{display:"flex",alignItems:"center",gap:8}}>
+                  <span style={{fontSize:20}}>{a.icon}</span>
+                  <div>
+                    <div style={{fontSize:12,fontWeight:800,color:G}}>{a.name}</div>
+                    <div style={{fontSize:9,color:"#888"}}>{a.desc}</div>
+                  </div>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontSize:16,fontWeight:900,color:b.c}}>{a.totalVolume.toLocaleString()}<span style={{fontSize:9,fontWeight:400,color:"#999"}}>회/월</span></div>
+                  <div style={{fontSize:8,color:"#aaa"}}>TOP: {a.topKeyword.kw} ({a.topKeyword.vol.toLocaleString()})</div>
+                </div>
+              </div>
+              <div style={{height:10,background:"#eee",borderRadius:4,overflow:"hidden",marginBottom:a.pathfinderNote?8:0}}>
+                <div style={{height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${b.c},${b.c}AA)`,borderRadius:4,transition:"width .4s"}}/>
+              </div>
+              {a.pathfinderNote&&<div style={{display:"flex",alignItems:"center",gap:4,marginTop:4}}>
+                <span style={{background:"#dcfce7",color:"#16a34a",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>🔀 검색 여정 존재!</span>
+                <span style={{fontSize:8,color:"#888"}}>{a.pathfinderNote}</span>
+              </div>}
+            </div>);
+          })}
+        </div>
+        <div style={{background:`linear-gradient(135deg,${b.c}08,${b.c}12)`,borderRadius:10,padding:"14px 18px",marginTop:16,border:`1px solid ${b.c}15`}}>
+          <div style={{fontSize:11,fontWeight:800,color:G}}>💡 {b.nm} 검색 {brandVol.toLocaleString()}회 vs 제품 자산 카테고리 합계 {totalAssetVol.toLocaleString()}회 = <span style={{color:b.c,fontSize:16,fontWeight:900}}>{multiplier}배</span>의 기회</div>
+          <div style={{fontSize:9,color:"#888",marginTop:4}}>브랜드를 모르는 소비자가 이미 관련 카테고리를 검색하고 있습니다. 이 검색 여정에 숏폼을 삽입하면 발견될 수 있습니다.</div>
+        </div>
+      </div>);
+    })()}
+
     {/* 기회의 크기 차트 */}
     {(()=>{
       const kwList=getKeywordsForBrand(b.id);
@@ -867,6 +917,7 @@ ${prevStr}
 - 소비자 언어로 번역 (브랜드 언어 금지)
 - 데이터 근거 포함 (위 맥락 데이터에서 인용)
 - 각 아이디어마다 YouTube Shorts용 + Instagram Reels용 별도 기획
+- CTA는 반드시 삼양식품 공식몰(brand.naver.com/syfoodshop) 연결 문구 포함. 예: "삼양 공식몰에서 만나보세요", "brand.naver.com/syfoodshop에서 구매 가능"
 
 ## 출력 형식
 반드시 아래 JSON 배열만 출력. 다른 텍스트 없이 JSON만. 5개 아이디어.
