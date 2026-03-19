@@ -1,7 +1,23 @@
 import { NextResponse } from "next/server";
+import { readFileSync } from "fs";
+import { resolve } from "path";
+
+export const dynamic = "force-dynamic";
+
+// Fallback: manually read .env.local if process.env doesn't have the key
+function getAnthropicKey() {
+  if (process.env.ANTHROPIC_API_KEY) return process.env.ANTHROPIC_API_KEY;
+  try {
+    const envPath = resolve(process.cwd(), ".env.local");
+    const content = readFileSync(envPath, "utf-8");
+    const match = content.match(/^ANTHROPIC_API_KEY=(.+)$/m);
+    if (match) return match[1].trim();
+  } catch (e) {}
+  return null;
+}
 
 export async function POST(req) {
-  const API_KEY = process.env.ANTHROPIC_API_KEY;
+  const API_KEY = getAnthropicKey();
   if (!API_KEY) {
     return NextResponse.json({ error: "no_key" }, { status: 200 });
   }
