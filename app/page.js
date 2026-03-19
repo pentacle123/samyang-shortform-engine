@@ -730,17 +730,13 @@ ${prevStr}
 };
 
 const callAI=async(b,prevHooks,pspHint)=>{
-  const resp = await fetch("https://api.anthropic.com/v1/messages",{
+  const resp = await fetch("/api/generate",{
     method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      model:"claude-sonnet-4-20250514",
-      max_tokens:4000,
-      messages:[{role:"user",content:buildPrompt(b,prevHooks,pspHint)}]
-    })
+    body:JSON.stringify({prompt:buildPrompt(b,prevHooks,pspHint)})
   });
   const d = await resp.json();
-  const text = d.content?.map(c=>c.text||"").join("")||"";
-  const clean = text.replace(/```json|```/g,"").trim();
+  if(d.error) throw new Error(d.error==="no_key"?"API_KEY_MISSING":d.error);
+  const clean = (d.text||"").replace(/```json|```/g,"").trim();
   return JSON.parse(clean);
 };
 
@@ -771,12 +767,17 @@ const S3=({b,onSelect})=>{
       setFilter("all");
     } catch(e) {
       console.error(e);
-      setErr("AI 생성 중 오류가 발생했습니다. 다시 시도해주세요.");
-      // Fallback: rotate static ideas
+      // Fallback: rotate static ideas silently
       const pool = b.ideas;
       const off = ((nextGen)*2) % pool.length;
-      setIdeas([...pool.slice(off),...pool.slice(0,off)].slice(0,5));
+      const rotated = [...pool.slice(off),...pool.slice(0,off)].slice(0,5);
+      setIdeas(rotated);
       setGenCount(nextGen);
+      if(e.message==="API_KEY_MISSING"){
+        setErr("정적 데이터에서 다른 관점의 아이디어를 보여드립니다. (AI 실시간 생성: ANTHROPIC_API_KEY 설정 필요)");
+      } else {
+        setErr("AI 연결 실패 — 정적 데이터에서 대체 아이디어를 표시합니다.");
+      }
     }
     setLd(false);
   };
