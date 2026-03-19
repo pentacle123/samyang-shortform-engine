@@ -4,7 +4,6 @@ import { resolve } from "path";
 
 export const dynamic = "force-dynamic";
 
-// Fallback: manually read .env.local if process.env doesn't have the key
 function getAnthropicKey() {
   if (process.env.ANTHROPIC_API_KEY) return process.env.ANTHROPIC_API_KEY;
   try {
@@ -33,7 +32,7 @@ export async function POST(req) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 4000,
+        max_tokens: 8192,
         messages: [{ role: "user", content: prompt }],
       }),
     });
@@ -42,7 +41,7 @@ export async function POST(req) {
       return NextResponse.json({ error: d.error.message }, { status: 200 });
     }
     const text = d.content?.map((c) => c.text || "").join("") || "";
-    return NextResponse.json({ text });
+    return NextResponse.json({ text, stop_reason: d.stop_reason });
   } catch (e) {
     return NextResponse.json({ error: e.message }, { status: 200 });
   }

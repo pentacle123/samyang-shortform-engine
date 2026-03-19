@@ -736,8 +736,18 @@ const callAI=async(b,prevHooks,pspHint)=>{
   });
   const d = await resp.json();
   if(d.error) throw new Error(d.error==="no_key"?"API_KEY_MISSING":d.error);
-  const clean = (d.text||"").replace(/```json|```/g,"").trim();
-  return JSON.parse(clean);
+  let clean = (d.text||"").replace(/```json|```/g,"").trim();
+  // Fix truncated JSON
+  if(d.stop_reason==="max_tokens"||!clean.endsWith("]")){
+    const lastClose=clean.lastIndexOf("}");
+    if(lastClose>0) clean=clean.substring(0,lastClose+1)+"]";
+  }
+  try{return JSON.parse(clean);}catch(e){
+    const items=[];const re=/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g;let m;
+    while((m=re.exec(clean))!==null){try{items.push(JSON.parse(m[0]));}catch(_){}}
+    if(items.length>0)return items;
+    throw e;
+  }
 };
 
 const S3=({b,onSelect})=>{
