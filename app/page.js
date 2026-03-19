@@ -929,15 +929,32 @@ const callAI=async(b,prevHooks,pspHint)=>{
 };
 
 const S3=({b,onSelect})=>{
-  const [ideas,setIdeas]=useState(b.ideas.sort((a,bx)=>bx.score-a.score).slice(0,5));
+  const [ideas,setIdeas]=useState([]);
   const [ld,setLd]=useState(true);
   const [genCount,setGenCount]=useState(0);
   const [filter,setFilter]=useState("all");
   const [sel,setSel]=useState(null);
   const [prevHooks,setPrevHooks]=useState([]);
   const [err,setErr]=useState(null);
-  const [genMsg,setGenMsg]=useState("");
-  useEffect(()=>{setTimeout(()=>setLd(false),1000)},[]);
+  const [genMsg,setGenMsg]=useState("AI가 소비자 맥락을 분석하고 있습니다");
+  useEffect(()=>{
+    (async()=>{
+      try {
+        const aiIdeas = await callAI(b, [], "");
+        setIdeas(aiIdeas);
+        setPrevHooks(aiIdeas.map(x=>x.hook));
+      } catch(e) {
+        console.error("Initial AI call failed, using fallback:",e);
+        setIdeas(b.ideas.sort((a,bx)=>bx.score-a.score).slice(0,5));
+        if(e.message==="API_KEY_MISSING"){
+          setErr("정적 데이터에서 다른 관점의 아이디어를 보여드립니다. (AI 실시간 생성: ANTHROPIC_API_KEY 설정 필요)");
+        } else {
+          setErr("AI 연결 실패 — 정적 데이터에서 대체 아이디어를 표시합니다.");
+        }
+      }
+      setLd(false);
+    })();
+  },[]);
 
   const pspCycle=["","A","B","C"];
 
@@ -977,8 +994,8 @@ const S3=({b,onSelect})=>{
   if(ld) return(
     <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:300,gap:14,animation:"fi .4s"}}>
       <div style={{width:48,height:48,border:`3px solid ${b.c}18`,borderTopColor:b.c,borderRadius:"50%",animation:"sp .7s linear infinite"}}/>
-      <div style={{fontSize:14,fontWeight:700,color:b.c}}>{genCount===0?"AI 맥락 매칭 분석 중":genMsg||"새로운 관점에서 생성 중"}</div>
-      <div style={{fontSize:10,color:"#bbb"}}>{genCount===0?"3가지 관점 × 소비자 맥락 조합 분석":`#${genCount+1} 생성 — 이전 ${prevHooks.length}개 아이디어 제외`}</div>
+      <div style={{fontSize:14,fontWeight:700,color:b.c}}>{genCount===0?(genMsg||"AI가 소비자 맥락을 분석하고 있습니다"):genMsg||"새로운 관점에서 생성 중"}</div>
+      <div style={{fontSize:10,color:"#bbb"}}>{genCount===0?"Claude AI가 매번 새로운 아이디어를 생성합니다":`#${genCount+1} 생성 — 이전 ${prevHooks.length}개 아이디어 제외`}</div>
       {genCount>0&&<div style={{width:200,height:3,background:"#f0f0f0",borderRadius:2,overflow:"hidden",marginTop:4}}><div style={{width:"60%",height:"100%",background:`linear-gradient(90deg,${b.c},${b.c}80)`,borderRadius:2,animation:"pulse 1.5s ease infinite"}}></div></div>}
     </div>
   );
@@ -996,7 +1013,7 @@ const S3=({b,onSelect})=>{
       <button onClick={handleRegen} style={{background:genCount===0?"#fff":`linear-gradient(135deg,${b.c},${b.c}BB)`,border:genCount===0?"1px solid #eee":"none",borderRadius:8,padding:"7px 18px",fontSize:10,fontWeight:700,color:genCount===0?"#888":"#fff",cursor:"pointer",display:"flex",alignItems:"center",gap:5,transition:"all .2s",boxShadow:genCount>0?`0 2px 8px ${b.c}20`:"none"}}
         onMouseEnter={e=>{if(genCount===0){e.currentTarget.style.borderColor=b.c;e.currentTarget.style.color=b.c}}}
         onMouseLeave={e=>{if(genCount===0){e.currentTarget.style.borderColor="#eee";e.currentTarget.style.color="#888"}}}>
-        ↻ {genCount===0?"AI 재생성":"다른 관점으로 재생성"}
+        ↻ 다른 관점으로 재생성
       </button>
     </div>
 
