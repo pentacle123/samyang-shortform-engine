@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
 const STEPS=[{n:"1",l:"브랜드 분석"},{n:"1.5",l:"데이터 인사이트"},{n:"2",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}];
-const TABS=[{id:"diag",l:"📊 채널 진단",d:"삼양식품 숏폼 채널 진단"},{id:"why",l:"📱 왜 숏폼인가",d:"한국 시장 데이터"},{id:"types",l:"🎬 숏폼 유형",d:"한국에서 먹히는 숏폼"},{id:"brands",l:"🔥 브랜드 분석",d:"4개 브랜드 전략"}];
+const TABS=[{id:"insight",l:"◉ AI 성과 Insight",d:"삼양식품 숏폼 AI 성과 분석"},{id:"why",l:"◆ 왜 숏폼인가",d:"한국 시장 데이터"},{id:"types",l:"◇ 숏폼 유형",d:"한국에서 먹히는 숏폼"},{id:"brands",l:"▸ 브랜드 분석",d:"4개 브랜드 전략"}];
 
 // ── YouTube API & Static Data ──
 const CHANNEL_ID='UC9Hu-7OguU6HyWaxP_GBYcA';
@@ -206,7 +206,7 @@ const TabDiag=()=>{
           const engRate=views>0?(likes/views)*100:0;
           const commentRate=views>0?(comments/views)*100:0;
           let cat="organic",catLabel="오가닉",catColor="#16a34a";
-          if(engRate<0.5){cat="ad_suspected";catLabel="광고 의심";catColor="#dc2626";}
+          if(engRate<0.5){cat="reach_focused";catLabel="도달 중심";catColor="#6b7280";}
           else if(engRate<3.0){cat="normal";catLabel="보통";catColor="#eab308";}
           const thumb=v.snippet.thumbnails?.medium?.url||v.snippet.thumbnails?.default?.url||"";
           const publishedAt=v.snippet.publishedAt||"";
@@ -219,7 +219,7 @@ const TabDiag=()=>{
           if(v.commentRate<0.01&&v.engRate<0.5)v.lowComment=true;
         });
         const organic=videos.filter(v=>v.cat==="organic");
-        const adSuspected=videos.filter(v=>v.cat==="ad_suspected");
+        const adSuspected=videos.filter(v=>v.cat==="reach_focused");
         const normal=videos.filter(v=>v.cat==="normal");
         const totalViews=videos.reduce((s,v)=>s+v.views,0);
         const avgEng=videos.reduce((s,v)=>s+v.engRate,0)/videos.length;
@@ -241,7 +241,7 @@ const TabDiag=()=>{
 
   // Video card component
   const VCard=({v,rank})=>(
-    <div style={{background:"#fff",borderRadius:12,padding:14,border:`2px solid ${v.catColor}20`,display:"flex",gap:12,alignItems:"flex-start",transition:"all .2s"}}
+    <div style={{background:"#1a1a24",borderRadius:12,padding:14,border:`2px solid ${v.catColor}20`,display:"flex",gap:12,alignItems:"flex-start",transition:"all .2s"}}
       onMouseEnter={e=>{e.currentTarget.style.borderColor=v.catColor+"60";e.currentTarget.style.transform="translateY(-1px)";e.currentTarget.style.boxShadow=`0 4px 16px ${v.catColor}10`}}
       onMouseLeave={e=>{e.currentTarget.style.borderColor=v.catColor+"20";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none"}}>
       <div style={{position:"relative",flexShrink:0}}>
@@ -252,21 +252,21 @@ const TabDiag=()=>{
         </div>}
       </div>
       <div style={{flex:1,minWidth:0}}>
-        <div style={{fontSize:11,fontWeight:700,color:G,marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{v.title}</div>
+        <div style={{fontSize:11,fontWeight:700,color:"#fff",marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{v.title}</div>
         <div style={{display:"flex",gap:8,marginBottom:6,flexWrap:"wrap"}}>
-          <span style={{fontSize:9,color:"#888"}}>조회수 <strong style={{color:"#555"}}>{fmtNum(v.views)}</strong></span>
-          <span style={{fontSize:9,color:"#888"}}>좋아요 <strong style={{color:"#555"}}>{fmtNum(v.likes)}</strong></span>
-          <span style={{fontSize:9,color:"#888"}}>댓글 <strong style={{color:"#555"}}>{fmtNum(v.comments)}</strong></span>
+          <span style={{fontSize:9,color:"#888"}}>조회수 <strong style={{color:"#ccc"}}>{fmtNum(v.views)}</strong></span>
+          <span style={{fontSize:9,color:"#888"}}>좋아요 <strong style={{color:"#ccc"}}>{fmtNum(v.likes)}</strong></span>
+          <span style={{fontSize:9,color:"#888"}}>댓글 <strong style={{color:"#ccc"}}>{fmtNum(v.comments)}</strong></span>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:6}}>
-          <div style={{flex:1,height:6,background:"#f0f0f0",borderRadius:3,overflow:"hidden"}}>
+          <div style={{flex:1,height:6,background:"#2a2a3a",borderRadius:3,overflow:"hidden"}}>
             <div style={{height:"100%",width:`${Math.min(100,v.engRate*10)}%`,background:v.catColor,borderRadius:3,transition:"width .5s"}}/>
           </div>
           <span style={{fontSize:11,fontWeight:900,color:v.catColor}}>{v.engRate.toFixed(2)}%</span>
         </div>
         <div style={{marginTop:4,display:"flex",alignItems:"center",gap:4}}>
           <span style={{background:v.catColor+"12",color:v.catColor,padding:"1px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>
-            {v.cat==="organic"?"✅ 오가닉 알고리즘 추천":v.cat==="ad_suspected"?"⚠️ 광고 부스팅 의심":"◉ 일반 성과"}
+            {v.cat==="organic"?"✅ 높은 참여 콘텐츠":v.cat==="reach_focused"?"📈 높은 도달, 참여 개선 기회":"◉ 일반 성과"}
           </span>
           {v.outlier&&<span style={{background:"#dc262610",color:"#dc2626",padding:"1px 6px",borderRadius:4,fontSize:7,fontWeight:700}}>이상치</span>}
         </div>
@@ -274,8 +274,19 @@ const TabDiag=()=>{
     </div>
   );
 
+  // Content type auto-tagging
+  if(ytData){
+    ytData.videos.forEach(v=>{
+      const t=(v.title||"").toLowerCase();
+      if(/콜라보|collab|feat|x\s/.test(t))v.contentType="collab";
+      else if(/레시피|recipe|만들기|끓이|조리/.test(t))v.contentType="recipe";
+      else if(/삼양|불닭|맵탱|탱글|펄스랩|1963|samyang|buldak/.test(t))v.contentType="branded";
+      else v.contentType="non-branded";
+    });
+  }
+
   return(
-  <div style={{animation:"fi .5s"}}>
+  <div style={{animation:"fi .5s",background:"#0f0f14",borderRadius:16,padding:24}}>
     {/* 섹션 A: 채널 요약 헤더 */}
     <div style={{background:"linear-gradient(135deg,#1a1a1a,#2d2d2d)",borderRadius:14,padding:"24px 28px",marginBottom:20,color:"#fff",position:"relative",overflow:"hidden"}}>
       <div style={{position:"absolute",top:-30,right:-30,width:120,height:120,borderRadius:"50%",background:"rgba(255,0,0,0.06)"}}/>
@@ -283,12 +294,12 @@ const TabDiag=()=>{
         {ytData?.chThumb?<img src={ytData.chThumb} alt="" style={{width:48,height:48,borderRadius:"50%",border:"2px solid rgba(255,255,255,0.15)"}}/>
         :<div style={{width:48,height:48,borderRadius:"50%",background:"rgba(255,255,255,0.1)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>📺</div>}
         <div>
-          <div style={{fontSize:16,fontWeight:900}}>📺 {ytData?.chTitle||"삼양식품"} YouTube Shorts 채널 진단</div>
+          <div style={{fontSize:16,fontWeight:900}}>◉ {ytData?.chTitle||"삼양식품"} AI 성과 Insight</div>
           <div style={{fontSize:10,opacity:.6,marginTop:2}}>@samyangfoods · 구독자 {ytData?fmtNum(ytData.subscribers):"--"} · 총 영상 {ytData?ytData.totalVideos.toLocaleString():"--"}개</div>
         </div>
       </div>
       <div style={{fontSize:12,opacity:.7,lineHeight:1.7}}>
-        {ytData?`"최근 ${ytData.videos.length}개 쇼츠를 AI가 분석했습니다"`:"\"귀사의 숏폼 데이터를 분석했습니다. 조회수에 속지 마세요.\""}
+        {ytData?`"최근 ${ytData.videos.length}개 쇼츠를 AI가 분석했습니다"`:"\"귀사의 숏폼 데이터를 AI가 분석했습니다.\""}
       </div>
       <div style={{fontSize:9,opacity:.4,marginTop:6}}>분석 기준: Engagement Rate (좋아요/조회수) + 댓글/조회수 비율 + 이상치 탐지</div>
     </div>
@@ -302,22 +313,22 @@ const TabDiag=()=>{
     {/* 섹션 B: 핵심 진단 카드 4개 */}
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:12,marginBottom:20}}>
       {[
-        {label:"오가닉 성과",value:ytData?`${ytData.organic.length}개 / ${ytData.videos.length}개`:"분석 필요",sub:"알고리즘이 민 영상",color:"#16a34a",bg:"#f0fdf4",pct:ytData?`${((ytData.organic.length/ytData.videos.length)*100).toFixed(0)}%`:null},
-        {label:"광고 부스팅 의심",value:ytData?`${ytData.adSuspected.length}개 / ${ytData.videos.length}개`:"분석 필요",sub:"광고비가 만든 조회수",color:"#dc2626",bg:"#fef2f2",pct:ytData?`${((ytData.adSuspected.length/ytData.videos.length)*100).toFixed(0)}%`:null},
-        {label:"채널 검색량",value:"월 15회",sub:"거의 검색 안 됨",color:"#f59e0b",bg:"#fffbeb",pct:null},
-        {label:"경쟁사 비교",value:"농심 월 130회",sub:"8.6배 격차",color:"#3b82f6",bg:"#eff6ff",pct:null},
-      ].map((c,i)=><div key={i} style={{background:c.bg,borderRadius:12,padding:"18px 16px",border:`1px solid ${c.color}15`}}>
+        {label:"총 조회수",value:ytData?fmtNum(ytData.totalViews):"분석 필요",sub:"최근 쇼츠 누적",color:"#3b82f6",bg:"#1a1a24",pct:null},
+        {label:"평균 참여율",value:ytData?`${ytData.avgEng.toFixed(2)}%`:"분석 필요",sub:"좋아요/조회수 기준",color:"#f59e0b",bg:"#1a1a24",pct:null},
+        {label:"높은 참여 콘텐츠",value:ytData?`${ytData.organic.length}개 / ${ytData.videos.length}개`:"분석 필요",sub:"참여율 3% 이상",color:"#16a34a",bg:"#1a1a24",pct:ytData?`${((ytData.organic.length/ytData.videos.length)*100).toFixed(0)}%`:null},
+        {label:"콘텐츠 파워 지수",value:ytData?`${Math.round((ytData.organic.length/ytData.videos.length)*100)}점`:"분석 필요",sub:"높은 참여 비율 기반",color:O,bg:"#1a1a24",pct:null},
+      ].map((c,i)=><div key={i} style={{background:c.bg,borderRadius:12,padding:"18px 16px",border:`1px solid ${c.color}30`}}>
         <div style={{fontSize:9,fontWeight:700,color:c.color,letterSpacing:1,marginBottom:8}}>{c.label}</div>
         <div style={{fontSize:20,fontWeight:900,color:c.color,marginBottom:4}}>{c.value}</div>
         <div style={{fontSize:9,color:"#888"}}>{c.sub}</div>
-        {c.pct&&<div style={{marginTop:6,height:4,background:c.color+"15",borderRadius:2,overflow:"hidden"}}><div style={{height:"100%",width:c.pct,background:c.color,borderRadius:2}}/></div>}
+        {c.pct&&<div style={{marginTop:6,height:4,background:c.color+"30",borderRadius:2,overflow:"hidden"}}><div style={{height:"100%",width:c.pct,background:c.color,borderRadius:2}}/></div>}
       </div>)}
     </div>
 
     {/* 섹션 C: 영상별 Engagement Rate 차트 */}
-    {ytData&&ytData.videos.length>0&&<div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
+    {ytData&&ytData.videos.length>0&&<div style={{background:"#1a1a24",borderRadius:14,padding:"20px 24px",border:"1px solid #2a2a3a",marginBottom:20}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-        <div style={{fontSize:13,fontWeight:800}}>영상별 Engagement Rate (%)</div>
+        <div style={{fontSize:13,fontWeight:800,color:"#fff"}}>영상별 Engagement Rate (%)</div>
         <div style={{fontSize:10,color:"#999"}}>평균 {ytData.avgEng.toFixed(2)}%</div>
       </div>
       <div style={{display:"flex",alignItems:"flex-end",gap:2,height:140,position:"relative"}}>
@@ -333,76 +344,111 @@ const TabDiag=()=>{
         })}
       </div>
       <div style={{display:"flex",justifyContent:"center",gap:16,marginTop:12}}>
-        {[{c:"#16a34a",l:`오가닉 ≥3% (${ytData.organic.length}개)`},{c:"#eab308",l:`보통 0.5~3% (${ytData.normal.length}개)`},{c:"#dc2626",l:`광고 의심 <0.5% (${ytData.adSuspected.length}개)`}].map((x,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:4}}><div style={{width:8,height:8,borderRadius:2,background:x.c}}/><span style={{fontSize:9,color:"#888"}}>{x.l}</span></div>)}
+        {[{c:"#16a34a",l:`높은 참여 ≥3% (${ytData.organic.length}개)`},{c:"#eab308",l:`보통 0.5~3% (${ytData.normal.length}개)`},{c:"#6b7280",l:`도달 중심 <0.5% (${ytData.adSuspected.length}개)`}].map((x,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:4}}><div style={{width:8,height:8,borderRadius:2,background:x.c}}/><span style={{fontSize:9,color:"#aaa"}}>{x.l}</span></div>)}
       </div>
     </div>}
 
-    {/* 섹션 C-2: 오가닉 TOP vs 광고 의심 영상 비교 */}
+    {/* 섹션 C-2: 높은 참여 TOP vs 도달 중심 영상 비교 */}
     {ytData&&ytData.videos.length>0&&<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:20}}>
       <div>
-        <div style={{fontSize:12,fontWeight:800,color:"#16a34a",marginBottom:10,display:"flex",alignItems:"center",gap:4}}>✅ 오가닉 TOP 영상</div>
+        <div style={{fontSize:12,fontWeight:800,color:"#16a34a",marginBottom:10,display:"flex",alignItems:"center",gap:4}}>✅ 높은 참여 TOP 영상</div>
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
           {[...ytData.organic].sort((a,b)=>b.engRate-a.engRate).slice(0,3).map((v,i)=><VCard key={v.id} v={v} rank={i+1}/>)}
-          {ytData.organic.length===0&&<div style={{background:"#f0fdf4",borderRadius:10,padding:16,fontSize:10,color:"#888",textAlign:"center"}}>오가닉 성과 영상이 없습니다</div>}
+          {ytData.organic.length===0&&<div style={{background:"#1a2a1a",borderRadius:10,padding:16,fontSize:10,color:"#888",textAlign:"center"}}>높은 참여 영상이 없습니다</div>}
         </div>
       </div>
       <div>
-        <div style={{fontSize:12,fontWeight:800,color:"#dc2626",marginBottom:10,display:"flex",alignItems:"center",gap:4}}>⚠️ 광고 부스팅 의심 영상</div>
+        <div style={{fontSize:12,fontWeight:800,color:"#6b7280",marginBottom:10,display:"flex",alignItems:"center",gap:4}}>📈 도달 중심 영상 (참여 개선 기회)</div>
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
           {[...ytData.adSuspected].sort((a,b)=>b.views-a.views).slice(0,3).map((v,i)=><VCard key={v.id} v={v} rank={i+1}/>)}
-          {ytData.adSuspected.length===0&&<div style={{background:"#fef2f2",borderRadius:10,padding:16,fontSize:10,color:"#888",textAlign:"center"}}>광고 부스팅 의심 영상이 없습니다</div>}
+          {ytData.adSuspected.length===0&&<div style={{background:"#1a1a24",borderRadius:10,padding:16,fontSize:10,color:"#888",textAlign:"center"}}>도달 중심 영상이 없습니다</div>}
         </div>
       </div>
     </div>}
 
-    {/* 섹션 D: 검색 데이터 갭 분석 */}
-    <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
-      <div style={{fontSize:13,fontWeight:800,marginBottom:4}}>📊 제품 검색 vs 영상 검색 — 데이터 갭</div>
-      <div style={{fontSize:9,color:"#999",marginBottom:14}}>소비자는 제품을 검색하지만, 귀사의 숏폼 콘텐츠는 찾지 않습니다.</div>
+    {/* 섹션 D: 소비자 검색 vs 채널 도달 */}
+    <div style={{background:"#1a1a24",borderRadius:14,padding:"20px 24px",border:"1px solid #2a2a3a",marginBottom:20}}>
+      <div style={{fontSize:13,fontWeight:800,marginBottom:4,color:"#fff"}}>◉ 소비자 검색 vs 채널 도달 — 기회의 크기</div>
+      <div style={{fontSize:9,color:"#999",marginBottom:14}}>소비자가 이미 검색하고 있는 관심을 숏폼 채널로 연결할 수 있습니다.</div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
         <div>
-          <div style={{fontSize:10,fontWeight:700,color:"#dc2626",marginBottom:8}}>📺 영상 채널 검색량 (미미)</div>
+          <div style={{fontSize:10,fontWeight:700,color:"#6b7280",marginBottom:8}}>📺 채널 도달 현황</div>
           {[{l:"삼양 유튜브",v:channelSearchData.samyangYoutube.volume},{l:"삼양 채널",v:channelSearchData.samyangChannel.volume},{l:"불닭 유튜브",v:channelSearchData.buldakYoutube.volume},{l:"농심 유튜브",v:channelSearchData.nongshimYoutube.volume}].map((x,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
             <span style={{fontSize:9,color:"#888",width:70}}>{x.l}</span>
-            <div style={{flex:1,height:16,background:"#f5f5f5",borderRadius:4,overflow:"hidden"}}><div style={{height:"100%",width:`${Math.min(100,(x.v/130)*100)}%`,background:x.v>=100?"#3b82f6":"#dc2626",borderRadius:4,transition:"width .5s"}}/></div>
-            <span style={{fontSize:10,fontWeight:700,color:"#555",width:40,textAlign:"right"}}>{x.v}회</span>
+            <div style={{flex:1,height:16,background:"#2a2a3a",borderRadius:4,overflow:"hidden"}}><div style={{height:"100%",width:`${Math.min(100,(x.v/130)*100)}%`,background:x.v>=100?"#3b82f6":"#6b7280",borderRadius:4,transition:"width .5s"}}/></div>
+            <span style={{fontSize:10,fontWeight:700,color:"#ccc",width:40,textAlign:"right"}}>{x.v}회</span>
           </div>)}
         </div>
         <div>
-          <div style={{fontSize:10,fontWeight:700,color:"#16a34a",marginBottom:8}}>🔥 제품 검색량 (폭발)</div>
+          <div style={{fontSize:10,fontWeight:700,color:"#16a34a",marginBottom:8}}>🔥 소비자 제품 검색량</div>
           {[{l:"삼양1963",v:channelSearchData.samyang1963.volume},{l:"맵탱",v:channelSearchData.meptang.volume},{l:"탱글 파스타",v:channelSearchData.tangleePasta.volume},{l:"펄스랩",v:channelSearchData.pulseLab.volume}].map((x,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
             <span style={{fontSize:9,color:"#888",width:70}}>{x.l}</span>
-            <div style={{flex:1,height:16,background:"#f5f5f5",borderRadius:4,overflow:"hidden"}}><div style={{height:"100%",width:`${Math.min(100,(x.v/9200)*100)}%`,background:"#16a34a",borderRadius:4,transition:"width .5s"}}/></div>
-            <span style={{fontSize:10,fontWeight:700,color:"#555",width:55,textAlign:"right"}}>{x.v.toLocaleString()}회</span>
+            <div style={{flex:1,height:16,background:"#2a2a3a",borderRadius:4,overflow:"hidden"}}><div style={{height:"100%",width:`${Math.min(100,(x.v/9200)*100)}%`,background:"#16a34a",borderRadius:4,transition:"width .5s"}}/></div>
+            <span style={{fontSize:10,fontWeight:700,color:"#ccc",width:55,textAlign:"right"}}>{x.v.toLocaleString()}회</span>
           </div>)}
         </div>
       </div>
-      <div style={{marginTop:12,background:"#fef2f2",borderRadius:8,padding:"10px 14px",borderLeft:"3px solid #dc2626"}}>
-        <div style={{fontSize:10,color:"#555",lineHeight:1.7}}>4개 브랜드 합계 월 <strong style={{color:"#dc2626"}}>24,926회</strong> 제품 검색 vs 영상 검색 <strong style={{color:"#dc2626"}}>0회</strong> — 이 갭을 메우는 것이 알고리즘 숏폼입니다.</div>
+      <div style={{marginTop:12,background:"#16a34a15",borderRadius:8,padding:"10px 14px",borderLeft:"3px solid #16a34a"}}>
+        <div style={{fontSize:10,color:"#ccc",lineHeight:1.7}}>4개 브랜드 합계 월 <strong style={{color:"#16a34a"}}>24,926회</strong> 제품 검색 — 이 소비자들이 귀사의 숏폼 콘텐츠를 아직 만나지 못하고 있습니다. 검색 여정 기반 숏폼으로 이 관심을 채널로 연결할 수 있습니다.</div>
       </div>
     </div>
 
-    {/* 섹션 E: 진단 결과 3가지 인사이트 */}
-    <div style={{background:`linear-gradient(135deg,${O}08,#fff)`,borderRadius:14,padding:"20px 24px",border:`1px solid ${O}15`}}>
-      <div style={{fontSize:12,fontWeight:800,color:O,marginBottom:12}}>🔍 진단 결과 3가지</div>
+    {/* 섹션 E: AI가 발견한 인사이트 */}
+    <div style={{background:"#1a1a24",borderRadius:14,padding:"20px 24px",border:"1px solid #2a2a3a",marginBottom:20}}>
+      <div style={{fontSize:12,fontWeight:800,color:O,marginBottom:12}}>◉ AI가 발견한 인사이트</div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:14}}>
         {[
-          {n:"1",title:"조회수 ≠ 성과",detail:ytData?`최근 ${ytData.videos.length}개 쇼츠 중 오가닉 성과는 ${((ytData.organic.length/ytData.videos.length)*100).toFixed(0)}%에 불과`:"최근 쇼츠 중 오가닉 성과는 소수에 불과",color:"#dc2626"},
-          {n:"2",title:"채널 인지도 부재",detail:"'삼양식품 유튜브' 검색 월 15회 (농심 130회의 1/8)",color:"#f59e0b"},
-          {n:"3",title:"제품-채널 갭",detail:"4개 브랜드 합계 월 24,926회 검색 vs 영상 검색 0회",color:"#3b82f6"},
-        ].map((ins,i)=><div key={i} style={{background:"#fff",borderRadius:10,padding:"14px 16px",border:`1px solid ${ins.color}15`}}>
-          <div style={{width:22,height:22,borderRadius:"50%",background:ins.color+"12",color:ins.color,fontSize:10,fontWeight:900,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:8}}>{ins.n}</div>
-          <div style={{fontSize:12,fontWeight:800,color:G,marginBottom:4}}>{ins.title}</div>
-          <div style={{fontSize:10,color:"#666",lineHeight:1.6}}>{ins.detail}</div>
+          {n:"1",title:"참여율 개선 기회",detail:ytData?`최근 ${ytData.videos.length}개 쇼츠 중 높은 참여 콘텐츠는 ${((ytData.organic.length/ytData.videos.length)*100).toFixed(0)}% — 오가닉 콘텐츠 파워를 키우면 전체 성과가 올라갑니다`:"오가닉 콘텐츠 파워를 키우면 전체 성과가 올라갑니다",color:"#16a34a"},
+          {n:"2",title:"채널 발견 기회",detail:"'삼양식품 유튜브' 검색 월 15회 — 검색 여정 기반 콘텐츠로 채널 발견을 높일 수 있습니다",color:"#f59e0b"},
+          {n:"3",title:"검색-콘텐츠 연결 기회",detail:"이 소비자들이 귀사의 숏폼 콘텐츠를 아직 만나지 못하고 있습니다. 검색 여정 기반 숏폼으로 이 관심을 채널로 연결할 수 있습니다.",color:"#3b82f6"},
+        ].map((ins,i)=><div key={i} style={{background:"#0f0f14",borderRadius:10,padding:"14px 16px",border:`1px solid ${ins.color}30`}}>
+          <div style={{width:22,height:22,borderRadius:"50%",background:ins.color+"20",color:ins.color,fontSize:10,fontWeight:900,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:8}}>{ins.n}</div>
+          <div style={{fontSize:12,fontWeight:800,color:"#fff",marginBottom:4}}>{ins.title}</div>
+          <div style={{fontSize:10,color:"#aaa",lineHeight:1.6}}>{ins.detail}</div>
         </div>)}
       </div>
-      <div style={{background:"#1a1a1a",borderRadius:10,padding:"14px 20px"}}>
+      <div style={{background:"#16a34a15",borderRadius:10,padding:"14px 20px",border:"1px solid #16a34a30"}}>
         <div style={{fontSize:11,color:"#fff",lineHeight:1.8}}>
-          <strong style={{color:"#dc2626"}}>→ 광고를 끄면 조회수도 멈춥니다.</strong><br/>
-          <strong style={{color:"#16a34a"}}>→ 알고리즘이 자연스럽게 밀어주는 콘텐츠를 만들어야 합니다.</strong>
+          <strong style={{color:"#16a34a"}}>→ 오가닉 콘텐츠 파워를 키우면 전체 성과가 올라갑니다.</strong><br/>
+          <strong style={{color:"#3b82f6"}}>→ 검색 여정 기반 숏폼으로 소비자의 관심을 채널로 연결할 수 있습니다.</strong>
         </div>
       </div>
     </div>
+
+    {/* 섹션 F: 콘텐츠 유형별 성과 비교 */}
+    {ytData&&ytData.videos.length>0&&(()=>{
+      const types={branded:{label:"브랜드 콘텐츠",color:"#FF6B00",videos:[]},
+        "non-branded":{label:"비브랜드 콘텐츠",color:"#3b82f6",videos:[]},
+        collab:{label:"콜라보",color:"#a855f7",videos:[]},
+        recipe:{label:"레시피",color:"#16a34a",videos:[]}};
+      ytData.videos.forEach(v=>{const ct=v.contentType||"non-branded";if(types[ct])types[ct].videos.push(v);});
+      const rows=Object.values(types).filter(t=>t.videos.length>0).map(t=>{
+        const vids=t.videos;const avgEng=vids.reduce((s,v)=>s+v.engRate,0)/vids.length;
+        const avgViews=vids.reduce((s,v)=>s+v.views,0)/vids.length;
+        return{...t,count:vids.length,avgEng,avgViews};
+      }).sort((a,b)=>b.avgEng-a.avgEng);
+      return <div style={{background:"#1a1a24",borderRadius:14,padding:"20px 24px",border:"1px solid #2a2a3a"}}>
+        <div style={{fontSize:13,fontWeight:800,color:"#fff",marginBottom:14}}>◉ 콘텐츠 유형별 성과 비교</div>
+        <div style={{overflowX:"auto"}}>
+          <table style={{width:"100%",borderCollapse:"collapse",fontSize:11}}>
+            <thead><tr style={{borderBottom:"1px solid #2a2a3a"}}>
+              <th style={{textAlign:"left",padding:"8px 12px",color:"#888",fontWeight:600}}>유형</th>
+              <th style={{textAlign:"center",padding:"8px 12px",color:"#888",fontWeight:600}}>영상 수</th>
+              <th style={{textAlign:"center",padding:"8px 12px",color:"#888",fontWeight:600}}>평균 참여율</th>
+              <th style={{textAlign:"center",padding:"8px 12px",color:"#888",fontWeight:600}}>평균 조회수</th>
+            </tr></thead>
+            <tbody>{rows.map((r,i)=><tr key={i} style={{borderBottom:"1px solid #2a2a3a20"}}>
+              <td style={{padding:"10px 12px",color:r.color,fontWeight:700,display:"flex",alignItems:"center",gap:6}}>
+                <div style={{width:8,height:8,borderRadius:2,background:r.color}}/>{r.label}
+              </td>
+              <td style={{textAlign:"center",padding:"10px 12px",color:"#ccc"}}>{r.count}개</td>
+              <td style={{textAlign:"center",padding:"10px 12px",color:r.avgEng>=3?"#16a34a":r.avgEng>=0.5?"#eab308":"#6b7280",fontWeight:700}}>{r.avgEng.toFixed(2)}%</td>
+              <td style={{textAlign:"center",padding:"10px 12px",color:"#ccc"}}>{fmtNum(Math.round(r.avgViews))}</td>
+            </tr>)}</tbody>
+          </table>
+        </div>
+      </div>;
+    })()}
   </div>);
 };
 
@@ -668,7 +714,7 @@ const Home=({pick,tab,setTab})=>(
   </div>
 
   {/* 탭 콘텐츠 */}
-  {tab==="diag"&&<TabDiag/>}
+  {tab==="insight"&&<TabDiag/>}
   {tab==="why"&&<TabWhy/>}
   {tab==="types"&&<TabTypes/>}
   {tab==="brands"&&<>
