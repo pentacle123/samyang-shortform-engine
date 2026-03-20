@@ -34,7 +34,7 @@ export const confirmedOpportunities = {
     },
     {
       asset: "병아리콩 건면",
-      assetIcon: "🫘",
+      assetIcon: "🌾",
       context: "NEED",
       contextDetail: "콩담백면보다 나은 대안 탐색",
       when: "다이어트 면 비교할 때",
@@ -201,7 +201,7 @@ export const confirmedOpportunities = {
     },
     {
       asset: "병아리콩 + 캐슈넛",
-      assetIcon: "🫘",
+      assetIcon: "🌾",
       context: "INTEREST",
       contextDetail: "건강/영양에 관심 있는 30대 여성",
       when: "건강 정보 탐색할 때",
