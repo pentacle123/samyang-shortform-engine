@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { keywordPool, brandAssets } from "./keywordPool";
+import { confirmedOpportunities } from "./confirmedOpportunities";
 
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
@@ -616,7 +617,40 @@ const TabTypes=()=>{
 // ── STAGE 1.5: 브랜드 데이터 인사이트 ──
 const BrandInsight=({b,go})=>{
   const data=brandInsights[b.id];
+  const [aiOpps,setAiOpps]=useState([]);
+  const [aiOppLd,setAiOppLd]=useState(false);
+  const [aiOppErr,setAiOppErr]=useState(null);
+  const [aiOppGen,setAiOppGen]=useState(0);
   if(!data)return <div style={{padding:40,textAlign:"center",color:"#ccc"}}>데이터 준비 중...</div>;
+  const confirmed=confirmedOpportunities[b.id]||[];
+  const ctxColors={WHO:"#3b82f6",WHEN:"#f59e0b",WHERE:"#16a34a",PAIN:"#dc2626",NEED:"#a855f7",INTEREST:"#06b6d4"};
+  const handleAiOpp=async()=>{
+    setAiOppLd(true);setAiOppErr(null);
+    try{
+      const assetList=(brandAssets[b.id]?.assets||[]).map(a=>`${a.icon} ${a.name}(${a.totalVolume.toLocaleString()}회)`).join(", ");
+      const kwTop=getKeywordsForBrand(b.id).slice(0,15).map(k=>`${k.kw}(${k.vol.toLocaleString()})`).join(", ");
+      const existingIdeas=confirmed.map(c=>c.shortformIdea).join(", ");
+      const prompt=`너는 숏폼 데이터 전략가야. ${b.nm}(${b.cat})의 제품 자산과 키워드 풀에서 새로운 기회 교차점을 3개 발견해.
+
+제품 자산: ${assetList}
+키워드 풀 TOP15: ${kwTop}
+이미 확인된 기회(제외): ${existingIdeas}
+
+각 기회는 "자산 × 맥락(WHO/WHEN/WHERE/PAIN/NEED/INTEREST)" 교차점이어야 해.
+CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
+
+반드시 아래 JSON 배열만 출력. 3개.
+[{"asset":"자산명","assetIcon":"이모지","context":"WHO/WHEN/WHERE/PAIN/NEED/INTEREST","contextDetail":"구체적 맥락","keyword":"관련 검색 키워드","shortformIdea":"숏폼 아이디어 한 줄","reason":"이 교차점이 기회인 이유"}]`;
+      const resp=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt})});
+      const d=await resp.json();
+      if(d.error)throw new Error(d.error);
+      let clean=(d.text||"").replace(/```json|```/g,"").trim();
+      if(!clean.endsWith("]")){const lc=clean.lastIndexOf("}");if(lc>0)clean=clean.substring(0,lc+1)+"]";}
+      const parsed=JSON.parse(clean);
+      setAiOpps(parsed);setAiOppGen(g=>g+1);
+    }catch(e){console.error(e);setAiOppErr("AI 추가 발견을 불러오지 못했습니다.");}
+    setAiOppLd(false);
+  };
   const trendColor=data.trend.includes("growing")||data.trend==="stable"?"#16a34a":"#dc2626";
   const trendLabel=data.trend==="stable"?"안정":data.trend.includes("growing")?data.trend.replace("growing ","↑ "):data.trend.replace("declining ","↓ ");
   return(
@@ -732,6 +766,86 @@ const BrandInsight=({b,go})=>{
         </div>
       </div>);
     })()}
+
+    {/* ✅ 확인된 기회 매트릭스 */}
+    {confirmed.length>0&&<div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
+      <div style={{marginBottom:16}}>
+        <div style={{fontSize:14,fontWeight:900,color:G,marginBottom:4}}>✅ 확인된 기회</div>
+        <div style={{fontSize:10,color:"#999"}}>데이터로 검증된 자산 × 맥락 교차점 — 숏폼 콘텐츠의 출발점</div>
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:12}}>
+        {confirmed.map((opp,i)=>(
+        <div key={i} style={{background:"#f8f8fa",borderRadius:12,padding:"16px 18px",border:"1px solid #f0f0f0"}}>
+          <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:10}}>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <span style={{fontSize:22}}>{opp.assetIcon}</span>
+              <div>
+                <div style={{display:"flex",alignItems:"center",gap:6}}>
+                  <span style={{fontSize:12,fontWeight:800,color:G}}>{opp.asset}</span>
+                  <span style={{fontSize:7,fontWeight:700,padding:"2px 6px",borderRadius:4,background:(ctxColors[opp.context]||"#999")+"15",color:ctxColors[opp.context]||"#999"}}>{opp.context}</span>
+                </div>
+                <div style={{fontSize:10,color:"#666",marginTop:2}}>{opp.contextDetail}</div>
+              </div>
+            </div>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4}}>
+              <span style={{background:"#dcfce7",color:"#16a34a",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>✅ 데이터 검증</span>
+              {opp.volume&&<span style={{fontSize:10,fontWeight:700,color:b.c}}>월 {opp.volume.toLocaleString()}회</span>}
+            </div>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:opp.pathfinder?8:0}}>
+            <span style={{fontSize:9,color:"#999"}}>💡</span>
+            <span style={{fontSize:11,fontWeight:700,color:G}}>"{opp.shortformIdea}"</span>
+          </div>
+          {opp.pathfinder&&<div style={{display:"flex",alignItems:"center",gap:4}}>
+            <span style={{background:"#dbeafe",color:"#3b82f6",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>🔀 검색 경로</span>
+            <span style={{fontSize:8,color:"#888"}}>{opp.pathfinder}</span>
+          </div>}
+          {opp.demo&&<div style={{fontSize:8,color:"#888",marginTop:4}}>📊 {opp.demo}</div>}
+        </div>))}
+      </div>
+    </div>}
+
+    {/* 🤖 AI 추가 발견 */}
+    <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}>
+        <div>
+          <div style={{fontSize:14,fontWeight:900,color:G,marginBottom:4}}>🤖 AI가 추가로 발견한 기회</div>
+          <div style={{fontSize:10,color:"#999"}}>확인된 기회 외에 Claude AI가 새로운 자산 × 맥락 교차점을 탐색합니다</div>
+        </div>
+        <button onClick={handleAiOpp} disabled={aiOppLd} style={{background:aiOppGen===0?`linear-gradient(135deg,${b.c},${b.c}BB)`:"#fff",color:aiOppGen===0?"#fff":b.c,border:aiOppGen===0?"none":`1px solid ${b.c}30`,borderRadius:8,padding:"8px 16px",fontSize:10,fontWeight:700,cursor:aiOppLd?"wait":"pointer",opacity:aiOppLd?.6:1}}>
+          {aiOppLd?"탐색 중...":aiOppGen===0?"AI 기회 발견하기":"↻ 다른 기회 발견하기"}
+        </button>
+      </div>
+      {aiOppErr&&<div style={{background:"#fef2f2",borderRadius:8,padding:"8px 14px",marginBottom:12,fontSize:10,color:"#dc2626"}}>{aiOppErr}</div>}
+      {aiOppLd&&<div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:100,gap:10}}>
+        <div style={{width:32,height:32,border:`3px solid ${b.c}18`,borderTopColor:b.c,borderRadius:"50%",animation:"sp .7s linear infinite"}}/>
+        <div style={{fontSize:11,fontWeight:600,color:b.c}}>새로운 기회 교차점을 탐색하고 있습니다</div>
+      </div>}
+      {!aiOppLd&&aiOpps.length===0&&aiOppGen===0&&<div style={{textAlign:"center",padding:"20px 0",color:"#ccc",fontSize:11}}>위 버튼을 눌러 AI가 추가 기회를 발견하게 하세요</div>}
+      {!aiOppLd&&aiOpps.length>0&&<div style={{display:"flex",flexDirection:"column",gap:12}}>
+        {aiOpps.map((opp,i)=>(
+        <div key={i} style={{background:"#faf8ff",borderRadius:12,padding:"16px 18px",border:"1px solid #e9e5f5"}}>
+          <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:10}}>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <span style={{fontSize:22}}>{opp.assetIcon}</span>
+              <div>
+                <div style={{display:"flex",alignItems:"center",gap:6}}>
+                  <span style={{fontSize:12,fontWeight:800,color:G}}>{opp.asset}</span>
+                  <span style={{fontSize:7,fontWeight:700,padding:"2px 6px",borderRadius:4,background:(ctxColors[opp.context]||"#999")+"15",color:ctxColors[opp.context]||"#999"}}>{opp.context}</span>
+                </div>
+                <div style={{fontSize:10,color:"#666",marginTop:2}}>{opp.contextDetail}</div>
+              </div>
+            </div>
+            <span style={{background:"#f3e8ff",color:"#a855f7",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>🤖 AI 발견</span>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}>
+            <span style={{fontSize:9,color:"#999"}}>💡</span>
+            <span style={{fontSize:11,fontWeight:700,color:G}}>"{opp.shortformIdea}"</span>
+          </div>
+          {opp.reason&&<div style={{fontSize:9,color:"#888",marginTop:4}}>{opp.reason}</div>}
+        </div>))}
+      </div>}
+    </div>
 
     {/* 기회의 크기 차트 */}
     {(()=>{
