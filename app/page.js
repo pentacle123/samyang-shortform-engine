@@ -6,7 +6,7 @@ import { confirmedOpportunities } from "./confirmedOpportunities";
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
 const STEPS=[{n:"1",l:"브랜드 분석"},{n:"1.5",l:"데이터 인사이트"},{n:"2",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}];
-const TABS=[{id:"insight",l:"◉ 채널 성과 분석",d:"삼양식품 숏폼 채널 성과 분석"},{id:"influence",l:"◆ 숏폼의 영향력",d:"한국 시장 데이터"},{id:"strategy",l:"◇ 콘텐츠 전략",d:"소비자가 반응하는 숏폼"},{id:"brands",l:"▸ 브랜드 × 소비자",d:"4개 브랜드 전략"}];
+const TABS=[{id:"insight",l:"◉ 채널 성과 분석",d:"삼양식품 숏폼 채널 성과 분석"},{id:"influence",l:"◆ 숏폼의 영향력",d:"한국 시장 데이터"},{id:"strategy",l:"◇ 콘텐츠 전략",d:"소비자가 반응하는 숏폼"},{id:"brands",l:"▸ 브랜드 분석",d:"4개 브랜드 전략"}];
 
 // ── YouTube API & Static Data ──
 const CHANNEL_ID='UC9Hu-7OguU6HyWaxP_GBYcA';
@@ -922,7 +922,7 @@ const Home=({pick,tab,setTab})=>(
       <div style={{position:"absolute",top:-20,right:-20,width:80,height:80,borderRadius:"50%",background:"rgba(255,255,255,0.06)"}}/>
       <div style={{fontSize:9,fontWeight:700,opacity:.6,letterSpacing:3,marginBottom:8}}>SAMYANG × PENTACLE</div>
       <h1 style={{fontSize:18,fontWeight:900,lineHeight:1.4,marginBottom:6}}>AI Brandformance Engine</h1>
-      <p style={{fontSize:10,opacity:.65}}>브랜드 캠페인과 더불어, 소비자 발견에서 구매까지 연결합니다</p>
+      <p style={{fontSize:10,opacity:.65}}>알고리즘을 타는 브랜드 숏폼전략</p>
       <div style={{display:"flex",gap:4,flexWrap:"wrap",marginTop:10}}>
         {["🎯 BRAND","✕","📈 PERFORMANCE","=","🚀 BRANDFORMANCE"].map((x,i)=><span key={i} style={{background:x==="✕"||x==="="?"transparent":"rgba(255,255,255,0.15)",padding:x==="✕"||x==="="?"3px 2px":"3px 8px",borderRadius:12,fontSize:8,fontWeight:600}}>{x}</span>)}
       </div>
@@ -930,7 +930,7 @@ const Home=({pick,tab,setTab})=>(
     <div style={{background:"#fff",borderRadius:14,padding:"22px 24px",border:"1px solid #f0f0f0",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
       <div>
         <div style={{fontSize:8,fontWeight:700,color:"#ccc",letterSpacing:2,marginBottom:8}}>BRANDFORMANCE</div>
-        <h2 style={{fontSize:14,fontWeight:900,color:G,lineHeight:1.6}}>캠페인이 만든 인지도를<br/><span style={{color:O}}>소비자 발견과 구매로</span> 연결합니다</h2>
+        <h2 style={{fontSize:14,fontWeight:900,color:G,lineHeight:1.6}}>숏폼을 이용한 브랜드 퍼포먼스 전략으로<br/><span style={{color:O}}>소비자의 발견과 구매를</span> 연결합니다</h2>
       </div>
       <div style={{display:"flex",gap:8,marginTop:12}}>
         {[{i:"🎯",t:"브랜드 가치 전달"},{i:"🔍",t:"검색 데이터 기반 발견"},{i:"🛒",t:"발견→고려→구매 전환"}].map((x,i)=><div key={i} style={{flex:1,display:"flex",alignItems:"flex-start",gap:5}}><span style={{fontSize:12}}>{x.i}</span><span style={{fontSize:9,color:"#999",lineHeight:1.45}}>{x.t}</span></div>)}

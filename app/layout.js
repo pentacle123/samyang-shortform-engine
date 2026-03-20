@@ -2,7 +2,7 @@ import './globals.css'
 
 export const metadata = {
   title: '삼양 AI Brandformance Engine | Algorithm Performance Platform',
-  description: '브랜드 캠페인과 더불어, 소비자 발견에서 구매까지 연결합니다 — Pentacle × AI',
+  description: '알고리즘을 타는 브랜드 숏폼전략 — Pentacle × AI',
 }
 
 export default function RootLayout({ children }) {
