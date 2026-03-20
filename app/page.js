@@ -6,7 +6,7 @@ import { confirmedOpportunities } from "./confirmedOpportunities";
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
 const STEPS=[{n:"1",l:"브랜드 분석"},{n:"1.5",l:"데이터 인사이트"},{n:"2",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}];
-const TABS=[{id:"insight",l:"◉ AI 성과 Insight",d:"삼양식품 숏폼 AI 성과 분석"},{id:"why",l:"◆ 왜 숏폼인가",d:"한국 시장 데이터"},{id:"types",l:"◇ 숏폼 유형",d:"한국에서 먹히는 숏폼"},{id:"brands",l:"▸ 브랜드 분석",d:"4개 브랜드 전략"}];
+const TABS=[{id:"insight",l:"◉ 채널 성과 분석",d:"삼양식품 숏폼 채널 성과 분석"},{id:"influence",l:"◆ 숏폼의 영향력",d:"한국 시장 데이터"},{id:"strategy",l:"◇ 콘텐츠 전략",d:"소비자가 반응하는 숏폼"},{id:"brands",l:"▸ 브랜드 × 소비자",d:"4개 브랜드 전략"}];
 
 // ── YouTube API & Static Data ──
 const CHANNEL_ID='UC9Hu-7OguU6HyWaxP_GBYcA';
@@ -28,8 +28,8 @@ const shortformTypeData={
   principles:[
     {title:"3초 룰",icon:"⏱️",desc:"첫 3초에 브랜드명 노출 = 스와이핑. 소비자 관심사로 시작해야 시청 지속.",bad:"\"삼양식품의 새로운 탱글 파스타를 소개합니다\" → 즉시 스와이핑",good:"\"다이어트 중 면이 먹고 싶을 때, 이걸 먹으면 됩니다\" → 시청 지속"},
     {title:"진정성 > 후킹성",icon:"❤️",desc:"후킹성보다 진정성이 높은 콘텐츠에 공감과 호감을 느낀다. (더콘텐츠연구소, 100개+ 브랜드 분석)",bad:"과장된 썸네일 + 자극적 제목 → 클릭은 되지만 호감 없음",good:"실제 소비자 일상에서 자연스러운 제품 등장 → 공감 + 호감 + 구매고려"},
-    {title:"오가닉 퍼스트",icon:"🌱",desc:"광고비 없이 알고리즘이 밀어주는 콘텐츠를 먼저 만들고, 검증된 소재만 부스팅.",bad:"모든 쇼츠에 광고비 투입 → 광고 끄면 조회수 0",good:"오가닉으로 성과 검증 → 성과 좋은 소재만 선별 부스팅 → 효율 극대화"},
-    {title:"세로형 광고 ≠ 숏폼",icon:"📱",desc:"기존 TV광고를 세로로 만드는 것은 숏폼이 아니다. 네이티브 포맷으로 처음부터 기획해야 한다.",bad:"15초 TV CF를 세로로 리사이징 → '광고'로 인식, 알고리즘 추천 안 됨",good:"소비자 맥락에서 출발하는 오리지널 숏폼 → '콘텐츠'로 인식, 알고리즘 추천"},
+    {title:"콘텐츠 퍼스트",icon:"🌱",desc:"브랜드 캠페인과 더불어, 알고리즘이 밀어주는 콘텐츠를 만들고 검증된 소재를 캠페인과 연결.",bad:"콘텐츠 없이 미디어만 집행 → 도달은 되지만 발견이 안 됨",good:"콘텐츠로 성과 검증 → 캠페인과 연결 → 브랜드 가치 + 성과 동시 달성"},
+    {title:"세로형 광고 ≠ 숏폼",icon:"📱",desc:"브랜드 캠페인의 메시지를 숏폼 네이티브 포맷으로 번역해야 한다.",bad:"15초 TV CF를 세로로 리사이징 → '광고'로 인식, 알고리즘 추천 안 됨",good:"캠페인 메시지를 소비자 맥락에서 재해석 → '콘텐츠'로 인식, 알고리즘 추천"},
   ],
   foodBrandInsight:{title:"식품 브랜드 숏폼, 무엇이 다른가",points:[
     {insight:"릴스·쇼츠 모두 '맛집/음식'이 인기 1위",detail:"릴스 44.1%, 쇼츠 33.8% — 식품 브랜드는 숏폼에서 가장 유리한 카테고리",samyang:"삼양 4개 브랜드 모두 '음식' 카테고리 → 플랫폼 알고리즘과 천연 적합"},
@@ -214,7 +214,7 @@ const TabDiag=()=>{
           const s=v.statistics;const views=Number(s.viewCount||0);const likes=Number(s.likeCount||0);const comments=Number(s.commentCount||0);
           const engRate=views>0?(likes/views)*100:0;
           const commentRate=views>0?(comments/views)*100:0;
-          let cat="organic",catLabel="오가닉",catColor="#16a34a";
+          let cat="organic",catLabel="높은 참여",catColor="#16a34a";
           if(engRate<0.5){cat="reach_focused";catLabel="도달 중심";catColor="#6b7280";}
           else if(engRate<3.0){cat="normal";catLabel="보통";catColor="#eab308";}
           const thumb=v.snippet.thumbnails?.medium?.url||v.snippet.thumbnails?.default?.url||"";
@@ -377,7 +377,7 @@ const TabDiag=()=>{
 
     {/* 섹션 D: 소비자 검색 vs 채널 도달 */}
     <div style={{background:"#ffffff",borderRadius:14,padding:"20px 24px",border:"1px solid #e8e8f0",marginBottom:20}}>
-      <div style={{fontSize:13,fontWeight:800,marginBottom:4,color:"#1a1a1a"}}>◉ 소비자 검색 vs 채널 도달 — 기회의 크기</div>
+      <div style={{fontSize:13,fontWeight:800,marginBottom:4,color:"#1a1a1a"}}>◉ 브랜드 캠페인 도달 vs 소비자 발견 기회</div>
       <div style={{fontSize:9,color:"#999",marginBottom:14}}>소비자가 이미 검색하고 있는 관심을 숏폼 채널로 연결할 수 있습니다.</div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
         <div>
@@ -398,7 +398,7 @@ const TabDiag=()=>{
         </div>
       </div>
       <div style={{marginTop:12,background:"#16a34a15",borderRadius:8,padding:"10px 14px",borderLeft:"3px solid #16a34a"}}>
-        <div style={{fontSize:10,color:"#555",lineHeight:1.7}}>4개 브랜드 합계 월 <strong style={{color:"#16a34a"}}>24,926회</strong> 제품 검색 — 이 소비자들이 귀사의 숏폼 콘텐츠를 아직 만나지 못하고 있습니다. 검색 여정 기반 숏폼으로 이 관심을 채널로 연결할 수 있습니다.</div>
+        <div style={{fontSize:10,color:"#555",lineHeight:1.7}}>4개 브랜드 합계 월 <strong style={{color:"#16a34a"}}>24,926회</strong> 제품 검색 — 이 소비자들을 브랜드 캠페인과 연결하는 숏폼 콘텐츠가 기회입니다. 캠페인이 만든 브랜드 가치를 소비자가 검색하는 순간에 전달합니다.</div>
       </div>
     </div>
 
@@ -407,9 +407,9 @@ const TabDiag=()=>{
       <div style={{fontSize:12,fontWeight:800,color:O,marginBottom:12}}>◉ AI가 발견한 인사이트</div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:14}}>
         {[
-          {n:"1",title:"참여율 개선 기회",detail:ytData?`최근 ${ytData.videos.length}개 쇼츠 중 높은 참여 콘텐츠는 ${((ytData.organic.length/ytData.videos.length)*100).toFixed(0)}% — 오가닉 콘텐츠 파워를 키우면 전체 성과가 올라갑니다`:"오가닉 콘텐츠 파워를 키우면 전체 성과가 올라갑니다",color:"#16a34a"},
+          {n:"1",title:"참여율 개선 기회",detail:ytData?`최근 ${ytData.videos.length}개 쇼츠 중 높은 참여 콘텐츠는 ${((ytData.organic.length/ytData.videos.length)*100).toFixed(0)}% — 콘텐츠 파워를 키우면 브랜드 캠페인과 시너지가 올라갑니다`:"콘텐츠 파워를 키우면 브랜드 캠페인과 시너지가 올라갑니다",color:"#16a34a"},
           {n:"2",title:"채널 발견 기회",detail:"'삼양식품 유튜브' 검색 월 15회 — 검색 여정 기반 콘텐츠로 채널 발견을 높일 수 있습니다",color:"#f59e0b"},
-          {n:"3",title:"검색-콘텐츠 연결 기회",detail:"이 소비자들이 귀사의 숏폼 콘텐츠를 아직 만나지 못하고 있습니다. 검색 여정 기반 숏폼으로 이 관심을 채널로 연결할 수 있습니다.",color:"#3b82f6"},
+          {n:"3",title:"캠페인 연결 기회",detail:"이 소비자들을 브랜드 캠페인과 연결하는 숏폼 콘텐츠가 기회입니다. 캠페인이 만든 브랜드 가치를 검색하는 순간에 전달합니다.",color:"#3b82f6"},
         ].map((ins,i)=><div key={i} style={{background:"#f8f8fc",borderRadius:10,padding:"14px 16px",border:`1px solid ${ins.color}30`}}>
           <div style={{width:22,height:22,borderRadius:"50%",background:ins.color+"20",color:ins.color,fontSize:10,fontWeight:900,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:8}}>{ins.n}</div>
           <div style={{fontSize:12,fontWeight:800,color:"#1a1a1a",marginBottom:4}}>{ins.title}</div>
@@ -418,7 +418,7 @@ const TabDiag=()=>{
       </div>
       <div style={{background:"#16a34a15",borderRadius:10,padding:"14px 20px",border:"1px solid #16a34a30"}}>
         <div style={{fontSize:11,color:"#555",lineHeight:1.8}}>
-          <strong style={{color:"#16a34a"}}>→ 오가닉 콘텐츠 파워를 키우면 전체 성과가 올라갑니다.</strong><br/>
+          <strong style={{color:"#16a34a"}}>→ 콘텐츠 파워를 키우면 브랜드 캠페인과 시너지가 올라갑니다.</strong><br/>
           <strong style={{color:"#3b82f6"}}>→ 검색 여정 기반 숏폼으로 소비자의 관심을 채널로 연결할 수 있습니다.</strong>
         </div>
       </div>
@@ -507,7 +507,7 @@ const TabWhy=()=>(
 
   <div style={{background:`linear-gradient(135deg,${O}08,#fff)`,borderRadius:14,padding:"20px 24px",border:`1px solid ${O}15`}}>
     <div style={{fontSize:12,fontWeight:800,color:O,marginBottom:6}}>💡 핵심 메시지</div>
-    <div style={{fontSize:12,color:"#555",lineHeight:1.8,fontWeight:600}}>숏폼은 트렌드가 아니라 <span style={{color:O}}>구매 전환 채널</span>입니다. 3초 안에 잡지 못하면 스와이핑됩니다.</div>
+    <div style={{fontSize:12,color:"#555",lineHeight:1.8,fontWeight:600}}>숏폼은 브랜드 캠페인과 더불어, <span style={{color:O}}>소비자 발견에서 구매 전환까지 연결</span>하는 핵심 채널입니다.</div>
   </div>
 </div>);
 
@@ -921,19 +921,19 @@ const Home=({pick,tab,setTab})=>(
     <div style={{background:`linear-gradient(135deg,${O},#E05500)`,borderRadius:14,padding:"22px 24px",color:"#fff",position:"relative",overflow:"hidden"}}>
       <div style={{position:"absolute",top:-20,right:-20,width:80,height:80,borderRadius:"50%",background:"rgba(255,255,255,0.06)"}}/>
       <div style={{fontSize:9,fontWeight:700,opacity:.6,letterSpacing:3,marginBottom:8}}>SAMYANG × PENTACLE</div>
-      <h1 style={{fontSize:18,fontWeight:900,lineHeight:1.4,marginBottom:6}}>숏폼 크리에이티브 엔진</h1>
-      <p style={{fontSize:10,opacity:.65}}>AI Algorithm Performance Platform</p>
+      <h1 style={{fontSize:18,fontWeight:900,lineHeight:1.4,marginBottom:6}}>AI Brandformance Engine</h1>
+      <p style={{fontSize:10,opacity:.65}}>브랜드 캠페인과 더불어, 소비자 발견에서 구매까지 연결합니다</p>
       <div style={{display:"flex",gap:4,flexWrap:"wrap",marginTop:10}}>
-        {["⚡ 비브랜디드","💬 소비자 언어","📱 네이티브","🔄 오가닉"].map((x,i)=><span key={i} style={{background:"rgba(255,255,255,0.15)",padding:"3px 8px",borderRadius:12,fontSize:8,fontWeight:600}}>{x}</span>)}
+        {["🎯 BRAND","✕","📈 PERFORMANCE","=","🚀 BRANDFORMANCE"].map((x,i)=><span key={i} style={{background:x==="✕"||x==="="?"transparent":"rgba(255,255,255,0.15)",padding:x==="✕"||x==="="?"3px 2px":"3px 8px",borderRadius:12,fontSize:8,fontWeight:600}}>{x}</span>)}
       </div>
     </div>
     <div style={{background:"#fff",borderRadius:14,padding:"22px 24px",border:"1px solid #f0f0f0",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
       <div>
-        <div style={{fontSize:8,fontWeight:700,color:"#ccc",letterSpacing:2,marginBottom:8}}>PLATFORM VALUE</div>
-        <h2 style={{fontSize:14,fontWeight:900,color:G,lineHeight:1.6}}>AI가 <span style={{color:O}}>알고리즘을 타는 숏폼 광고</span>를 기획합니다</h2>
+        <div style={{fontSize:8,fontWeight:700,color:"#ccc",letterSpacing:2,marginBottom:8}}>BRANDFORMANCE</div>
+        <h2 style={{fontSize:14,fontWeight:900,color:G,lineHeight:1.6}}>캠페인이 만든 인지도를<br/><span style={{color:O}}>소비자 발견과 구매로</span> 연결합니다</h2>
       </div>
       <div style={{display:"flex",gap:8,marginTop:12}}>
-        {[{i:"📊",t:"자산별 차별화 전략"},{i:"🔍",t:"데이터 기반 맥락 발견"},{i:"🚀",t:"오가닉→광고 부스팅"}].map((x,i)=><div key={i} style={{flex:1,display:"flex",alignItems:"flex-start",gap:5}}><span style={{fontSize:12}}>{x.i}</span><span style={{fontSize:9,color:"#999",lineHeight:1.45}}>{x.t}</span></div>)}
+        {[{i:"🎯",t:"브랜드 가치 전달"},{i:"🔍",t:"검색 데이터 기반 발견"},{i:"🛒",t:"발견→고려→구매 전환"}].map((x,i)=><div key={i} style={{flex:1,display:"flex",alignItems:"flex-start",gap:5}}><span style={{fontSize:12}}>{x.i}</span><span style={{fontSize:9,color:"#999",lineHeight:1.45}}>{x.t}</span></div>)}
       </div>
     </div>
   </div>
@@ -945,8 +945,8 @@ const Home=({pick,tab,setTab})=>(
 
   {/* 탭 콘텐츠 */}
   {tab==="insight"&&<TabDiag/>}
-  {tab==="why"&&<TabWhy/>}
-  {tab==="types"&&<TabTypes/>}
+  {tab==="influence"&&<TabWhy/>}
+  {tab==="strategy"&&<TabTypes/>}
   {tab==="brands"&&<>
     <div style={{background:"#fff",borderRadius:10,padding:"10px 20px",border:"1px solid #f0f0f0",marginBottom:16,display:"flex",alignItems:"center"}}>
       {[{n:"1",l:"브랜드 분석"},{n:"2",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}].map((s,i)=><div key={i} style={{flex:1,display:"flex",alignItems:"center"}}><div style={{display:"flex",alignItems:"center",gap:6}}><div style={{width:20,height:20,borderRadius:6,background:O+"0C",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:900,color:O}}>{s.n}</div><span style={{fontSize:10,fontWeight:700}}>{s.l}</span></div>{i<2&&<div style={{flex:1,height:1,background:"#eee",margin:"0 10px"}}/>}</div>)}
@@ -1368,7 +1368,7 @@ export default function App(){
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}>
         <div style={{display:"flex",alignItems:"center",gap:10,cursor:"pointer"}} onClick={rst}>
           <div style={{width:30,height:30,borderRadius:8,background:`linear-gradient(135deg,${O},#E05500)`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:900,color:"#fff",boxShadow:`0 2px 8px ${O}20`}}>S</div>
-          <div><div style={{fontSize:13,fontWeight:800}}>삼양 <span style={{color:O}}>ShortForm</span> Engine</div><div style={{fontSize:7,color:"#ccc",letterSpacing:2}}>ALGORITHM PERFORMANCE PLATFORM</div></div>
+          <div><div style={{fontSize:13,fontWeight:800}}>삼양 AI <span style={{color:O}}>Brandformance</span> Engine</div><div style={{fontSize:7,color:"#ccc",letterSpacing:2}}>ALGORITHM PERFORMANCE PLATFORM</div></div>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           {br&&<span style={{background:"#fff",border:"1px solid #f0f0f0",borderRadius:8,padding:"4px 12px",fontSize:10,fontWeight:700}}>{br.em} {br.nm}</span>}

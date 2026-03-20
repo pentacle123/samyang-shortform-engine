@@ -1,8 +1,8 @@
 import './globals.css'
 
 export const metadata = {
-  title: '삼양 ShortForm Engine | Algorithm Performance Platform',
-  description: 'AI가 알고리즘을 타는 숏폼 광고를 기획합니다 — Pentacle × AI',
+  title: '삼양 AI Brandformance Engine | Algorithm Performance Platform',
+  description: '브랜드 캠페인과 더불어, 소비자 발견에서 구매까지 연결합니다 — Pentacle × AI',
 }
 
 export default function RootLayout({ children }) {
