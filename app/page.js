@@ -1005,6 +1005,14 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
       </div>):null;
     })()}
 
+    {/* 👤 크리에이터 협업 방안 — 접이식 (3티어 전체) */}
+    {(()=>{
+      const opps=confirmedOpportunities[b.id]||[];
+      const hasCreators=opps.some(o=>o.creators);
+      if(!hasCreators)return null;
+      return <CreatorSection opps={opps} brandColor={b.c}/>;
+    })()}
+
     {/* CTA */}
     <div style={{textAlign:"center"}}>
       <button onClick={go} style={{background:`linear-gradient(135deg,${b.c},${b.c}CC)`,color:"#fff",border:"none",borderRadius:12,padding:"14px 36px",fontSize:13,fontWeight:800,cursor:"pointer",boxShadow:`0 4px 16px ${b.c}25`}}>
@@ -1132,6 +1140,7 @@ ${prevStr}
 - 데이터 근거 포함 (위 맥락 데이터에서 인용)
 - 각 아이디어마다 YouTube Shorts용 + Instagram Reels용 별도 기획
 - CTA는 반드시 삼양식품 공식몰(brand.naver.com/syfoodshop) 연결 문구 포함. 예: "삼양 공식몰에서 만나보세요", "brand.naver.com/syfoodshop에서 구매 가능"
+- 크리에이터 협업: 각 아이디어에 대해 크리에이터 협업이 효과적인 경우에만 creatorHint 필드를 포함해. 형식: "{맥락} — {크리에이터 카테고리}의 '{콘텐츠 콘셉트}'로 {기대 효과}". 모든 아이디어에 넣지 말고, 크리에이터 협업이 특히 효과적인 것만 선별.
 
 ## 출력 형식
 반드시 아래 JSON 배열만 출력. 다른 텍스트 없이 JSON만. 5개 아이디어.
@@ -1146,6 +1155,7 @@ ${prevStr}
     "hook": "후킹 카피 (따옴표 포함)",
     "hookD": "후킹 설명",
     "scenes": ["씬1", "씬2", "씬3", "씬4"],
+    "creatorHint": "맥락 — 크리에이터 카테고리의 '콘텐츠 콘셉트'로 기대효과 (선택, 효과적인 경우만)",
     "shorts": {
       "title": "쇼츠 제목",
       "hook": "쇼츠 후킹",
@@ -1324,6 +1334,8 @@ const S3=({b,onSelect})=>{
               {(idea.scenes||[]).map((s,i)=><div key={i} style={{background:"#fafafa",borderRadius:6,padding:"6px 8px",border:"1px solid #f0f0f0"}}><div style={{fontSize:7,fontWeight:700,color:"#ccc"}}>씬{i+1}</div><div style={{fontSize:8,color:"#777",lineHeight:1.4}}>{s}</div></div>)}
             </div>
             {(()=>{
+              // AI-generated hint first, fallback to confirmed opportunities
+              if(idea.creatorHint) return <div style={{marginTop:8,paddingTop:8,borderTop:"1px solid #f5f5f5",display:"flex",alignItems:"flex-start",gap:4}}><span style={{fontSize:9,flexShrink:0}}>👤</span><span style={{fontSize:9,color:"#aaa",lineHeight:1.5}}>{idea.creatorHint}</span></div>;
               const opps=confirmedOpportunities[b.id]||[];
               const ctx=(idea.ctx||"").toLowerCase();
               const hook=(idea.hook||"").toLowerCase();
