@@ -1472,10 +1472,11 @@ export default function App(){
   const [br,setBr]=useState(null);
   const [selIdea,setSelIdea]=useState(null);
   const [tab,setTab]=useState("brands");
+  const [maxStage,setMaxStage]=useState(0); // tracks highest stage reached
   // st: 1=home, 1.5=brand insight, 2=context, 3=ideas, 4=storyboard
-  const pick=(b)=>{setBr(b);setSt(1.5)};
-  const rst=()=>{setSt(1);setBr(null);setSelIdea(null);setTab("brands")};
-  const stNum = st===1?0:st===1.5?1:st===2?2:st===3?3:4;
+  const goStage=(s)=>{setSt(s);setMaxStage(prev=>Math.max(prev,{1:0,1.5:1,2:2,3:3,4:4}[s]||0));};
+  const pick=(b)=>{setBr(b);goStage(1.5)};
+  const rst=()=>{setSt(1);setBr(null);setSelIdea(null);setTab("brands");setMaxStage(0)};
   const progressSteps=[{n:"1",l:"브랜드 분석"},{n:"1.5",l:"데이터 인사이트"},{n:"2",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}];
   const progressMap={1.5:1,2:2,3:3,4:4};
   const curProgress=progressMap[st]||0;
@@ -1494,27 +1495,29 @@ export default function App(){
           <span style={{fontSize:9,color:"#ddd",fontWeight:600}}>Pentacle × AI</span>
         </div>
       </div>
-      {/* Progress — clickable for previous steps */}
+      {/* Progress — clickable for any visited step */}
       {st>1&&<div style={{display:"flex",gap:3,marginBottom:16}}>
         {progressSteps.map((s,i)=>{
           const stageMap=[1,1.5,2,3];
-          const canClick=i<curProgress-1;
+          const isCurrent=i+1===curProgress;
+          const isVisited=i<maxStage;
+          const canClick=isVisited&&!isCurrent;
           return <div key={i} style={{flex:1,cursor:canClick?"pointer":"default"}} onClick={()=>{
             if(!canClick)return;
             if(i===0){setSt(1);setTab("brands");}
             else setSt(stageMap[i]);
           }}>
-            <div style={{height:3,borderRadius:2,background:i<curProgress?(br?.c||O):"#eee",transition:"all .5s",marginBottom:4}}/>
-            <div style={{fontSize:8,fontWeight:i+1===curProgress?800:400,color:i<curProgress?(br?.c||O):"#ccc",textAlign:"center",textDecoration:canClick?"underline":"none"}}>{s.l}</div>
+            <div style={{height:3,borderRadius:2,background:i<maxStage?(br?.c||O):isCurrent?(br?.c||O):"#eee",transition:"all .5s",marginBottom:4}}/>
+            <div style={{fontSize:8,fontWeight:isCurrent?800:isVisited?600:400,color:isVisited||isCurrent?(br?.c||O):"#ccc",textAlign:"center",textDecoration:canClick?"underline":"none"}}>{s.l}</div>
           </div>;
         })}
       </div>}
 
       {st===1&&<Home pick={pick} tab={tab} setTab={setTab}/>}
-      {st===1.5&&br&&<BrandInsight b={br} go={()=>setSt(2)}/>}
-      {st===2&&br&&<S2 b={br} go={()=>setSt(3)}/>}
-      {st===3&&br&&<S3 b={br} onSelect={(idea)=>{setSelIdea(idea);setSt(4)}}/>}
-      {st===4&&br&&selIdea&&<S4 b={br} idea={selIdea} back={()=>{setSelIdea(null);setSt(3)}}/>}
+      {st===1.5&&br&&<BrandInsight b={br} go={()=>goStage(2)}/>}
+      {st===2&&br&&<S2 b={br} go={()=>goStage(3)}/>}
+      {st===3&&br&&<S3 b={br} onSelect={(idea)=>{setSelIdea(idea);goStage(4)}}/>}
+      {st===4&&br&&selIdea&&<S4 b={br} idea={selIdea} back={()=>{setSt(3)}}/>}
 
       {st>1&&st<4&&<button onClick={()=>{
         if(st===1.5)rst();
