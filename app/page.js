@@ -652,6 +652,67 @@ const TabTypes=()=>{
 </div>);
 };
 
+// ── 크리에이터 협업 방안 (접이식) ──
+const CreatorSection=({opps,brandColor})=>{
+  const [open,setOpen]=useState(false);
+  const withCreators=opps.filter(o=>o.creators);
+  if(withCreators.length===0)return null;
+  return(
+  <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
+    <button onClick={()=>setOpen(!open)} style={{background:"none",border:"none",cursor:"pointer",width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",padding:0}}>
+      <div style={{textAlign:"left"}}>
+        <div style={{fontSize:14,fontWeight:900,color:G,marginBottom:4}}>{open?"▾":"▸"} 👤 크리에이터 협업 방안</div>
+        <div style={{fontSize:10,color:"#999",lineHeight:1.6}}>발견된 기회에서 크리에이터와 협업하면 숏폼의 도달과 신뢰를 동시에 높일 수 있습니다</div>
+      </div>
+      <span style={{fontSize:18,color:"#ccc",flexShrink:0}}>{open?"−":"+"}</span>
+    </button>
+    {open&&<div style={{marginTop:16,display:"flex",flexDirection:"column",gap:16}}>
+      {withCreators.map((opp,oi)=>(
+        <div key={oi} style={{background:"#fafafa",borderRadius:12,padding:"16px 18px",border:"1px solid #f0f0f0"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+            <span style={{fontSize:16}}>{opp.assetIcon}</span>
+            <div>
+              <div style={{fontSize:12,fontWeight:800,color:G}}>{opp.asset} × {opp.contextDetail}</div>
+              <div style={{fontSize:9,color:"#888"}}>💡 "{opp.shortformIdea}"</div>
+            </div>
+          </div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:8}}>
+            {opp.creators.categories.map((cat,ci)=><span key={ci} style={{background:brandColor+"10",color:brandColor,padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:600}}>{cat}</span>)}
+          </div>
+          <div style={{fontSize:9,color:"#888",marginBottom:12,lineHeight:1.5}}>{opp.creators.reason}</div>
+          {[
+            {key:"mega",label:"MEGA (100만+)",icon:"🔴",bg:"#f5f5f5",color:"#888",badge:null},
+            {key:"mid",label:"MID (10만~100만)",icon:"🟡",bg:"#fff",color:"#555",badge:null},
+            {key:"micro",label:"MICRO (1만~10만)",icon:"🟢",bg:"#f0fdf4",color:"#16a34a",badge:"추천"},
+          ].map(tier=>{
+            const list=opp.creators.recommended?.[tier.key];
+            if(!list||list.length===0)return null;
+            return <div key={tier.key} style={{marginBottom:8}}>
+              <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:4}}>
+                <span style={{fontSize:9}}>{tier.icon}</span>
+                <span style={{fontSize:8,fontWeight:700,color:tier.color}}>{tier.label}</span>
+                {tier.badge&&<span style={{background:"#dcfce7",color:"#16a34a",padding:"1px 6px",borderRadius:3,fontSize:7,fontWeight:700}}>{tier.badge}</span>}
+              </div>
+              {list.map((cr,ci)=><div key={ci} style={{background:tier.bg,borderRadius:6,padding:"6px 10px",marginBottom:3,border:tier.key==="micro"?"1px solid #dcfce7":"1px solid #f0f0f0"}}>
+                <div style={{display:"flex",alignItems:"center",gap:4}}>
+                  <span style={{fontSize:10}}>{cr.platform==="YouTube"?"📺":cr.platform==="Instagram"?"📸":"🎵"}</span>
+                  <span style={{fontSize:9,fontWeight:700,color:tier.key==="micro"?"#16a34a":"#333"}}>{cr.name}</span>
+                  <span style={{fontSize:8,color:"#999"}}>{cr.subscribers||cr.followers}</span>
+                </div>
+                <div style={{fontSize:8,color:"#aaa",marginTop:2}}>{cr.note}</div>
+              </div>)}
+            </div>;
+          })}
+        </div>
+      ))}
+      <div style={{background:"#f0fdf4",borderRadius:10,padding:"12px 16px",border:"1px solid #dcfce7"}}>
+        <div style={{fontSize:10,fontWeight:700,color:"#16a34a",marginBottom:4}}>💡 크리에이터 협업 전략</div>
+        <div style={{fontSize:9,color:"#555",lineHeight:1.6}}>MICRO 크리에이터 3~5명과 동시 협업이 가장 효율적입니다. 같은 예산으로 다양한 맥락의 콘텐츠를 테스트하고, 성과가 검증된 소재를 캠페인과 연결하세요.</div>
+      </div>
+    </div>}
+  </div>);
+};
+
 // ── STAGE 1.5: 브랜드 데이터 인사이트 ──
 const BrandInsight=({b,go})=>{
   const data=brandInsights[b.id];
@@ -840,36 +901,6 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
             <span style={{fontSize:8,color:"#888"}}>{opp.pathfinder}</span>
           </div>}
           {opp.demo&&<div style={{fontSize:8,color:"#888",marginTop:4}}>📊 {opp.demo}</div>}
-          {opp.creators&&<div style={{marginTop:12,borderTop:"1px solid #eee",paddingTop:12}}>
-            <div style={{fontSize:11,fontWeight:800,color:G,marginBottom:6}}>👤 추천 크리에이터</div>
-            <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:6}}>
-              {opp.creators.categories.map((cat,ci)=><span key={ci} style={{background:"#f3f4f6",color:"#555",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:600}}>{cat}</span>)}
-            </div>
-            <div style={{fontSize:9,color:"#888",marginBottom:10,lineHeight:1.5}}>{opp.creators.reason}</div>
-            {[
-              {key:"mega",label:"MEGA (100만+)",icon:"🔴",bg:"#f5f5f5",color:"#888",badge:null},
-              {key:"mid",label:"MID (10만~100만)",icon:"🟡",bg:"#fff",color:"#555",badge:null},
-              {key:"micro",label:"MICRO (1만~10만)",icon:"🟢",bg:"#f0fdf4",color:"#16a34a",badge:"추천"},
-            ].map(tier=>{
-              const list=opp.creators.recommended[tier.key];
-              if(!list||list.length===0)return null;
-              return <div key={tier.key} style={{marginBottom:8}}>
-                <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:4}}>
-                  <span style={{fontSize:9}}>{tier.icon}</span>
-                  <span style={{fontSize:8,fontWeight:700,color:tier.color}}>{tier.label}</span>
-                  {tier.badge&&<span style={{background:"#dcfce7",color:"#16a34a",padding:"1px 6px",borderRadius:3,fontSize:7,fontWeight:700}}>{tier.badge}</span>}
-                </div>
-                {list.map((cr,ci)=><div key={ci} style={{background:tier.bg,borderRadius:6,padding:"6px 10px",marginBottom:3,border:tier.key==="micro"?"1px solid #dcfce7":"1px solid #f0f0f0"}}>
-                  <div style={{display:"flex",alignItems:"center",gap:4}}>
-                    <span style={{fontSize:10}}>{cr.platform==="YouTube"?"📺":cr.platform==="Instagram"?"📸":"🎵"}</span>
-                    <span style={{fontSize:9,fontWeight:700,color:tier.key==="micro"?"#16a34a":"#333"}}>{cr.name}</span>
-                    <span style={{fontSize:8,color:"#999"}}>{cr.subscribers||cr.followers}</span>
-                  </div>
-                  <div style={{fontSize:8,color:"#aaa",marginTop:2}}>{cr.note}</div>
-                </div>)}
-              </div>;
-            })}
-          </div>}
         </div>))}
       </div>
     </div>}
@@ -972,6 +1003,14 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
           })}
         </div>
       </div>):null;
+    })()}
+
+    {/* 👤 크리에이터 협업 방안 — 접이식 */}
+    {(()=>{
+      const opps=confirmedOpportunities[b.id]||[];
+      const hasCreators=opps.some(o=>o.creators);
+      if(!hasCreators)return null;
+      return <CreatorSection opps={opps} brandColor={b.c}/>;
     })()}
 
     {/* CTA */}
