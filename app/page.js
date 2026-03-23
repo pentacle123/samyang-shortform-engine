@@ -1005,14 +1005,6 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
       </div>):null;
     })()}
 
-    {/* 👤 크리에이터 협업 방안 — 접이식 */}
-    {(()=>{
-      const opps=confirmedOpportunities[b.id]||[];
-      const hasCreators=opps.some(o=>o.creators);
-      if(!hasCreators)return null;
-      return <CreatorSection opps={opps} brandColor={b.c}/>;
-    })()}
-
     {/* CTA */}
     <div style={{textAlign:"center"}}>
       <button onClick={go} style={{background:`linear-gradient(135deg,${b.c},${b.c}CC)`,color:"#fff",border:"none",borderRadius:12,padding:"14px 36px",fontSize:13,fontWeight:800,cursor:"pointer",boxShadow:`0 4px 16px ${b.c}25`}}>
@@ -1331,6 +1323,13 @@ const S3=({b,onSelect})=>{
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:5}}>
               {(idea.scenes||[]).map((s,i)=><div key={i} style={{background:"#fafafa",borderRadius:6,padding:"6px 8px",border:"1px solid #f0f0f0"}}><div style={{fontSize:7,fontWeight:700,color:"#ccc"}}>씬{i+1}</div><div style={{fontSize:8,color:"#777",lineHeight:1.4}}>{s}</div></div>)}
             </div>
+            {(()=>{
+              const opps=confirmedOpportunities[b.id]||[];
+              const ctx=(idea.ctx||"").toLowerCase();
+              const hook=(idea.hook||"").toLowerCase();
+              const match=opps.find(o=>o.creators&&(ctx.includes(o.asset?.slice(0,4)?.toLowerCase())||ctx.includes(o.context?.toLowerCase())||hook.includes(o.keyword?.slice(0,3)?.toLowerCase())));
+              return match?.creators?.reason?<div style={{marginTop:8,paddingTop:8,borderTop:"1px solid #f5f5f5",display:"flex",alignItems:"flex-start",gap:4}}><span style={{fontSize:9,flexShrink:0}}>👤</span><span style={{fontSize:9,color:"#aaa",lineHeight:1.5}}>{match.creators.reason}</span></div>:null;
+            })()}
           </div>
         </div>
       )})}
@@ -1483,12 +1482,20 @@ export default function App(){
           <span style={{fontSize:9,color:"#ddd",fontWeight:600}}>Pentacle × AI</span>
         </div>
       </div>
-      {/* Progress */}
+      {/* Progress — clickable for previous steps */}
       {st>1&&<div style={{display:"flex",gap:3,marginBottom:16}}>
-        {progressSteps.map((s,i)=><div key={i} style={{flex:1}}>
-          <div style={{height:3,borderRadius:2,background:i<curProgress?(br?.c||O):"#eee",transition:"all .5s",marginBottom:4}}/>
-          <div style={{fontSize:8,fontWeight:i+1===curProgress?800:400,color:i<curProgress?(br?.c||O):"#ccc",textAlign:"center"}}>{s.l}</div>
-        </div>)}
+        {progressSteps.map((s,i)=>{
+          const stageMap=[1,1.5,2,3];
+          const canClick=i<curProgress-1;
+          return <div key={i} style={{flex:1,cursor:canClick?"pointer":"default"}} onClick={()=>{
+            if(!canClick)return;
+            if(i===0){setSt(1);setTab("brands");}
+            else setSt(stageMap[i]);
+          }}>
+            <div style={{height:3,borderRadius:2,background:i<curProgress?(br?.c||O):"#eee",transition:"all .5s",marginBottom:4}}/>
+            <div style={{fontSize:8,fontWeight:i+1===curProgress?800:400,color:i<curProgress?(br?.c||O):"#ccc",textAlign:"center",textDecoration:canClick?"underline":"none"}}>{s.l}</div>
+          </div>;
+        })}
       </div>}
 
       {st===1&&<Home pick={pick} tab={tab} setTab={setTab}/>}
