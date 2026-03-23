@@ -1140,7 +1140,9 @@ ${prevStr}
 - 데이터 근거 포함 (위 맥락 데이터에서 인용)
 - 각 아이디어마다 YouTube Shorts용 + Instagram Reels용 별도 기획
 - CTA는 반드시 삼양식품 공식몰(brand.naver.com/syfoodshop) 연결 문구 포함. 예: "삼양 공식몰에서 만나보세요", "brand.naver.com/syfoodshop에서 구매 가능"
-- 크리에이터 협업: 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것만 골라서 creatorHint 필드를 넣어. 전부 다 넣지 말고 2~3개만. 특정 크리에이터 카테고리가 명확히 떠오르는 맥락이면 넣고, 브랜드가 직접 만들어도 충분한 아이디어면 비워둬. 형식: "{맥락} — {크리에이터 카테고리}의 '{콘텐츠 콘셉트}'로 {기대 효과}". creatorHint가 없는 아이디어는 이 필드를 아예 생략해.
+- 크리에이터 협업 (매우 중요): 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것 2~3개만 골라서 creatorCollab 필드에 문자열을 넣어. 나머지는 creatorCollab: null로 설정해. 반드시 2~3개는 값이 있어야 함.
+  예시: "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도와 신뢰성 극대화"
+  예시: "운동 후 식사 맥락 — 피트니스 크리에이터의 '운동 후 먹방'으로 전문가 추천 효과"
 
 ## 출력 형식
 반드시 아래 JSON 배열만 출력. 다른 텍스트 없이 JSON만. 5개 아이디어.
@@ -1155,7 +1157,7 @@ ${prevStr}
     "hook": "후킹 카피 (따옴표 포함)",
     "hookD": "후킹 설명",
     "scenes": ["씬1", "씬2", "씬3", "씬4"],
-    "creatorHint": "맥락 — 크리에이터 카테고리의 '콘텐츠 콘셉트'로 기대효과 (2~3개만, 나머지는 이 필드 생략)",
+    "creatorCollab": "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도 극대화 (또는 null)",
     "shorts": {
       "title": "쇼츠 제목",
       "hook": "쇼츠 후킹",
@@ -1335,12 +1337,20 @@ const S3=({b,onSelect})=>{
             </div>
             {(()=>{
               // AI-generated hint first, fallback to confirmed opportunities
-              if(idea.creatorHint) return <div style={{marginTop:8,paddingTop:8,borderTop:"1px solid #f5f5f5",display:"flex",alignItems:"flex-start",gap:4}}><span style={{fontSize:9,flexShrink:0}}>👤</span><span style={{fontSize:9,color:"#aaa",lineHeight:1.5}}>{idea.creatorHint}</span></div>;
+              const collab=idea.creatorCollab;
+              if(collab&&collab!=="null") return <div style={{marginTop:10,paddingTop:10,borderTop:"1px solid #f5f5f5",display:"flex",alignItems:"flex-start",gap:5}}>
+                <span style={{fontSize:9,fontWeight:800,color:b.c,whiteSpace:"nowrap",flexShrink:0}}>👤 크리에이터 협업 기회</span>
+                <span style={{fontSize:9,color:"#999",lineHeight:1.5}}>— {collab}</span>
+              </div>;
+              // Fallback: match from confirmed opportunities
               const opps=confirmedOpportunities[b.id]||[];
               const ctx=(idea.ctx||"").toLowerCase();
               const hook=(idea.hook||"").toLowerCase();
               const match=opps.find(o=>o.creators&&(ctx.includes(o.asset?.slice(0,4)?.toLowerCase())||ctx.includes(o.context?.toLowerCase())||hook.includes(o.keyword?.slice(0,3)?.toLowerCase())));
-              return match?.creators?.reason?<div style={{marginTop:8,paddingTop:8,borderTop:"1px solid #f5f5f5",display:"flex",alignItems:"flex-start",gap:4}}><span style={{fontSize:9,flexShrink:0}}>👤</span><span style={{fontSize:9,color:"#aaa",lineHeight:1.5}}>{match.creators.reason}</span></div>:null;
+              return match?.creators?.reason?<div style={{marginTop:10,paddingTop:10,borderTop:"1px solid #f5f5f5",display:"flex",alignItems:"flex-start",gap:5}}>
+                <span style={{fontSize:9,fontWeight:800,color:b.c,whiteSpace:"nowrap",flexShrink:0}}>👤 크리에이터 협업 기회</span>
+                <span style={{fontSize:9,color:"#999",lineHeight:1.5}}>— {match.creators.reason}</span>
+              </div>:null;
             })()}
           </div>
         </div>
