@@ -1146,6 +1146,13 @@ ${prevStr}
 - 크리에이터 협업 (매우 중요): 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것 2~3개만 골라서 creatorCollab 필드에 문자열을 넣어. 나머지는 creatorCollab: null로 설정해. 반드시 2~3개는 값이 있어야 함.
   예시: "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도와 신뢰성 극대화"
   예시: "운동 후 식사 맥락 — 피트니스 크리에이터의 '운동 후 먹방'으로 전문가 추천 효과"
+- 광고 노출 타겟팅 (매우 중요): 각 아이디어에 adTargeting 필드를 추가해. 이 아이디어의 맥락 키워드와 인구통계에서 직접 추출.
+  adTargeting: {
+    youtube: { keywords: ["맞춤 검색어 3~5개"], interests: ["관심분야 1~2개"], demo: "성별/연령 (예: 여성 25-44)", campaignType: "동영상 조회수 획득 또는 디맨드젠" },
+    reels: { interests: ["관심사 3~5개"], demo: "성별/연령", hashtags: ["#관련태그 5~8개"], campaignType: "도달 → 전환 최적화" },
+    budgetSplit: "YouTube 60% / Reels 40%",
+    strategy: "오가닉 먼저 → 참여율 높은 소재를 광고 부스팅"
+  }
 
 ## 출력 형식
 반드시 아래 JSON 배열만 출력. 다른 텍스트 없이 JSON만. 5개 아이디어.
@@ -1182,6 +1189,12 @@ ${prevStr}
       "tags": ["#태그1", "#태그2", "#태그3", "#태그4", "#태그5"],
       "time": "업로드 최적시간",
       "cluster": "타깃 클러스터"
+    },
+    "adTargeting": {
+      "youtube": { "keywords": ["맞춤검색어1","맞춤검색어2","맞춤검색어3"], "interests": ["관심분야1","관심분야2"], "demo": "성별 연령대", "campaignType": "동영상 조회수 획득 또는 디맨드젠" },
+      "reels": { "interests": ["관심사1","관심사2","관심사3"], "demo": "성별 연령대", "hashtags": ["#태그1","#태그2","#태그3","#태그4","#태그5"], "campaignType": "도달 또는 전환 최적화" },
+      "budgetSplit": "YouTube 60% / Reels 40%",
+      "strategy": "오가닉 참여율 확인 후 광고 부스팅"
     }
   }
 ]`;
@@ -1390,6 +1403,85 @@ const S3=({b,onSelect})=>{
   </div>);
 };
 
+// ── AD TARGETING SECTION (collapsible) ──
+const AdTargetingSection=({idea,b})=>{
+  const [open,setOpen]=useState(false);
+  const ad=idea.adTargeting;
+  // Generate fallback from existing idea data if API didn't provide adTargeting
+  const yt=ad?.youtube||{keywords:idea.shorts?.tags?.slice(0,4).map(t=>t.replace('#',''))||[],interests:["음식/요리","라면/면류"],demo:b.prof?.gen?.split("·")[0]||"전체",campaignType:"동영상 조회수 획득"};
+  const ig=ad?.reels||{interests:["음식","요리","맛집","건강","라이프스타일"],demo:b.prof?.gen?.split("·")[0]||"전체",hashtags:idea.reels?.tags?.slice(0,6)||[],campaignType:"도달 → 전환 최적화"};
+  const budget=ad?.budgetSplit||"YouTube 60% / Reels 40%";
+  const strategy=ad?.strategy||"오가닉 참여율 확인 후 광고 부스팅";
+  return(
+  <div style={{marginTop:16}}>
+    <button onClick={()=>setOpen(!open)} style={{width:"100%",background:open?"#fff7ed":"#fafafa",border:open?`1px solid ${b.c}20`:"1px solid #eee",borderRadius:10,padding:"14px 20px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+      <span style={{fontSize:13,fontWeight:800,color:open?b.c:"#666"}}>{open?"▾":"▸"} 📢 광고 노출 추천</span>
+      <span style={{fontSize:9,color:"#aaa"}}>맥락 기반 타겟팅 세팅값</span>
+    </button>
+    {open&&<div style={{background:"#fff",border:"1px solid #f0f0f0",borderTop:"none",borderRadius:"0 0 10px 10px",padding:20}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
+        {/* YouTube */}
+        <div style={{background:"#fef2f2",borderRadius:12,padding:16,border:"1px solid #fecaca"}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:12}}>
+            <span style={{color:"#f00",fontSize:14}}>▶</span>
+            <span style={{fontSize:13,fontWeight:900}}>YouTube Shorts</span>
+          </div>
+          <div style={{marginBottom:10}}>
+            <div style={{fontSize:9,fontWeight:700,color:"#dc2626",letterSpacing:1,marginBottom:4}}>맞춤 검색어</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{(yt.keywords||[]).map((k,i)=><span key={i} style={{background:"#fff",border:"1px solid #fca5a5",color:"#b91c1c",padding:"3px 8px",borderRadius:4,fontSize:9}}>{k}</span>)}</div>
+          </div>
+          <div style={{marginBottom:10}}>
+            <div style={{fontSize:9,fontWeight:700,color:"#dc2626",letterSpacing:1,marginBottom:4}}>관심분야</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{(yt.interests||[]).map((k,i)=><span key={i} style={{background:"#fff",border:"1px solid #fca5a5",color:"#b91c1c",padding:"3px 8px",borderRadius:4,fontSize:9}}>{k}</span>)}</div>
+          </div>
+          <div style={{marginBottom:10}}>
+            <div style={{fontSize:9,fontWeight:700,color:"#dc2626",letterSpacing:1,marginBottom:4}}>인구통계</div>
+            <div style={{fontSize:10,color:"#444"}}>{yt.demo}</div>
+          </div>
+          <div>
+            <div style={{fontSize:9,fontWeight:700,color:"#dc2626",letterSpacing:1,marginBottom:4}}>캠페인 유형</div>
+            <div style={{background:"#fff",border:"1px solid #fca5a5",borderRadius:6,padding:"6px 10px",fontSize:10,fontWeight:700,color:"#b91c1c"}}>{yt.campaignType}</div>
+          </div>
+        </div>
+        {/* Reels */}
+        <div style={{background:"#fdf2f8",borderRadius:12,padding:16,border:"1px solid #fbcfe8"}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:12}}>
+            <span style={{fontSize:14}}>📸</span>
+            <span style={{fontSize:13,fontWeight:900}}>Instagram Reels</span>
+          </div>
+          <div style={{marginBottom:10}}>
+            <div style={{fontSize:9,fontWeight:700,color:"#db2777",letterSpacing:1,marginBottom:4}}>관심사</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{(ig.interests||[]).map((k,i)=><span key={i} style={{background:"#fff",border:"1px solid #f9a8d4",color:"#be185d",padding:"3px 8px",borderRadius:4,fontSize:9}}>{k}</span>)}</div>
+          </div>
+          <div style={{marginBottom:10}}>
+            <div style={{fontSize:9,fontWeight:700,color:"#db2777",letterSpacing:1,marginBottom:4}}>인구통계</div>
+            <div style={{fontSize:10,color:"#444"}}>{ig.demo}</div>
+          </div>
+          <div style={{marginBottom:10}}>
+            <div style={{fontSize:9,fontWeight:700,color:"#db2777",letterSpacing:1,marginBottom:4}}>해시태그</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{(ig.hashtags||[]).map((k,i)=><span key={i} style={{background:"#fff",border:"1px solid #f9a8d4",color:"#be185d",padding:"3px 8px",borderRadius:4,fontSize:9}}>{k}</span>)}</div>
+          </div>
+          <div>
+            <div style={{fontSize:9,fontWeight:700,color:"#db2777",letterSpacing:1,marginBottom:4}}>캠페인 유형</div>
+            <div style={{background:"#fff",border:"1px solid #f9a8d4",borderRadius:6,padding:"6px 10px",fontSize:10,fontWeight:700,color:"#be185d"}}>{ig.campaignType}</div>
+          </div>
+        </div>
+      </div>
+      {/* Budget + Strategy */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+        <div style={{background:"#f0fdf4",borderRadius:8,padding:"12px 16px",border:"1px solid #dcfce7"}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#16a34a",letterSpacing:1,marginBottom:4}}>💡 예산 배분</div>
+          <div style={{fontSize:11,fontWeight:700,color:"#166534"}}>{budget}</div>
+        </div>
+        <div style={{background:"#eff6ff",borderRadius:8,padding:"12px 16px",border:"1px solid #dbeafe"}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#2563eb",letterSpacing:1,marginBottom:4}}>⚡ 운영 전략</div>
+          <div style={{fontSize:11,fontWeight:700,color:"#1e40af"}}>{strategy}</div>
+        </div>
+      </div>
+    </div>}
+  </div>);
+};
+
 // ── S4: SHORTFORM DETAIL (Meliens 숏폼 제작 style) ──
 const S4=({b,idea,back})=>(
 <div style={{animation:"fi .4s"}}>
@@ -1476,6 +1568,8 @@ const S4=({b,idea,back})=>(
       </div>
     </div>
   </div>
+  {/* 📢 광고 노출 추천 */}
+  <AdTargetingSection idea={idea} b={b} />
   <button onClick={back} style={{display:"block",margin:"20px auto 0",background:"#fafafa",color:"#999",border:"1px solid #eee",borderRadius:10,padding:"10px 28px",fontSize:11,fontWeight:700,cursor:"pointer"}}>← 다른 아이디어 보기</button>
 </div>);
 
