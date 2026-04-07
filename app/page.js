@@ -1,12 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { keywordPool, brandAssets } from "./keywordPool";
-import { confirmedOpportunities } from "./confirmedOpportunities";
+import { keywordPool, brandAssets, buldakKeywordPool, buldakAssets } from "./keywordPool";
+import { confirmedOpportunities, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
 
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
 const STEPS=[{n:"1",l:"브랜드 분석"},{n:"1.5",l:"데이터 인사이트"},{n:"2",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}];
-const TABS=[{id:"insight",l:"◉ 채널 성과 분석",d:"삼양식품 숏폼 채널 성과 분석"},{id:"influence",l:"◆ 숏폼의 영향력",d:"한국 시장 데이터"},{id:"strategy",l:"◇ 콘텐츠 전략",d:"소비자가 반응하는 숏폼"},{id:"brands",l:"▸ 브랜드 분석",d:"4개 브랜드 전략"}];
+const STEPS_BULDAK=[{n:"1",l:"브랜드 분석"},{n:"1.5",l:"데이터 인사이트"},{n:"2",l:"오케이션 맵"},{n:"2.5",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}];
+const TABS=[{id:"insight",l:"◉ 채널 성과 분석",d:"삼양식품 숏폼 채널 성과 분석"},{id:"influence",l:"◆ 숏폼의 영향력",d:"한국 시장 데이터"},{id:"strategy",l:"◇ 콘텐츠 전략",d:"소비자가 반응하는 숏폼"},{id:"brands",l:"▸ 브랜드 분석",d:"5개 브랜드 전략"}];
 
 // ── YouTube API & Static Data ──
 const CHANNEL_ID='UC9Hu-7OguU6HyWaxP_GBYcA';
@@ -54,10 +55,11 @@ const shortformTypeData={
   ]},
 };
 
-const brandInsights={"1963":{searchVolume:9140,trend:"stable",profile:{male:53.3,age30:34.0,age40:31.1},topKeyword:{keyword:"우지라면",volume:49006,note:"브랜드명보다 5배 큼"},searchJourneys:["'우지라면 뜻' → '삼양 우지라면' → 구매 탐색","'프리미엄 라면' → '장인라면/더미식' (삼양1963 부재)","'야식 라면 추천' → '야식 라면 건강' → '밤에 라면 먹으면'"],competitors:"'프리미엄 라면' 검색 시 장인라면/더미식으로 흐름. 삼양1963은 이 여정에 부재.",findings:[{icon:"🔥",title:"스토리가 진입점",detail:"'우지라면' 연 588,072회 — 브랜드명(9,140회)보다 5배. 우지파동 서사가 최강의 콘텐츠 자산."},{icon:"📊",title:"프리미엄 여정 부재",detail:"'프리미엄 라면' 검색 시 장인라면/더미식으로 흐름. 이 검색 여정에 삼양1963 콘텐츠가 없음."},{icon:"⚡",title:"화제성 vs 채널 갭",detail:"출시 1개월 700만개, 자발적 콘텐츠 8,000만뷰인데 유튜브 채널 검색량 0. 관심을 흡수하지 못하고 있음."}]},"mep":{searchVolume:7713,trend:"declining -58%",profile:{female:64.1,age30:34.6,age40:26.7},topKeyword:{keyword:"맵탱 마늘조개라면",volume:1620,note:"가장 인기 맛"},searchJourneys:["'맵소디(오뚜기)' → '맵탱' — 경쟁 제품에서 이탈 유입","'매운 라면 추천' → '매운 라면 순위' (맵탱 발견 기회)","'스트레스 해소 음식' → '스트레스 풀리는 매운 음식'"],competitors:"'매운 라면 추천' 검색(연 9,480회)에서 맵탱이 발견되지 않음. 신라면이 지배.",findings:[{icon:"🔥",title:"맵소디에서 유입",detail:"PathFinder: '맵소디 라면' → '오뚜기 맵소디' → '맵탱' 유입 경로 확인."},{icon:"📊",title:"스트레스 매운맛 경로",detail:"'스트레스 해소 음식' → '스트레스 풀리는 매운 음식' 경로 실제 존재."},{icon:"⚡",title:"하락 추세 대응 필요",detail:"검색량 -58% 하락 중. 출시 피크 후 관심 유지를 위한 지속적 숏폼 콘텐츠가 절실."}]},"tgl":{searchVolume:7040,trend:"declining -24%",profile:{female:76.1,age30:34.3,age25_29:20.5},topKeyword:{keyword:"탱글 파스타 다이어트",volume:100,note:"다이어트 맥락이 핵심"},searchJourneys:["'다이어트 면' → '콩담백면'(연 133,872회) — 탱글 부재","'운동 후 식사추천' → '운동 후 라면'(연 3,336회)","'다이어트 중 라면 먹고 싶을때'(연 2,412회)"],competitors:"실제 경쟁자는 곤약면이 아니라 콩담백면(청정원, 연 133,872회 · 여성 85%).",findings:[{icon:"🔥",title:"실제 경쟁자 = 콩담백면",detail:"'다이어트 면' 검색 시 콩담백면(연 133,872회)으로 흐르는 여정 압도적."},{icon:"📊",title:"'운동 후 라면' 경로",detail:"PathFinder: '운동 후 식사추천' → '운동 후 라면' 경로 실제 존재(연 3,336회)."},{icon:"⚡",title:"PAIN 검증됨",detail:"'다이어트 중 라면 먹고 싶을때' 연 2,412회 실제 검색."}]},"pls":{searchVolume:1033,trend:"growing +87%",profile:{female:81.1,age30:52.5,age25_29:20.0},topKeyword:{keyword:"잭앤펄스",volume:173,note:"구 브랜드명, 하락 중"},searchJourneys:["'건강 간식' → '단백질 간식' → '단백질 간식 추천' → '다이어트 간식 추천'","'식물성 단백질' → '식물성 단백질 흡수율' → '유청 단백질' 비교","'사무실 건강 간식 추천' CPC $2.62 · 여성 84%"],competitors:"브랜드 검색 자체가 거의 없으므로 카테고리(단백질 간식, 연 56,436회) 진입이 유일한 방법.",findings:[{icon:"🔥",title:"카테고리 진입만이 답",detail:"펄스랩 검색 연 12,396회. '단백질 간식'(연 56,436회) 카테고리에서 발견되게 해야 함."},{icon:"📊",title:"B2B 간식 고가 키워드",detail:"'사무실 건강 간식 추천' CPC $2.62(최고가!), 여성 84%, 30대 42%."},{icon:"⚡",title:"+87% 급성장",detail:"인지도 제로에서 연 12,396회까지 급성장. 지금이 숏폼으로 인지도를 폭발시킬 최적의 타이밍."}]}};
+const brandInsights={"1963":{searchVolume:9140,trend:"stable",profile:{male:53.3,age30:34.0,age40:31.1},topKeyword:{keyword:"우지라면",volume:49006,note:"브랜드명보다 5배 큼"},searchJourneys:["'우지라면 뜻' → '삼양 우지라면' → 구매 탐색","'프리미엄 라면' → '장인라면/더미식' (삼양1963 부재)","'야식 라면 추천' → '야식 라면 건강' → '밤에 라면 먹으면'"],competitors:"'프리미엄 라면' 검색 시 장인라면/더미식으로 흐름. 삼양1963은 이 여정에 부재.",findings:[{icon:"🔥",title:"스토리가 진입점",detail:"'우지라면' 연 588,072회 — 브랜드명(9,140회)보다 5배. 우지파동 서사가 최강의 콘텐츠 자산."},{icon:"📊",title:"프리미엄 여정 부재",detail:"'프리미엄 라면' 검색 시 장인라면/더미식으로 흐름. 이 검색 여정에 삼양1963 콘텐츠가 없음."},{icon:"⚡",title:"화제성 vs 채널 갭",detail:"출시 1개월 700만개, 자발적 콘텐츠 8,000만뷰인데 유튜브 채널 검색량 0. 관심을 흡수하지 못하고 있음."}]},"mep":{searchVolume:7713,trend:"declining -58%",profile:{female:64.1,age30:34.6,age40:26.7},topKeyword:{keyword:"맵탱 마늘조개라면",volume:1620,note:"가장 인기 맛"},searchJourneys:["'맵소디(오뚜기)' → '맵탱' — 경쟁 제품에서 이탈 유입","'매운 라면 추천' → '매운 라면 순위' (맵탱 발견 기회)","'스트레스 해소 음식' → '스트레스 풀리는 매운 음식'"],competitors:"'매운 라면 추천' 검색(연 9,480회)에서 맵탱이 발견되지 않음. 신라면이 지배.",findings:[{icon:"🔥",title:"맵소디에서 유입",detail:"PathFinder: '맵소디 라면' → '오뚜기 맵소디' → '맵탱' 유입 경로 확인."},{icon:"📊",title:"스트레스 매운맛 경로",detail:"'스트레스 해소 음식' → '스트레스 풀리는 매운 음식' 경로 실제 존재."},{icon:"⚡",title:"하락 추세 대응 필요",detail:"검색량 -58% 하락 중. 출시 피크 후 관심 유지를 위한 지속적 숏폼 콘텐츠가 절실."}]},"tgl":{searchVolume:7040,trend:"declining -24%",profile:{female:76.1,age30:34.3,age25_29:20.5},topKeyword:{keyword:"탱글 파스타 다이어트",volume:100,note:"다이어트 맥락이 핵심"},searchJourneys:["'다이어트 면' → '콩담백면'(연 133,872회) — 탱글 부재","'운동 후 식사추천' → '운동 후 라면'(연 3,336회)","'다이어트 중 라면 먹고 싶을때'(연 2,412회)"],competitors:"실제 경쟁자는 곤약면이 아니라 콩담백면(청정원, 연 133,872회 · 여성 85%).",findings:[{icon:"🔥",title:"실제 경쟁자 = 콩담백면",detail:"'다이어트 면' 검색 시 콩담백면(연 133,872회)으로 흐르는 여정 압도적."},{icon:"📊",title:"'운동 후 라면' 경로",detail:"PathFinder: '운동 후 식사추천' → '운동 후 라면' 경로 실제 존재(연 3,336회)."},{icon:"⚡",title:"PAIN 검증됨",detail:"'다이어트 중 라면 먹고 싶을때' 연 2,412회 실제 검색."}]},"pls":{searchVolume:1033,trend:"growing +87%",profile:{female:81.1,age30:52.5,age25_29:20.0},topKeyword:{keyword:"잭앤펄스",volume:173,note:"구 브랜드명, 하락 중"},searchJourneys:["'건강 간식' → '단백질 간식' → '단백질 간식 추천' → '다이어트 간식 추천'","'식물성 단백질' → '식물성 단백질 흡수율' → '유청 단백질' 비교","'사무실 건강 간식 추천' CPC $2.62 · 여성 84%"],competitors:"브랜드 검색 자체가 거의 없으므로 카테고리(단백질 간식, 연 56,436회) 진입이 유일한 방법.",findings:[{icon:"🔥",title:"카테고리 진입만이 답",detail:"펄스랩 검색 연 12,396회. '단백질 간식'(연 56,436회) 카테고리에서 발견되게 해야 함."},{icon:"📊",title:"B2B 간식 고가 키워드",detail:"'사무실 건강 간식 추천' CPC $2.62(최고가!), 여성 84%, 30대 42%."},{icon:"⚡",title:"+87% 급성장",detail:"인지도 제로에서 연 12,396회까지 급성장. 지금이 숏폼으로 인지도를 폭발시킬 최적의 타이밍."}]},"buldak":{searchVolume:282666,trend:"declining -18%",profile:{},topKeyword:{keyword:"buldak ramen",volume:282666,note:"미국 내 2위 매운 식품 검색량 (Takis 다음)"},searchJourneys:["'buldak ramen' → 'buldak ramen recipe' → 'how to make creamy' → 'with egg/milk'","'buldak sauce' → 'recipe' → 'ingredients' → 'where to buy' (리추얼 전환)","'lazy dinner ideas' → 'quick dinner' → 'cheap easy meals' (간편식 진입점)","'what to eat when sick' → 'spicy food when sick' → 'does it help sore throat'","'capsaicin benefits' → 'for men/skin' → 'capsaicin supplement' (건강 기능)","'cheap dinner' → 'under $10 meals' → 'fast food near me' (이탈 — 불닭이 가로채는 기회)"],competitors:"맥앤치즈(497,333)만 불닭보다 큼. 냉동피자(158,666)·신라면(69,500)·마루찬(65,000)보다 2~4배 큰 검색량. 매운 스낵은 Takis(550,000)가 #1.",findings:[{icon:"🔥",title:"챌린지는 하락, 소스는 성장",detail:"'spicy noodle challenge' -33% 하락 vs 'buldak sauce' +22% 성장(4년간 5배). 소비자가 '도전'에서 '요리 재료'로 전환 중 — 리추얼 전환의 핵심 증거."},{icon:"📊",title:"lazy dinner +402% 폭발",detail:"'lazy dinner ideas' 2025-12: 8,100 → 2026-01: 18,100 폭발. 불닭의 5분 완성이 이 트렌드에 정확히 맞음."},{icon:"⚡",title:"건강 기능 검색 전반 급성장",detail:"capsaicin +50%, sinuses +52%, when sick +49%, endorphins +57%, metabolism +22% — 매운맛의 '기능적 가치'에 대한 관심이 급증. 리추얼의 정당성."}]}};
 const PERSP=[{id:"all",l:"AI 자동 추천"},{id:"A",l:"A. 소비자 맥락 조합"},{id:"B",l:"B. 검색 여정 발견"},{id:"C",l:"C. 크로스 카테고리"}];
 
 const getKeywordsForBrand = (brandId) => {
+  if(brandId==="buldak") return buldakKeywordPool.sort((a,b)=>b.vol-a.vol);
   return keywordPool
     .filter(k => k.brand === brandId || k.brand === "all" || k.brand.includes(brandId))
     .sort((a, b) => b.vol - a.vol);
@@ -192,6 +194,27 @@ const BRANDS=[
         shorts:sf("\"후무스가 뭔지 아세요?\"","한국에서 후무스 먹어본 사람?","퀴즈형 후킹 — '모르는 것'에 대한 호기심이 시청을 유도. 브랜드 없이 시작",["'후무스 아세요?' 거리 질문 or 자막","글로벌 인기 통계 — 전 세계 10조원 시장","펄스랩 후무스 개봉 — 한국에서도 가능","시식 리액션 — 의외의 맛"],"전 세계에서 가장 핫한 건강 간식 중 하나. 삼양식품이 한국형으로 재해석.","프로필에서 구매 →",["#후무스","#글로벌간식","#펄스랩","#건강트렌드","#새로운간식"],"주말 오후","글로벌 트렌드 관심층, 새 간식 탐색자"),
         reels:sf("\"전 세계가 먹는 간식\"","한국인만 모르는 글로벌 TOP 간식","글로벌형 후킹 — '한국인만 모른다'는 FOMO 트리거",["세계 간식 소비 통계 — 후무스 글로벌 인기","한국 출시 소식 + 펄스랩 소개","시식 + 반응 — '이런 맛이었어?'","글로벌 트렌드 정리 + CTA"],"글로벌 10조원 시장의 건강 간식. 삼양식품의 한국형 후무스.","이거 몰랐으면 공유 →",["#글로벌간식","#후무스트렌드","#펄스랩","#건강간식추천","#FOMO"],"주말 오후","푸드 트렌드 팔로워, 글로벌 관심층")},
     ],
+  },
+  // ── 불닭볶음면 US Market ──
+  {id:"buldak",nm:"불닭볶음면",em:"🔥",c:"#E63E00",cat:"US Market — Spicy Ramen",
+    def:"Challenge를 넘어 Ritual로.\n미국 소비자의 일상 속 '매운맛이 필요한 순간'에 불닭을 배치한다.",
+    str:"Occasion-hook",strL:"오케이션 드리븐 리추얼",lv:"HIGH",
+    market:"us",
+    tags:["Spicy Kick","5 Min Meal","$2 Dinner","K-Food Icon","Hackable","Buldak Sauce","Shareable","Flavor World"],
+    stats:[{k:"TikTok 포스트",v:"3.6억+"},{k:"글로벌 판매",v:"70억 팩"},{k:"소스 성장",v:"4년 5배"}],
+    prof:{gen:"Gen Z/Alpha Core",age:"10-30대 집중",ch:"Walmart·Costco·H-Mart·Amazon",chI:"🏪",persona:"매운맛 경험+K-culture 관심 미국 소비자"},
+    dp:["lazy dinner ideas","spicy food when sick","buldak sauce recipe","capsaicin benefits","game day snacks","comfort food"],
+    cep:["🔥 매운맛 건강 효과 → 과학형 콘텐츠","🍳 5분 간편식 → lazy dinner 진입","🧴 소스 활용 → 리추얼 전환","🎉 파티/게임데이 → 소셜 콘텐츠"],
+    strWhy:"'Challenge에서 Ritual로' — 도전의 대상이 아니라 일상의 한 끼로.",
+    ctxGrid:[
+      {label:"WHO",q:"Who eats Buldak?",color:"#22c55e",tags:["Gen Z/Alpha","College students","K-food enthusiasts","Hispanic community","Fitness lovers"],ev:"buldak ramen 282,666/yr | TikTok 3.6B+ posts | 7yr birthday video 60M views — Gen Alpha cultural icon"},
+      {label:"WHEN",q:"When do they eat it?",color:"#f59e0b",tags:["Lazy dinner (+402%🔥)","Late night 3AM","Game day / Super Bowl","Sick day / Cold weather","Period cravings","Post-workout"],ev:"lazy dinner ideas +402% explosion | spicy food when sick +49% | game day snacks +22%"},
+      {label:"WHERE",q:"Where do they buy?",color:"#3b82f6",tags:["Walmart ($8/5pk)","Costco (bulk)","H-Mart (+22%🔥)","Amazon","Asian grocery"],ev:"H-Mart near me 632,000(+22%) | buldak walmart 1,300 | buldak near me 2,733"},
+      {label:"PAIN",q:"What's their pain?",color:"#ef4444",tags:["Too tired to cook","Broke / budget tight","Stressed out","Sick / stuffy nose","Bored with same food"],ev:"lazy dinner +402% = exhausted consumers | cheap dinner 43,500 = budget pain"},
+      {label:"NEED",q:"What do they need?",color:"#22c55e",tags:["Quick satisfying meal","Affordable dinner","Comfort & warmth","Cultural experience","Recipe variety"],ev:"capsaicin benefits +50%🔥 | buldak sauce +22% | korean food trend +80%"},
+      {label:"INTEREST",q:"What interests them?",color:"#a855f7",tags:["Swicy trend (+49%)","Capsaicin science","K-drama / K-pop","Ramen hacks","Food challenges","ASMR/Mukbang"],ev:"Swicy new products +49% | honey chipotle TikTok +1,000% | 66% consumers want spicy"},
+    ],
+    ideas:[]
   },
 ];
 
@@ -721,12 +744,12 @@ const BrandInsight=({b,go})=>{
   const [aiOppErr,setAiOppErr]=useState(null);
   const [aiOppGen,setAiOppGen]=useState(0);
   if(!data)return <div style={{padding:40,textAlign:"center",color:"#ccc"}}>데이터 준비 중...</div>;
-  const confirmed=confirmedOpportunities[b.id]||[];
+  const confirmed=(b.id==="buldak"?buldakConfirmedOpportunities:confirmedOpportunities[b.id])||[];
   const ctxColors={WHO:"#3b82f6",WHEN:"#f59e0b",WHERE:"#16a34a",PAIN:"#dc2626",NEED:"#a855f7",INTEREST:"#06b6d4"};
   const handleAiOpp=async()=>{
     setAiOppLd(true);setAiOppErr(null);
     try{
-      const assetList=(brandAssets[b.id]?.assets||[]).map(a=>`${a.icon} ${a.name}(${a.totalVolume.toLocaleString()}회)`).join(", ");
+      const assetList=((b.id==="buldak"?buldakAssets:brandAssets[b.id])?.assets||[]).map(a=>`${a.icon} ${a.name}(${a.totalVolume.toLocaleString()}회)`).join(", ");
       const kwTop=getKeywordsForBrand(b.id).slice(0,15).map(k=>`${k.kw}(${k.vol.toLocaleString()})`).join(", ");
       const existingIdeas=confirmed.map(c=>c.shortformIdea).join(", ");
       const prompt=`너는 숏폼 데이터 전략가야. ${b.nm}(${b.cat})의 제품 자산과 키워드 풀에서 새로운 기회 교차점을 3개 발견해.
@@ -820,7 +843,7 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
 
     {/* 🔬 제품 자산 분석 */}
     {(()=>{
-      const assetData=brandAssets[b.id];
+      const assetData=b.id==="buldak"?buldakAssets:brandAssets[b.id];
       if(!assetData)return null;
       const assets=[...assetData.assets].sort((a,bx)=>bx.totalVolume-a.totalVolume);
       const maxAssetVol=assets.length>0?assets[0].totalVolume:1;
@@ -1009,7 +1032,7 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
 
     {/* 👤 크리에이터 협업 방안 — 접이식 (3티어 전체) */}
     {(()=>{
-      const opps=confirmedOpportunities[b.id]||[];
+      const opps=(b.id==="buldak"?buldakConfirmedOpportunities:confirmedOpportunities[b.id])||[];
       const hasCreators=opps.some(o=>o.creators);
       if(!hasCreators)return null;
       return <CreatorSection opps={opps} brandColor={b.c}/>;
@@ -1067,7 +1090,7 @@ const Home=({pick,tab,setTab})=>(
           onMouseEnter={e=>{e.currentTarget.style.borderColor=b.c+"30";e.currentTarget.style.boxShadow=`0 8px 28px ${b.c}0A`;e.currentTarget.style.transform="translateY(-2px)"}}
           onMouseLeave={e=>{e.currentTarget.style.borderColor="#f0f0f0";e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none"}}>
           <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,${b.c},${b.c}50)`}}/>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}><span style={{fontSize:34}}>{b.em}</span><span style={{background:lv.bg,color:lv.fg,padding:"2px 10px",borderRadius:5,fontSize:9,fontWeight:800}}>{b.lv}</span></div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}><span style={{fontSize:34}}>{b.em}</span><div style={{display:"flex",gap:4,alignItems:"center"}}>{b.market==="us"&&<span style={{background:"#1a1a1a",color:"#fff",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>🇺🇸 US MARKET</span>}<span style={{background:lv.bg,color:lv.fg,padding:"2px 10px",borderRadius:5,fontSize:9,fontWeight:800}}>{b.lv}</span></div></div>
           <div style={{fontSize:16,fontWeight:900,marginBottom:2}}>{b.nm}</div>
           <div style={{fontSize:10,color:"#bbb",marginBottom:10}}>{b.cat}</div>
           <div style={{display:"inline-flex",alignItems:"center",gap:5,background:b.c+"08",border:`1px solid ${b.c}12`,borderRadius:6,padding:"3px 8px",marginBottom:10}}><span style={{fontSize:10,fontWeight:800,color:b.c}}>{b.str}</span><span style={{width:1,height:10,background:b.c+"20"}}/><span style={{fontSize:9,color:"#999"}}>{b.strL}</span></div>
@@ -1142,7 +1165,11 @@ ${prevStr}
 - 소비자 언어로 번역 (브랜드 언어 금지)
 - 데이터 근거 포함 (위 맥락 데이터에서 인용)
 - 각 아이디어마다 YouTube Shorts용 + Instagram Reels용 별도 기획
-- CTA는 반드시 삼양식품 공식몰(brand.naver.com/syfoodshop) 연결 문구 포함. 예: "삼양 공식몰에서 만나보세요", "brand.naver.com/syfoodshop에서 구매 가능"
+- CTA는 반드시 ${b.market==="us"?"US 구매채널(Walmart/Amazon/H-Mart/Costco) 연결. 예: 'Find it at Walmart — $8 for 5-pack', 'Amazon link in bio'":"삼양식품 공식몰(brand.naver.com/syfoodshop) 연결 문구 포함. 예: '삼양 공식몰에서 만나보세요', 'brand.naver.com/syfoodshop에서 구매 가능'"}
+${b.market==="us"?`- 아이디어/카피/HOOK은 모두 영어로 생성 (미국 소비자 대상). 미국식 밈·표현 활용 (hits different, POV, era, green flag 등)
+- 챌린지가 아닌 일상의 한 끼(Ritual)로 포지셔닝. "Challenge에서 Ritual로" 전략.
+- 오케이션 맵 핵심: lazy dinner(+402%), capsaicin health(+50%), buldak sauce(+22%), game day(+22%), swicy trend(+49%)
+- 절대 금지: "광고 부스팅 의심", "오가닉만이 답" 등의 한국어 표현. 모든 출력은 영어.`:""}
 - 크리에이터 협업 (매우 중요): 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것 2~3개만 골라서 creatorCollab 필드에 문자열을 넣어. 나머지는 creatorCollab: null로 설정해. 반드시 2~3개는 값이 있어야 함.
   예시: "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도와 신뢰성 극대화"
   예시: "운동 후 식사 맥락 — 피트니스 크리에이터의 '운동 후 먹방'으로 전문가 추천 효과"
@@ -1359,7 +1386,7 @@ const S3=({b,onSelect})=>{
                 <span style={{fontSize:9,color:"#999",lineHeight:1.5}}>— {collab}</span>
               </div>;
               // Fallback: match from confirmed opportunities
-              const opps=confirmedOpportunities[b.id]||[];
+              const opps=(b.id==="buldak"?buldakConfirmedOpportunities:confirmedOpportunities[b.id])||[];
               const ctx=(idea.ctx||"").toLowerCase();
               const hook=(idea.hook||"").toLowerCase();
               const match=opps.find(o=>o.creators&&(ctx.includes(o.asset?.slice(0,4)?.toLowerCase())||ctx.includes(o.context?.toLowerCase())||hook.includes(o.keyword?.slice(0,3)?.toLowerCase())));
@@ -1400,6 +1427,135 @@ const S3=({b,onSelect})=>{
         </div>
       )}
     </div>
+  </div>);
+};
+
+// ── OCCASION MAP (불닭 US 전용 STEP 2) ──
+const OccasionMap=({b,go})=>{
+  const [activeTab,setActiveTab]=useState("season");
+  const om=buldakOccasionMap;
+  const totalOccVol=om.searchOccasions.reduce((s,o)=>s+o.volume,0);
+  const maxOccVol=Math.max(...om.searchOccasions.map(o=>o.volume));
+  const tabList=[{id:"season",l:"📅 시즌캘린더"},{id:"daily",l:"🎭 일상모먼트"},{id:"multi",l:"🌎 다문화세그먼트"},{id:"emotion",l:"💬 감정모먼트"},{id:"meal",l:"🍽️ 식사리추얼"},{id:"weather",l:"🌧️ 날씨/지역"}];
+  return(
+  <div style={{animation:"fi .5s"}}>
+    <div style={{marginBottom:20}}>
+      <h2 style={{fontSize:18,fontWeight:900,marginBottom:4}}>🗺️ 오케이션 맵 — {b.nm} US Market</h2>
+      <p style={{fontSize:11,color:"#999"}}>미국 소비자의 '매운맛이 필요한 순간'을 데이터로 발견합니다</p>
+    </div>
+
+    {/* 섹션 A: 검색 데이터 버블 차트 */}
+    <div style={{background:"#fff",borderRadius:14,padding:24,border:"1px solid #f0f0f0",marginBottom:16}}>
+      <div style={{fontSize:13,fontWeight:800,marginBottom:4}}>🔍 검색 데이터 기반 오케이션</div>
+      <div style={{fontSize:9,color:"#999",marginBottom:16}}>월 총 {(totalOccVol).toLocaleString()}회 검색 — 크기=검색량, 색상=카테고리</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
+        {om.searchOccasions.map(o=>{
+          const pct=Math.max(40,(o.volume/maxOccVol)*100);
+          return <div key={o.id} style={{background:o.color+"08",border:`1px solid ${o.color}20`,borderRadius:12,padding:16,textAlign:"center"}}>
+            <div style={{fontSize:20,marginBottom:4}}>{o.label.split(" ")[0]}</div>
+            <div style={{fontSize:12,fontWeight:800,color:o.color}}>{o.label.split(" ").slice(1).join(" ")}</div>
+            <div style={{fontSize:18,fontWeight:900,color:o.color,margin:"8px 0"}}>연 {(o.volume*12).toLocaleString()}회</div>
+            <div style={{fontSize:9,color:"#999"}}>{o.topKw}</div>
+            <div style={{width:"100%",height:4,background:"#eee",borderRadius:2,marginTop:8}}>
+              <div style={{width:`${pct}%`,height:4,background:o.color,borderRadius:2,transition:"width .5s"}}/>
+            </div>
+            {o.trend>0&&<div style={{fontSize:9,color:"#16a34a",fontWeight:700,marginTop:4}}>↑ +{(o.trend*100).toFixed(0)}% 성장</div>}
+          </div>;
+        })}
+      </div>
+    </div>
+
+    {/* 섹션 B: 경쟁 포지셔닝 */}
+    <div style={{background:"#fff",borderRadius:14,padding:24,border:"1px solid #f0f0f0",marginBottom:16}}>
+      <div style={{fontSize:13,fontWeight:800,marginBottom:12}}>📊 경쟁 포지셔닝 (US 간편식 검색량)</div>
+      {om.competitors.map((c,i)=>{
+        const maxVol=Math.max(...om.competitors.map(x=>x.volume));
+        const isBuldak=c.name==="Buldak Ramen";
+        return <div key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+          <div style={{width:100,fontSize:10,fontWeight:isBuldak?900:600,color:isBuldak?b.c:"#666",textAlign:"right"}}>{c.name}</div>
+          <div style={{flex:1,height:20,background:"#f5f5f5",borderRadius:4,overflow:"hidden"}}>
+            <div style={{width:`${(c.volume/maxVol)*100}%`,height:20,background:isBuldak?b.c:i===0?"#3b82f6":"#ddd",borderRadius:4,display:"flex",alignItems:"center",paddingLeft:6}}>
+              <span style={{fontSize:9,fontWeight:700,color:"#fff"}}>{(c.volume).toLocaleString()}</span>
+            </div>
+          </div>
+          {c.trend!==0&&<div style={{fontSize:8,color:c.trend>0?"#16a34a":"#dc2626",fontWeight:700,width:40}}>{c.trend>0?"+":""}{(c.trend*100).toFixed(0)}%</div>}
+        </div>;
+      })}
+    </div>
+
+    {/* 섹션 C: 문화적 오케이션 탭 */}
+    <div style={{background:"#fff",borderRadius:14,padding:24,border:"1px solid #f0f0f0",marginBottom:16}}>
+      <div style={{fontSize:13,fontWeight:800,marginBottom:12}}>🎯 문화적 오케이션</div>
+      <div style={{display:"flex",gap:4,marginBottom:16,flexWrap:"wrap"}}>
+        {tabList.map(t=><button key={t.id} onClick={()=>setActiveTab(t.id)} style={{background:activeTab===t.id?b.c+"10":"#f5f5f5",color:activeTab===t.id?b.c:"#999",border:activeTab===t.id?`1px solid ${b.c}30`:"1px solid #eee",borderRadius:6,padding:"6px 12px",fontSize:9,fontWeight:700,cursor:"pointer"}}>{t.l}</button>)}
+      </div>
+      {activeTab==="season"&&<div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8}}>
+        {om.culturalTabs.seasonCalendar.map((s,i)=><div key={i} style={{background:"#fafafa",borderRadius:8,padding:"10px 14px",border:"1px solid #f0f0f0"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
+            <span style={{fontSize:10,fontWeight:700}}>{s.event}</span>
+            <span style={{fontSize:8,color:"#999"}}>{s.month}</span>
+          </div>
+          <div style={{fontSize:10,color:"#666"}}>{s.idea}</div>
+          {s.volume>0&&<div style={{fontSize:8,color:b.c,fontWeight:700,marginTop:4}}>연 {(s.volume*12).toLocaleString()}회 검색</div>}
+        </div>)}
+      </div>}
+      {activeTab==="daily"&&<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+        {om.culturalTabs.dailyMoments.map((m,i)=><div key={i} style={{background:"#fafafa",borderRadius:8,padding:"10px 14px",border:"1px solid #f0f0f0"}}>
+          <div style={{fontSize:10,fontWeight:700,marginBottom:4}}>{m.moment}</div>
+          <div style={{fontSize:8,color:b.c,marginBottom:4}}>{m.emotion} · {m.freq}</div>
+          <div style={{fontSize:9,color:"#666",fontStyle:"italic"}}>"{m.hook}"</div>
+        </div>)}
+      </div>}
+      {activeTab==="multi"&&<div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8}}>
+        {om.culturalTabs.multiculturalSegments.map((s,i)=><div key={i} style={{background:"#fafafa",borderRadius:8,padding:"10px 14px",border:"1px solid #f0f0f0"}}>
+          <div style={{fontSize:12,fontWeight:800,marginBottom:2}}>{s.group}</div>
+          <div style={{fontSize:9,color:"#999",marginBottom:4}}>{s.size} · {s.spiceRelation}</div>
+          <div style={{fontSize:9,color:"#666",fontStyle:"italic"}}>"{s.hook}"</div>
+        </div>)}
+      </div>}
+      {activeTab==="emotion"&&<div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8}}>
+        {om.culturalTabs.emotionMoments.map((e,i)=><div key={i} style={{background:"#fafafa",borderRadius:8,padding:"10px 14px",border:"1px solid #f0f0f0"}}>
+          <div style={{fontSize:12,fontWeight:800,marginBottom:2}}>😢 {e.emotion}</div>
+          <div style={{fontSize:8,color:"#999",marginBottom:2}}>기존: {e.existing}</div>
+          <div style={{fontSize:9,color:b.c,fontWeight:600,marginBottom:4}}>불닭: {e.buldakWhy}</div>
+          <div style={{fontSize:9,color:"#666",fontStyle:"italic"}}>"{e.hook}"</div>
+        </div>)}
+      </div>}
+      {activeTab==="meal"&&<div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8}}>
+        {om.culturalTabs.mealRituals.map((r,i)=><div key={i} style={{background:"#fafafa",borderRadius:8,padding:"10px 14px",border:"1px solid #f0f0f0"}}>
+          <div style={{fontSize:12,fontWeight:800,marginBottom:2}}>{r.ritual}</div>
+          <div style={{fontSize:8,color:"#999",marginBottom:4}}>침투율: {r.penetration}</div>
+          <div style={{fontSize:10,color:"#666"}}>{r.idea}</div>
+        </div>)}
+      </div>}
+      {activeTab==="weather"&&<div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8}}>
+        {om.culturalTabs.weatherRegion.map((w,i)=><div key={i} style={{background:"#fafafa",borderRadius:8,padding:"10px 14px",border:"1px solid #f0f0f0"}}>
+          <div style={{fontSize:12,fontWeight:800,marginBottom:2}}>{w.region}</div>
+          <div style={{fontSize:8,color:"#999",marginBottom:4}}>{w.climate}</div>
+          <div style={{fontSize:10,color:"#666"}}>{w.opportunity}</div>
+        </div>)}
+      </div>}
+    </div>
+
+    {/* 섹션 D: 진입 장벽 */}
+    <div style={{background:"#fff7ed",borderRadius:14,padding:24,border:`1px solid ${b.c}15`,marginBottom:16}}>
+      <div style={{fontSize:13,fontWeight:800,marginBottom:12}}>⚠️ 진입 장벽 & 해소 전략</div>
+      {om.barriers.map((br,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"10px 0",borderBottom:i<om.barriers.length-1?"1px solid #f0e0d0":"none"}}>
+        <div>
+          <div style={{fontSize:11,fontWeight:700,color:"#92400e"}}>"{br.keyword}"</div>
+          <div style={{fontSize:9,color:"#a16207"}}>{br.resolution}</div>
+        </div>
+        <div style={{textAlign:"right"}}>
+          <div style={{fontSize:10,fontWeight:700,color:b.c}}>연 {(br.volume*12).toLocaleString()}회</div>
+          <div style={{fontSize:8,color:br.trend>0?"#16a34a":"#dc2626"}}>{br.trend>0?"+":""}{(br.trend*100).toFixed(0)}%</div>
+        </div>
+      </div>)}
+    </div>
+
+    {/* CTA */}
+    <button onClick={go} style={{width:"100%",padding:"16px",background:`linear-gradient(135deg,${b.c},${b.c}CC)`,color:"#fff",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer",boxShadow:`0 4px 16px ${b.c}30`}}>
+      이 데이터를 기반으로 맥락을 발견합니다 →
+    </button>
   </div>);
 };
 
@@ -1584,8 +1740,9 @@ export default function App(){
   const goStage=(s)=>{setSt(s);setMaxStage(prev=>Math.max(prev,{1:0,1.5:1,2:2,3:3,4:4}[s]||0));};
   const pick=(b)=>{setBr(b);goStage(1.5)};
   const rst=()=>{setSt(1);setBr(null);setSelIdea(null);setTab("brands");setMaxStage(0)};
-  const progressSteps=[{n:"1",l:"브랜드 분석"},{n:"1.5",l:"데이터 인사이트"},{n:"2",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}];
-  const progressMap={1.5:1,2:2,3:3,4:4};
+  const isUS=br?.market==="us";
+  const progressSteps=isUS?STEPS_BULDAK:STEPS;
+  const progressMap=isUS?{1.5:1,2:2,2.5:3,3:4,4:5}:{1.5:1,2:2,3:3,4:4};
   const curProgress=progressMap[st]||0;
 
   return(
@@ -1605,7 +1762,7 @@ export default function App(){
       {/* Progress — clickable for any visited step */}
       {st>1&&<div style={{display:"flex",gap:3,marginBottom:16}}>
         {progressSteps.map((s,i)=>{
-          const stageMap=[1,1.5,2,3];
+          const stageMap=isUS?[1,1.5,2,2.5,3]:[1,1.5,2,3];
           const isCurrent=i+1===curProgress;
           const isVisited=i<maxStage;
           const canClick=isVisited&&!isCurrent;
@@ -1621,14 +1778,19 @@ export default function App(){
       </div>}
 
       {st===1&&<Home pick={pick} tab={tab} setTab={setTab}/>}
-      {st===1.5&&br&&<BrandInsight b={br} go={()=>goStage(2)}/>}
-      {st===2&&br&&<S2 b={br} go={()=>goStage(3)}/>}
+      {st===1.5&&br&&<BrandInsight b={br} go={()=>goStage(isUS?2:2)}/>}
+      {st===2&&br&&!isUS&&<S2 b={br} go={()=>goStage(3)}/>}
+      {st===2&&br&&isUS&&<OccasionMap b={br} go={()=>goStage(2.5)}/>}
+      {st===2.5&&br&&isUS&&<S2 b={br} go={()=>goStage(3)}/>}
       {st===3&&br&&<S3 b={br} onSelect={(idea)=>{setSelIdea(idea);goStage(4)}}/>}
       {st===4&&br&&selIdea&&<S4 b={br} idea={selIdea} back={()=>{setSt(3)}}/>}
 
       {st>1&&st<4&&<button onClick={()=>{
         if(st===1.5)rst();
         else if(st===2)setSt(1.5);
+        else if(st===2.5)setSt(2);
+        else if(st===3&&isUS)setSt(2.5);
+        else if(st===3)setSt(2);
         else setSt(s=>s-1);
       }} style={{display:"block",margin:"14px auto 0",background:"none",border:"none",color:"#ccc",fontSize:9,cursor:"pointer",padding:"4px 12px"}}>← 이전 단계</button>}
       <div style={{textAlign:"center",marginTop:32,paddingTop:12,borderTop:"1px solid #eee"}}><div style={{fontSize:7,color:"#ddd",letterSpacing:3}}>PENTACLE × AI ALGORITHM PERFORMANCE PLATFORM</div></div>

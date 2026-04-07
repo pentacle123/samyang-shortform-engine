@@ -118,12 +118,51 @@ export const brandAssets = {
   },
 };
 
-// ═══ CTA 가이드 ═══
-// 모든 숏폼 아이디어의 CTA는 삼양식품 네이버 브랜드 스토어로 연결:
-// brand.naver.com/syfoodshop
+// ═══ 불닭볶음면 US Market 키워드 풀 ═══
+export const buldakKeywordPool = [
+  {kw:"buldak ramen",vol:282666,trend:-0.18,tags:["brand","core"],brand:"buldak"},
+  {kw:"buldak",vol:216000,trend:-0.18,tags:["brand","core"],brand:"buldak"},
+  {kw:"buldak carbonara",vol:50166,trend:-0.18,tags:["brand","flavor"],brand:"buldak"},
+  {kw:"buldak sauce",vol:18100,trend:0.22,tags:["brand","sauce","ritual"],brand:"buldak"},
+  {kw:"buldak flavors",vol:12266,trend:-0.18,tags:["brand","exploration"],brand:"buldak"},
+  {kw:"buldak ramen recipe",vol:5866,trend:-0.33,tags:["brand","recipe","hackable"],brand:"buldak"},
+  {kw:"buldak near me",vol:2733,trend:-0.17,tags:["brand","purchase"],brand:"buldak"},
+  {kw:"does buldak cause cancer",vol:6700,trend:-0.33,tags:["brand","barrier"],brand:"buldak"},
+  {kw:"is buldak bad for you",vol:1060,trend:0.30,tags:["brand","barrier","growing"],brand:"buldak"},
+  {kw:"how to make buldak less spicy",vol:1600,trend:-0.18,tags:["brand","barrier","entry"],brand:"buldak"},
+  {kw:"lazy dinner ideas",vol:14766,trend:4.02,tags:["occasion","quick","growing"],brand:"buldak"},
+  {kw:"quick dinner ideas",vol:79500,trend:0,tags:["occasion","quick"],brand:"buldak"},
+  {kw:"one pot meals",vol:61333,trend:0,tags:["occasion","quick"],brand:"buldak"},
+  {kw:"cheap dinner ideas",vol:43500,trend:-0.18,tags:["occasion","budget"],brand:"buldak"},
+  {kw:"late night food",vol:33100,trend:-0.18,tags:["occasion","latenight"],brand:"buldak"},
+  {kw:"capsaicin benefits",vol:4800,trend:0.50,tags:["occasion","health","growing"],brand:"buldak"},
+  {kw:"what to eat when sick",vol:23833,trend:0.22,tags:["occasion","health","comfort","growing"],brand:"buldak"},
+  {kw:"spicy food when sick",vol:960,trend:0.49,tags:["occasion","health","growing"],brand:"buldak"},
+  {kw:"comfort food",vol:50166,trend:-0.33,tags:["occasion","comfort","emotional"],brand:"buldak"},
+  {kw:"super bowl food",vol:96700,trend:128.47,tags:["occasion","social","season"],brand:"buldak"},
+  {kw:"game day snacks",vol:7466,trend:0.22,tags:["occasion","social","growing"],brand:"buldak"},
+  {kw:"ramen recipe",vol:91500,trend:0,tags:["occasion","recipe"],brand:"buldak"},
+  {kw:"korean food",vol:323333,trend:-0.18,tags:["occasion","kfood","culture"],brand:"buldak"},
+  {kw:"gochujang sauce",vol:50166,trend:0.22,tags:["occasion","kfood","sauce","growing"],brand:"buldak"},
+  {kw:"spicy food",vol:69500,trend:-0.18,tags:["occasion","spicy","identity"],brand:"buldak"},
+  {kw:"h mart near me",vol:632000,trend:0.22,tags:["purchase","channel","growing"],brand:"buldak"},
+  {kw:"mukbang",vol:1720000,trend:-0.18,tags:["occasion","social","content"],brand:"buldak"},
+];
 
-// ═══ Claude API 프롬프트에 포함할 내용 ═══
-// "이 제품의 속성을 분해해서 다음 키워드 풀에서 매칭되는 것을 찾아.
-//  매칭된 키워드의 검색량이 곧 '기회의 크기'야.
-//  가장 큰 기회부터 숏폼 아이디어를 만들어.
-//  CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결."
+export const buldakAssets = {
+  id:"buldak",market:"us",
+  assets:[
+    {icon:"🔥",name:"Spicy Kick (엔도르핀)",desc:"캡사이신→엔도르핀→기분전환. 매운맛의 과학적 기능",totalVolume:78229,topKeyword:{kw:"spicy food",vol:69500},pathfinderNote:"'capsaicin benefits'→'capsaicin for men/skin' / 'spicy food when sick'→'does it help sore throat'"},
+    {icon:"🍳",name:"5 Min Meal (5분 완성)",desc:"끓는 물+5분=한 끼. 극한의 간편함",totalVolume:157299,topKeyword:{kw:"quick dinner ideas",vol:79500},pathfinderNote:"'lazy dinner ideas'(+402%🔥)→'quick dinner for family'→'cheap easy meals'"},
+    {icon:"💰",name:"$2 Dinner (가성비)",desc:"5팩 $8 이하. 패스트푸드 $10+ 대비 압도적",totalVolume:43500,topKeyword:{kw:"cheap dinner ideas",vol:43500},pathfinderNote:"'cheap dinner'→'under $10 meals'→'fast food near me' (이탈) — 불닭이 가로채는 기회"},
+    {icon:"🌎",name:"K-Food Icon (한국 문화)",desc:"K-pop/K-drama와 함께 가장 인지도 높은 한국 음식",totalVolume:373496,topKeyword:{kw:"korean food",vol:323333},pathfinderNote:"'korean food trend'(+80%🔥) 급성장 중"},
+    {icon:"🍜",name:"Hackable (무한 변형)",desc:"치즈/계란/크림/김치 무한 조합. 나만의 레시피",totalVolume:27499,topKeyword:{kw:"ramen egg recipe",vol:15900},pathfinderNote:"'buldak ramen recipe'→'with egg'→'how to make creamy'→'how to make less spicy'"},
+    {icon:"🧴",name:"Buldak Sauce (만능 소스)",desc:"라면 넘어 조미료로 활용. 4년간 5배 구조적 성장",totalVolume:18100,topKeyword:{kw:"buldak sauce",vol:18100},pathfinderNote:"'buldak sauce'→'recipe'→'ingredients'→'where to buy' (리추얼 전환 핵심 증거)"},
+    {icon:"🎭",name:"Shareable (공유 경험)",desc:"같이 먹으면 콘텐츠가 되는 음식",totalVolume:1720000,topKeyword:{kw:"mukbang",vol:1720000},pathfinderNote:"TikTok 3.6억+ 포스트. 60M뷰 생일선물 영상"},
+    {icon:"🌶️",name:"Flavor World (맛 탐험)",desc:"카보나라/로제/치즈/짜장 10+가지 맛 라인업",totalVolume:62432,topKeyword:{kw:"buldak carbonara",vol:50166},pathfinderNote:"'buldak flavors'→'flavors list'→'spicy level'→'least spicy to most spicy'"},
+  ]
+};
+
+// ═══ CTA 가이드 ═══
+// 한국 브랜드: brand.naver.com/syfoodshop
+// 불닭 US: Amazon/Walmart/H-Mart

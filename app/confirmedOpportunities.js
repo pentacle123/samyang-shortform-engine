@@ -537,6 +537,115 @@ export const confirmedOpportunities = {
 //    먹방 유튜버만 추천하지 말고 기회의 맥락에 맞는 다양한 카테고리를 추천."
 //   "🤖 AI 발견" 배지 + 재생성 가능
 
+// ═══ 불닭볶음면 US Market 확인된 기회 ═══
+export const buldakConfirmedOpportunities = [
+  {asset:"5 Min Meal",assetIcon:"🍳",context:"WHEN",contextDetail:"귀찮은 저녁 — lazy dinner ideas +402% 폭발 성장",keyword:"lazy dinner ideas",volume:14766,relatedVolume:{"quick dinner ideas":79500,"one pot meals":61333,"cheap dinner ideas":43500},shortformIdea:"Too tired to cook? 5 minutes. That's it.",pathfinder:"'dinner ideas'→'lazy dinner'(+402%)→'quick dinner for family'→'cheap easy meals'",demo:"주로 1인가구/맞벌이. 평일 저녁 피크",reason:"미국 최대 성장 맥락. 불닭의 5분 완성이 정확히 답",seasonTiming:"연중 (2026년 1월 18,100으로 피크)",purchaseCTA:"Find it at Walmart — international aisle. $8 for 5-pack.",hookLibrary:["POV: You're too tired to cook but too hungry to sleep","Buldak at 11pm just hits different","I'm in my lazy dinner era"],formatRecommend:"Day in my life / Get ready for bed + making Buldak",creators:{categories:["자취 브이로거","일상 크리에이터"],reason:"퇴근 후 리얼 저녁 만들기로 공감 극대화"}},
+  {asset:"Spicy Kick",assetIcon:"🔥",context:"PAIN",contextDetail:"감기/아플 때 — spicy food when sick +49% 급성장",keyword:"spicy food when sick",volume:960,relatedVolume:{"what to eat when sick":23833,"capsaicin benefits":4800,"comfort food when sick":960},shortformIdea:"Korean sick food: why spicy clears your sinuses better than soup",pathfinder:"'what to eat when sick'→'spicy food when sick'→'does spicy help sore throat'→'does it help with colds'",demo:"감기 시즌(11~1월) 피크. 성별 무관",reason:"캡사이신 건강 효과 검색이 전반적으로 급성장(+50%). 과학적 근거가 콘텐츠 소재",seasonTiming:"11~1월 감기 시즌 피크",purchaseCTA:"Grab the Stew Type Buldak — perfect for when you're feeling under the weather",hookLibrary:["Why your body craves spicy food when you're sick","The Korean cold remedy nobody talks about"],formatRecommend:"정보형/과학형 — 캡사이신 효능 설명",barrierContent:"Is Buldak actually bad for you? Here's what the science says",creators:{categories:["건강/웰니스 크리에이터"],reason:"감기 시즌 음식 추천으로 전문성 활용"}},
+  {asset:"Buldak Sauce",assetIcon:"🧴",context:"INTEREST",contextDetail:"불닭 소스 활용 — 4년간 5배 구조적 성장 (3,600→18,100)",keyword:"buldak sauce",volume:18100,relatedVolume:{"gochujang sauce":50166,"sweet chili sauce recipe":15000,"hot sauce recipe":8200},shortformIdea:"I put Buldak sauce on everything for a week",pathfinder:"'buldak sauce'→'sauce recipe'→'sauce ingredients'→'how to use'→'where to buy'",demo:"요리 관심층. Swicy 트렌드와 연결",reason:"소스=리추얼 전환의 핵심 증거. 라면 넘어 조미료로 일상 침투",seasonTiming:"연중 안정 성장",purchaseCTA:"Buldak Sauce on Amazon — $6.99. Put it on everything.",hookLibrary:["This sauce changes everything","Buldak sauce on pizza. No cap."],formatRecommend:"Hack 포맷 — 1주일 모든 음식에 불닭 소스",creators:{categories:["요리 크리에이터","소스 리뷰어"],reason:"다양한 음식에 소스 활용하는 레시피 콘텐츠"}},
+  {asset:"$2 Dinner",assetIcon:"💰",context:"PAIN",contextDetail:"패스트푸드 $10+ vs 불닭 $2 — 가성비 역전",keyword:"cheap dinner ideas",volume:43500,relatedVolume:{"mac and cheese recipe":497333,"frozen pizza":158666},shortformIdea:"Mac & Cheese costs $3. Buldak costs $2. You decide.",pathfinder:"'cheap dinner'→'under $10 meals'→'fast food near me' (이탈) — 불닭이 가로채는 기회",demo:"대학생, 1인가구, 급여 전",reason:"불닭(282,666)이 냉동피자(158,666)보다 크고 신라면(69,500)의 4배",seasonTiming:"연중 (특히 학기 중)",purchaseCTA:"$8 for 5-pack at Walmart. That's $1.60 per meal.",hookLibrary:["Bank account: $3. Dinner: still fire.","$2 dinner that slaps harder than a $20 meal"],formatRecommend:"What I eat in a day — budget edition",creators:{categories:["대학생 크리에이터","가성비 리뷰어"],reason:"'broke college meals' 맥락에서 리얼한 가성비 체험"}},
+  {asset:"K-Food Icon",assetIcon:"🌎",context:"INTEREST",contextDetail:"K-food 트렌드 +80% 급성장 — 한국 문화 탐험 욕구",keyword:"korean food trend",volume:63,relatedVolume:{"korean food":323333,"korean grocery store near me":29100,"gochujang sauce":50166},shortformIdea:"What Koreans actually eat at 2AM — it's not what you think",pathfinder:"'korean food'→다양한 한국 음식 탐색 경로. 불닭은 가장 인지도 높은 진입점",demo:"Gen Z 80%가 음식을 문화 탐험으로 인식. K-pop/K-drama 팬",reason:"K-Food 수출 $136.2억(2025). 라면 수출 $15.2억(+22%). 불닭=K-food 대표 아이콘",seasonTiming:"연중 (K-drama/K-pop 이벤트 시 스파이크)",purchaseCTA:"Find Buldak at your nearest H-Mart or Asian grocery store",hookLibrary:["They always eat ramen in K-dramas. Now I know why.","How to eat Buldak like a Korean"],formatRecommend:"Trying ___ for the first time / How Koreans actually eat ___",creators:{categories:["K-culture 크리에이터","먹방 크리에이터"],reason:"한국 문화 전달자로서 불닭 소개"}},
+  {asset:"Shareable",assetIcon:"🎭",context:"WHEN",contextDetail:"Game Day / Super Bowl — 파티 간식 맥락",keyword:"game day snacks",volume:7466,relatedVolume:{"super bowl food":96700,"tailgate food":8700,"movie night snacks":5466},shortformIdea:"Super Bowl party food that makes everyone scream",pathfinder:"시즌: 9월(NFL 시즌 오프닝 18,100 피크) → 1~2월(슈퍼볼)",demo:"30대 남성 중심. 파티/모임 맥락",reason:"game day snacks +22% 성장. 불닭 소스를 나초/윙에 활용하는 파티 푸드 제안",seasonTiming:"9월(NFL), 1~2월(슈퍼볼), 3월(March Madness)",purchaseCTA:"Grab Buldak Sauce + chips for game night. Amazon link in bio.",hookLibrary:["Game night food that makes everyone scream","NFL is back. So is Buldak game night."],formatRecommend:"Recipe/Hack — 불닭 소스 나초, 불닭 윙",creators:{categories:["파티 푸드 크리에이터","스포츠 크리에이터"],reason:"게임데이 파티 맥락에서 불닭 소스 활용"}},
+  {asset:"Hackable",assetIcon:"🍜",context:"INTEREST",contextDetail:"불닭 레시피 변형 — 계란/치즈/크림 무한 조합",keyword:"buldak ramen recipe",volume:5866,relatedVolume:{"ramen recipe":91500,"ramen egg recipe":15900,"cheese ramen":4733,"creamy ramen":4733},shortformIdea:"3 Buldak recipes you haven't tried — #2 changed my life",pathfinder:"'buldak ramen'→'recipe'→'with egg'→'how to make creamy'→'with milk'",demo:"요리 관심층. 여성 비율 높음",reason:"불닭을 단순 '끓여먹기'에서 '나만의 레시피'로 전환 — 리추얼의 핵심",seasonTiming:"연중 (주말 저녁 피크)",purchaseCTA:"Get the Carbonara flavor on Amazon — perfect base for hacks",hookLibrary:["Adding one ingredient changed everything","Buldak recipe hack that went viral for a reason"],formatRecommend:"Speed recipe (30초) / Hack 포맷 / Tier List",creators:{categories:["레시피 크리에이터","먹방 크리에이터"],reason:"불닭 변형 레시피로 크리에이티브 콘텐츠"}},
+  {asset:"Spicy Kick",assetIcon:"🔥",context:"PAIN",contextDetail:"스트레스/감정 해소 — 매운맛=엔도르핀 과학",keyword:"does spicy food release endorphins",volume:103,relatedVolume:{"emotional eating":3366,"stress relief food":1800,"why do i crave spicy food":633},shortformIdea:"Feeling down? There's a noodle for that. (Science inside)",pathfinder:"'why do i crave spicy food'→'on my period'→'period food cravings list'",demo:"여성 비율 높음. 감정적 식사 맥락",reason:"endorphins +57% 성장. 매운맛의 심리적 기능에 대한 과학적 관심 급증",seasonTiming:"연중 (스트레스 시즌: 시험기간, 연말)",purchaseCTA:"Next time you're stressed, try Buldak instead of ice cream.",hookLibrary:["Ice cream numbs you. Buldak wakes you up.","Why your body craves spicy food when you're stressed"],formatRecommend:"정보형 — 과학 설명 + 실험",creators:{categories:["과학/교양 크리에이터"],reason:"캡사이신→엔도르핀 과학 설명으로 전문성 활용"}},
+  {asset:"Flavor World",assetIcon:"🌶️",context:"WHEN",contextDetail:"생리 중 매운맛 갈망 — period food cravings 2,800/mo",keyword:"period food cravings",volume:2800,relatedVolume:{"why do i crave spicy food on my period":0,"craving spicy food meaning":180},shortformIdea:"Why you crave spicy food on your period — it's science, not you",pathfinder:"'why do i crave spicy food'→'on my period'→'period food cravings list'",demo:"여성 전용 맥락. 20-30대",reason:"생리 중 매운맛 갈망은 과학적 현상. 캡사이신→엔도르핀으로 생리통 완화",seasonTiming:"연중 (매월 반복)",purchaseCTA:"Buldak Carbonara — the period craving answer",hookLibrary:["Your period cravings are trying to tell you something","It's not you, it's your hormones — eat the Buldak"],formatRecommend:"공감형 — '나만 그런 게 아니었구나'"},
+  {asset:"Buldak Sauce",assetIcon:"🧴",context:"INTEREST",contextDetail:"Swicy (Sweet+Spicy) 트렌드 — 신제품 +49%, hot honey +1,000%",keyword:"sweet chili sauce recipe",volume:15000,relatedVolume:{"gochujang sauce":50166,"viral food":2966},shortformIdea:"Hot honey is so 2025. Buldak sauce is 2026.",pathfinder:"Swicy 트렌드: honey chipotle TikTok +1,000% / 소비자 66%가 매운맛 구매 의향",demo:"Gen Z/Millennial. 트렌드 민감층",reason:"Swicy = 미국 최대 푸드 트렌드. 불닭 카보나라는 이미 Swicy의 완벽한 사례",seasonTiming:"연중 (트렌드 지속 성장)",purchaseCTA:"Buldak Sauce — the Korean answer to hot honey",hookLibrary:["The swicy sauce taking over 2026","Hot honey met its match"],formatRecommend:"Tier List / Taste test / vs comparison"},
+];
+
+// ═══ 불닭 오케이션 맵 데이터 (STEP 2.5 전용) ═══
+export const buldakOccasionMap = {
+  searchOccasions:[
+    {id:"comfort",label:"😌 감정/컴포트",volume:55332,trend:-0.25,color:"#a855f7",topKw:"comfort food 50,166"},
+    {id:"quick",label:"🍳 간편식사",volume:157299,trend:1.5,color:"#22c55e",topKw:"lazy dinner +402%🔥🔥🔥"},
+    {id:"health",label:"💊 건강/기능",volume:30792,trend:0.35,color:"#3b82f6",topKw:"capsaicin +50%🔥🔥"},
+    {id:"latenight",label:"🌙 야식",volume:36966,trend:-0.15,color:"#6366f1",topKw:"late night food 33,100"},
+    {id:"social",label:"🎉 소셜/파티",volume:126232,trend:0.1,color:"#f59e0b",topKw:"super bowl 96,700"},
+    {id:"budget",label:"💰 가성비",volume:43500,trend:-0.18,color:"#ef4444",topKw:"cheap dinner 43,500"},
+  ],
+  culturalTabs:{
+    seasonCalendar:[
+      {month:"Jan-Feb",event:"🏈 Super Bowl",volume:96700,idea:"Buldak nachos for game day"},
+      {month:"Feb",event:"💕 Valentine's",volume:0,idea:"Spicy date night for two — $4 total"},
+      {month:"May",event:"🌮 Cinco de Mayo",volume:0,idea:"Cinco de Mayo: Korean spice edition"},
+      {month:"Jul",event:"🇺🇸 4th of July",volume:0,idea:"Buldak sauce on your July 4th burger"},
+      {month:"Aug-Sep",event:"🎓 Back to School",volume:0,idea:"Dorm room essentials: Buldak edition"},
+      {month:"Sep",event:"🏈 NFL Season",volume:18100,idea:"NFL is back. So is Buldak game night."},
+      {month:"Oct",event:"🎃 Halloween",volume:0,idea:"Halloween dare: finish this Buldak"},
+      {month:"Nov",event:"🦃 Thanksgiving",volume:0,idea:"Leftover turkey Buldak ramen"},
+      {month:"Nov-Jan",event:"🤧 Flu Season",volume:1600,idea:"Korean sick food that actually works"},
+      {month:"Dec",event:"🎄 Holiday Parties",volume:0,idea:"Holiday party appetizer nobody expected"},
+    ],
+    dailyMoments:[
+      {moment:"퇴근 후 소파",freq:"매일",emotion:"피로+귀찮음",hook:"Buldak: for when you can't even"},
+      {moment:"시험 공부 중",freq:"시즌",emotion:"스트레스+보상",hook:"Study break that wakes you up"},
+      {moment:"넷플릭스 보면서",freq:"매일",emotion:"심심+입 심심",hook:"Netflix and noodles > Netflix and chill"},
+      {moment:"게임 중 배고플 때",freq:"매일",emotion:"몰입+간편",hook:"Gamer fuel that's not energy drinks"},
+      {moment:"실연 직후",freq:"가끔",emotion:"슬픔+위로",hook:"Breakup food tier list: Buldak is S-tier"},
+      {moment:"월급 다 쓴 날",freq:"매월",emotion:"절약",hook:"Bank account: $3. Dinner: still fire."},
+      {moment:"비오는 날",freq:"시즌",emotion:"아늑함",hook:"Rain + Buldak + blanket = perfect"},
+      {moment:"숙취",freq:"주말",emotion:"회복",hook:"Korean hangover cure: spicy ramen"},
+      {moment:"운동 직후",freq:"매일",emotion:"보상",hook:"Post-workout Buldak hits so hard"},
+    ],
+    multiculturalSegments:[
+      {group:"🇲🇽 히스패닉",size:"6,340만",spiceRelation:"칠리/살사 일상. Takis 탄생",hook:"Korean spice meets Mexican heat — Buldak + Tajin"},
+      {group:"🇺🇸 아프리칸 아메리칸",size:"4,470만",spiceRelation:"핫소스 문화 강함",hook:"Your hot sauce vs Buldak sauce — blind test"},
+      {group:"🇰🇷 아시안 아메리칸",size:"2,400만",spiceRelation:"문화적 게이트키퍼",hook:"How my Korean mom makes Buldak"},
+      {group:"🇮🇳 인도계",size:"470만",spiceRelation:"세계 최고 매운맛 문화",hook:"Indian spice vs Korean spice — who wins?"},
+      {group:"👶 Gen Alpha",size:"어린이/청소년",spiceRelation:"문화 아이콘/수집품",hook:"POV: Buldak is the new birthday gift"},
+      {group:"🎓 대학생",size:"2,000만",spiceRelation:"가성비+야식+소셜",hook:"Every college student's secret weapon"},
+    ],
+    emotionMoments:[
+      {emotion:"스트레스",existing:"아이스크림/초콜릿",buldakWhy:"캡사이신→엔도르핀→기분전환",hook:"Ice cream numbs you. Buldak wakes you up."},
+      {emotion:"외로움",existing:"치킨수프/맥앤치즈",buldakWhy:"따뜻한 면+매운 자극=살아있는 느낌",hook:"Eating alone doesn't mean eating boring."},
+      {emotion:"분노",existing:"없음",buldakWhy:"매운맛으로 분노 발산",hook:"Angry? Take it out on a bowl of 2x spicy."},
+      {emotion:"축하",existing:"케이크/외식",buldakWhy:"친구와 함께 매운맛 경험",hook:"We won! Time for Buldak."},
+      {emotion:"보상",existing:"디저트/배달",buldakWhy:"$2로 자기보상",hook:"Treat yourself — for $2."},
+      {emotion:"귀찮음",existing:"시리얼/냉동식품",buldakWhy:"5분+맛있음",hook:"Too lazy to cook? 5 minutes. That's it."},
+    ],
+    mealRituals:[
+      {ritual:"Taco Tuesday",penetration:"48%",idea:"Buldak Tuesday — 주중 스트레스 해소의 날"},
+      {ritual:"Pizza Friday",penetration:"주간 리추얼",idea:"Fire Noodle Friday — 금요일 밤 보상"},
+      {ritual:"Sunday Meal Prep",penetration:"밀프렙 문화",idea:"불닭 5가지 변형으로 한 주 준비"},
+      {ritual:"Girl Dinner",penetration:"Gen Z 트렌드",idea:"불닭 컵라면 = 한 끼 간식식사"},
+    ],
+    weatherRegion:[
+      {region:"동북부 (NYC,Boston)",climate:"혹한 겨울",opportunity:"겨울 야식 = 따뜻한 불닭"},
+      {region:"남부 (TX,ATL)",climate:"더운 여름",opportunity:"Southern heat meets Korean fire"},
+      {region:"서부 (LA,SF)",climate:"온화",opportunity:"LA's K-town secret: Buldak at 2AM"},
+      {region:"중서부 (Chicago)",climate:"극한 추위",opportunity:"Midwest winter survival: Buldak"},
+      {region:"대학도시",climate:"사계절",opportunity:"College town Buldak crawl"},
+    ],
+  },
+  barriers:[
+    {keyword:"does buldak cause cancer",volume:6700,trend:-0.33,resolution:"캡사이신 건강 효과 팩트체크 숏폼"},
+    {keyword:"is buldak bad for you",volume:1060,trend:0.30,resolution:"'Is Buldak actually bad? Here's the science' 숏폼"},
+    {keyword:"how to make buldak less spicy",volume:1600,trend:-0.18,resolution:"'Buldak Carbonara isn't even that spicy — here's proof' 숏폼"},
+  ],
+  competitors:[
+    {name:"Mac & Cheese",volume:497333,trend:-0.79,position:"유일한 더 큰 경쟁자"},
+    {name:"Buldak Ramen",volume:282666,trend:-0.18,position:"★ 기준"},
+    {name:"Frozen Pizza",volume:158666,trend:-0.33,position:"불닭보다 작음"},
+    {name:"Shin Ramen",volume:69500,trend:0,position:"불닭의 1/4"},
+    {name:"Maruchan",volume:65000,trend:0,position:"불닭의 1/4"},
+    {name:"Takis",volume:550000,trend:0.22,position:"매운 스낵 #1 (교차 기회)"},
+  ],
+  hookLibrary:[
+    {expression:"hits different",hook:"3AM Buldak hits different."},
+    {expression:"main character energy",hook:"Main character energy = making Buldak at 2AM"},
+    {expression:"understood the assignment",hook:"Buldak Carbonara understood the assignment."},
+    {expression:"POV",hook:"POV: You just discovered Buldak"},
+    {expression:"I'm in my ___ era",hook:"I'm in my Buldak era"},
+    {expression:"green flag",hook:"Green flag: they have Buldak in their pantry"},
+  ],
+  formatLibrary:[
+    {format:"Tier List",desc:"S/A/B/C/F 등급 매기기",buldakApp:"Buldak flavor tier list"},
+    {format:"Day in my life",desc:"하루 일상 브이로그",buldakApp:"Day in my life but every meal is Buldak"},
+    {format:"What I eat in a day",desc:"하루 식단",buldakApp:"What I eat in a day — college edition ft. Buldak"},
+    {format:"Speed recipe",desc:"초고속 레시피",buldakApp:"Buldak recipe in 30 seconds"},
+    {format:"Hack",desc:"꿀팁",buldakApp:"Buldak hack that changed my life: add cream cheese"},
+    {format:"Unpopular opinion",desc:"소수 의견",buldakApp:"Unpopular opinion: Buldak Carbonara > actual Carbonara"},
+  ],
+};
+
 // ═══ 크리에이터 3티어 구조 ═══
 // 🔴 MEGA (100만+) — 브랜딩 임팩트 크지만 비용 높고 컨트롤 어려움
 // 🟡 MID (10만~100만) — 전문성과 도달의 밸런스
