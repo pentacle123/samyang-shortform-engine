@@ -127,6 +127,37 @@ export const confirmedOpportunities = {
         },
       },
     },
+    // ── 신규 확인된 기회 3개 (캠페인 확장) ──
+    {
+      asset:"프로틴 파스타",assetIcon:"🍝",context:"PAIN",
+      contextDetail:"다이어트 중 파스타 먹고 싶은 욕구 (여성 74.8%)",
+      when:"다이어트 중 파스타 갈망",
+      keyword:"다이어트 파스타",volume:9180,verified:true,
+      pathfinder:"'다이어트 파스타' → '다이어트 파스타면 추천' 경로 존재. '탱글 파스타 다이어트' 신규 키워드 생성 = 브랜드 인지 시작",
+      shortformIdea:"다이어트 중인데 파스타가 먹고 싶을 때, 이걸 먹으면 됩니다",
+      relatedVolume:{"파스타 다이어트":5180,"편의점 파스타":1546,"단백질 파스타":493},
+      creators:{categories:["다이어트 일상","건강 레시피"],reason:"다이어트 중 파스타 욕구 — '나도 이거 먹는다'로 죄책감 해소",recommended:{micro:[{name:"다이어트하는직장인",platform:"Instagram",followers:"4.5만",category:"다이어트 일상",note:"직장인 다이어트 일상, 파스타 갈망 공감"}]}},
+    },
+    {
+      asset:"직장인 점심 대용",assetIcon:"🏢",context:"WHO",
+      contextDetail:"2535 직장인 여성 (여성 82.6%, 30대 35.9%)",
+      when:"점심시간 메뉴 고민",
+      keyword:"직장인 점심 도시락",volume:2050,verified:true,
+      pathfinder:"'점심 대용' → '점심 간편식' 구매 인텐트 경로. '회사 점심 메뉴 추천' +40% 급성장",
+      shortformIdea:"오늘 점심 5분 파스타인데 단백질이 이만큼",
+      relatedVolume:{"직장인 점심":1023,"점심 대용":463,"점심 간편식":160,"회사 점심 메뉴 추천":213},
+      creators:{categories:["직장인 브이로거","오피스 라이프"],reason:"직장인 점심 맥락 — 오피스 크리에이터의 점심 루틴에 자연스럽게 등장",recommended:{micro:[{name:"회사점심기록",platform:"Instagram",followers:"2.8만",category:"직장인 점심",note:"직장인 점심 루틴 전문, 타겟 정확"}]}},
+    },
+    {
+      asset:"단백질 간식/보상",assetIcon:"🏋️",context:"NEED",
+      contextDetail:"프로틴 쉐이크 피로감 → 음식형 단백질 (남성 60.8%)",
+      when:"프로틴 파우더만 먹다 지겨울 때",
+      keyword:"단백질 간식",volume:4703,verified:true,
+      pathfinder:"'프로틴 간식' +40% 급성장. 남성 60.8% — 새로운 세그먼트",
+      shortformIdea:"쉐이크 대신 파스타로 단백질 섭취",
+      relatedVolume:{"프로틴 간식":423,"단백질 간식 추천":626},
+      creators:{categories:["운동/헬스","프로틴 리뷰어"],reason:"프로틴 피로감 맥락 — 피트니스 크리에이터가 '쉐이크 대안'으로 추천하면 신뢰도 극대화",recommended:{micro:[{name:"프로틴맨",platform:"YouTube",subscribers:"3.2만",category:"프로틴 리뷰",note:"프로틴 식품 전문 리뷰어, 남성 타겟"}]}},
+    },
   ],
 
   // ═══ 맵탱 ═══
