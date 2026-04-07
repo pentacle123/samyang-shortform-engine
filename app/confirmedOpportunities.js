@@ -537,6 +537,25 @@ export const confirmedOpportunities = {
 //    먹방 유튜버만 추천하지 말고 기회의 맥락에 맞는 다양한 카테고리를 추천."
 //   "🤖 AI 발견" 배지 + 재생성 가능
 
+// ═══ 탱글 오케이션 맵 — 7개 침투 맥락 ═══
+export const tangleOccasionMap = {
+  occasions: [
+    { name: "다이어트 중 면 욕구", status: "기존 유지", keywords: ["곤약면","두부면","저칼로리 면","다이어트 면"], note: "기존 데이터 그대로 유지" },
+    { name: "다이어트 중 파스타 욕구", status: "★ NEW — 가장 큰 진입점", totalVolume: 14360, keywords: ["다이어트 파스타","파스타 다이어트"], demographic: "여성 74.8%, 30대 36.6%", hook: "'다이어트 중인데 파스타가 먹고 싶어' → '이거 단백질 20g인데 파스타야'", trialCTA: "편의점에서 하나만 사서 먹어보세요" },
+    { name: "직장인 점심 대용", status: "★ NEW — 브리프 직결", totalVolume: 3072, keywords: ["직장인 점심 도시락","점심 대용","점심 간편식","가벼운 점심 메뉴 추천"], demographic: "여성 82.6%, 30대 35.9%", hook: "'오늘 점심 뭐 먹지?' → '5분 파스타인데 단백질이 이만큼'", trialCTA: "오늘 점심 대신 이거 한번" },
+    { name: "편의점 한끼", status: "★ NEW — 유통채널 직결", totalVolume: 2166, keywords: ["편의점 파스타","편의점 점심"], demographic: "여성 75.1%, 30대 32.3%", hook: "'편의점에서 뭐 사먹지?' → '이 파스타 단백질 20g이야'", trialCTA: "편의점 가서 이것만 사보세요" },
+    { name: "운동 후 단백질 보충", status: "★ NEW — 운동 관심사 타겟", totalVolume: 2456, keywords: ["운동 후 식사","프로틴 간식"], demographic: "여성 68.2%, 30대 31.9%", hook: "'프로틴 쉐이크만 먹다가 지겨울 때' → '이거 파스타인데 프로틴이야'", trialCTA: "운동 후 한번 먹어보세요" },
+    { name: "자취생 간단한 한끼", status: "★ NEW — 1인가구 급성장", totalVolume: 675, keywords: ["자취 한끼","간단한 한끼 요리","한끼대용"], growth: "+45%", hook: "'자취생 5분 한끼' → '전자레인지 돌리면 끝인데 단백질 20g'", trialCTA: "자취방 전자레인지로 5분" },
+    { name: "단백질 간식/보상", status: "★ NEW — 프로틴 피로감 흡수", totalVolume: 5126, keywords: ["단백질 간식","프로틴 간식"], demographic: "남성 60.8%(프로틴 간식), 여성 59.8%(단백질 간식)", growth: "+24~40%", hook: "'프로틴 파우더만 먹다 지겨워' → '이건 파스타야. 근데 프로틴이 있어'", trialCTA: "쉐이크 대신 오늘 이거 한번" },
+  ],
+  proteinInsight: {
+    headline: "프로틴 44,066/mo는 거대하지만, 그들은 파우더를 찾고 있다",
+    gap: "프로틴 = 파우더. '프로틴 음식'(51/mo), '프로틴 식품'(0/mo)은 사실상 존재하지 않음",
+    crack: "'프로틴 간식' 423/mo (+40%)와 '단백질 간식' 4,703/mo (+24%)에서 균열 시작",
+    strategy: "프로틴이라는 문으로는 못 들어간다. '파스타인데 프로틴이 있다'로 들어간다.",
+  },
+};
+
 // ═══ 불닭볶음면 US Market 확인된 기회 ═══
 export const buldakConfirmedOpportunities = [
   {asset:"5 Min Meal",assetIcon:"🍳",context:"WHEN",contextDetail:"귀찮은 저녁 — lazy dinner ideas +402% 폭발 성장",keyword:"lazy dinner ideas",volume:14766,relatedVolume:{"quick dinner ideas":79500,"one pot meals":61333,"cheap dinner ideas":43500},shortformIdea:"Too tired to cook? 5 minutes. That's it.",pathfinder:"'dinner ideas'→'lazy dinner'(+402%)→'quick dinner for family'→'cheap easy meals'",demo:"주로 1인가구/맞벌이. 평일 저녁 피크",reason:"미국 최대 성장 맥락. 불닭의 5분 완성이 정확히 답",seasonTiming:"연중 (2026년 1월 18,100으로 피크)",purchaseCTA:"Find it at Walmart — international aisle. $8 for 5-pack.",hookLibrary:["POV: You're too tired to cook but too hungry to sleep","Buldak at 11pm just hits different","I'm in my lazy dinner era"],formatRecommend:"Day in my life / Get ready for bed + making Buldak",creators:{categories:["자취 브이로거","일상 크리에이터"],reason:"퇴근 후 리얼 저녁 만들기로 공감 극대화"}},

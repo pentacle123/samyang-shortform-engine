@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { keywordPool, brandAssets, buldakKeywordPool, buldakAssets } from "./keywordPool";
-import { confirmedOpportunities, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
+import { confirmedOpportunities, tangleOccasionMap, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
+import { tangleExpandedData } from "./tangleExpandedData";
 import { buldakStressRitualMap } from "./stressRitualMap";
 import { tiktokSpec } from "./tiktokSpec";
 
@@ -738,6 +739,32 @@ const CreatorSection=({opps,brandColor})=>{
   </div>);
 };
 
+// ── 탱글 전략 인사이트 박스 ──
+const TangleInsightBox = ({b}) => (
+  <div style={{background:'linear-gradient(135deg,#1a1a2e,#16213e)',borderRadius:16,padding:'24px 28px',marginBottom:20,color:'#fff'}}>
+    <div style={{fontSize:11,color:'#f59e0b',fontWeight:800,letterSpacing:2,marginBottom:8}}>★ 전략 인사이트</div>
+    <div style={{fontSize:18,fontWeight:900,marginBottom:12,lineHeight:1.5}}>{'"프로틴" 검색 44,066/mo'}<br/>하지만 그들은 파우더를 찾고 있다</div>
+    <div style={{fontSize:12,color:'#94a3b8',lineHeight:1.7,marginBottom:16}}>탱글의 진입점은 {'"프로틴"'}이 아닙니다.<br/>{'"파스타인데 프로틴이 있다"'}로 들어갑니다.</div>
+    <div style={{display:'flex',gap:12}}>
+      <div style={{flex:1,background:'rgba(255,255,255,0.08)',borderRadius:10,padding:'12px 14px'}}>
+        <div style={{fontSize:9,color:'#94a3b8'}}>가장 큰 진입점</div>
+        <div style={{fontSize:15,fontWeight:900,color:'#f59e0b'}}>다이어트 파스타</div>
+        <div style={{fontSize:11,color:'#fff'}}>연 172,320회</div>
+      </div>
+      <div style={{flex:1,background:'rgba(255,255,255,0.08)',borderRadius:10,padding:'12px 14px'}}>
+        <div style={{fontSize:9,color:'#94a3b8'}}>가장 빠른 성장</div>
+        <div style={{fontSize:15,fontWeight:900,color:'#22c55e'}}>자취 한끼 +45%</div>
+        <div style={{fontSize:11,color:'#fff'}}>프로틴 간식 +40%</div>
+      </div>
+      <div style={{flex:1,background:'rgba(255,255,255,0.08)',borderRadius:10,padding:'12px 14px'}}>
+        <div style={{fontSize:9,color:'#94a3b8'}}>브랜드 인지 시작</div>
+        <div style={{fontSize:15,fontWeight:900,color:'#ec4899'}}>탱글 파스타 다이어트</div>
+        <div style={{fontSize:11,color:'#fff'}}>신규 키워드 생성!</div>
+      </div>
+    </div>
+  </div>
+);
+
 // ── STAGE 1.5: 브랜드 데이터 인사이트 ──
 const BrandInsight=({b,go})=>{
   const data=brandInsights[b.id];
@@ -781,6 +808,7 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
   const trendLabel=data.trend==="stable"?"안정":data.trend.includes("growing")?data.trend.replace("growing ","↑ "):data.trend.replace("declining ","↓ ");
   return(
   <div style={{animation:"fi .4s"}}>
+    {b.id==="tgl"&&<TangleInsightBox b={b}/>}
     {/* 상단 브랜드 헤더 */}
     <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:16}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
@@ -1201,6 +1229,21 @@ ${b.market==="us"?`- 아이디어/카피/HOOK은 모두 영어로 생성 (미국
 - sharesTrigger: '이건 친구한테 보내야 해' 반응 유도
 - saveTrigger: '나중에 따라해봐야지' 반응 유도
 - 같은 아이디어라도 TikTok은 더 raw하고 밈 감성으로. 과도한 편집 금지.`:""}
+${b.id==="tgl"?`
+★ 탱글 전용 톤 가이드:
+프로틴을 앞세우지 않는다. 파스타(맛/편리/만족)를 먼저 보여주고, 마지막에 "근데 이거 단백질 20g이야"를 reveal한다.
+이유: "프로틴" 검색자 44,066명은 파우더를 찾고 있다. 탱글은 파스타로 들어가서 프로틴을 말하는 것이 맞다.
+
+★ 오케이션 우선순위:
+1순위 (2개): 다이어트 중 파스타 욕구 (연 172,320회) + 직장인 점심 대용 (연 36,864회)
+2순위 (2개): 단백질 간식/보상 (연 61,512회) + 편의점 한끼 or 운동 후 식사
+3순위 (1개): 자취생 한끼 or 기존 다이어트 면 대안
+
+★ CTA 3단계:
+- 인지형: "이런 파스타 있는 거 알아요?"
+- Trial형: "편의점에서 하나만 사서 먹어보세요" / "오늘 점심 대신 이거 한번"
+- 구매형: "쿠팡/네이버 스토어 → brand.naver.com/syfoodshop"
+`:""}
 - 크리에이터 협업 (매우 중요): 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것 2~3개만 골라서 creatorCollab 필드에 문자열을 넣어. 나머지는 creatorCollab: null로 설정해. 반드시 2~3개는 값이 있어야 함.
   예시: "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도와 신뢰성 극대화"
   예시: "운동 후 식사 맥락 — 피트니스 크리에이터의 '운동 후 먹방'으로 전문가 추천 효과"
@@ -1810,6 +1853,41 @@ const AdTargetingSection=({idea,b})=>{
   </div>);
 };
 
+// ── 탱글 크리에이터 100명 매칭 가이드 ──
+const TangleCreatorGuide = ({b}) => {
+  const [open,setOpen]=useState(false);
+  const cats=[
+    {category:"다이어트 일상",count:20,content:"다이어트 중 파스타 먹어도 되는 이유",color:"#f59e0b"},
+    {category:"직장인 브이로그",count:15,content:"오피스 점심 루틴에 탱글",color:"#3b82f6"},
+    {category:"운동/헬스",count:15,content:"운동 후 5분 단백질 파스타",color:"#22c55e"},
+    {category:"자취/1인 요리",count:15,content:"전자레인지 5분 한끼",color:"#8b5cf6"},
+    {category:"편의점 리뷰",count:10,content:"편의점 신상 파스타 리뷰",color:"#06b6d4"},
+    {category:"먹방/ASMR",count:10,content:"탱글 ASMR 먹방",color:"#ec4899"},
+    {category:"헬시 레시피",count:10,content:"탱글 활용 헬시 레시피",color:"#14b8a6"},
+    {category:"대학생 일상",count:5,content:"대학생 점심 루틴",color:"#a855f7"},
+  ];
+  return(
+  <div style={{marginTop:16}}>
+    <button onClick={()=>setOpen(!open)} style={{width:"100%",background:open?"#f0fdf4":"#fafafa",border:open?"1px solid #16803C20":"1px solid #eee",borderRadius:10,padding:"14px 20px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+      <span style={{fontSize:13,fontWeight:800,color:open?"#16803C":"#666"}}>{open?"▾":"▸"} 크리에이터 100명 매칭 가이드</span>
+      <span style={{fontSize:9,color:"#aaa"}}>7개 오케이션 x 8개 카테고리</span>
+    </button>
+    {open&&<div style={{background:"#fff",border:"1px solid #f0f0f0",borderTop:"none",borderRadius:"0 0 10px 10px",padding:20}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:16}}>
+        {cats.map((c,i)=><div key={i} style={{background:c.color+"08",border:"1px solid "+c.color+"15",borderRadius:10,padding:"12px"}}>
+          <div style={{fontSize:11,fontWeight:800,color:c.color,marginBottom:4}}>{c.category}</div>
+          <div style={{fontSize:20,fontWeight:900,color:c.color}}>{c.count}명</div>
+          <div style={{fontSize:9,color:"#888",marginTop:4}}>{c.content}</div>
+        </div>)}
+      </div>
+      <div style={{background:"#f0fdf4",borderRadius:8,padding:"12px 16px",border:"1px solid #dcfce7"}}>
+        <div style={{fontSize:10,fontWeight:700,color:"#16a34a",marginBottom:4}}>부스팅 로직</div>
+        <div style={{fontSize:10,color:"#444"}}>100개 콘텐츠 중 참여율 TOP 10~20% → 미디어 부스팅 집중. 어떤 오케이션이 가장 반응이 좋은지 데이터로 확인 후 해당 오케이션 크리에이터 추가 확보.</div>
+      </div>
+    </div>}
+  </div>);
+};
+
 // ── S4: SHORTFORM DETAIL (Meliens 숏폼 제작 style) ──
 const S4=({b,idea,back})=>(
 <div style={{animation:"fi .4s"}}>
@@ -1958,6 +2036,7 @@ const S4=({b,idea,back})=>(
   </div>
   {/* 📢 광고 노출 추천 */}
   <AdTargetingSection idea={idea} b={b} />
+  {b.id==="tgl"&&<TangleCreatorGuide b={b}/>}
   <button onClick={back} style={{display:"block",margin:"20px auto 0",background:"#fafafa",color:"#999",border:"1px solid #eee",borderRadius:10,padding:"10px 28px",fontSize:11,fontWeight:700,cursor:"pointer"}}>← 다른 아이디어 보기</button>
 </div>);
 
