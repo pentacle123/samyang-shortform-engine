@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { keywordPool, brandAssets, buldakKeywordPool, buldakAssets } from "./keywordPool";
 import { confirmedOpportunities, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
+import { buldakStressRitualMap } from "./stressRitualMap";
 
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
@@ -1170,7 +1171,24 @@ ${prevStr}
 ${b.market==="us"?`- 아이디어/카피/HOOK은 모두 영어로 생성 (미국 소비자 대상). 미국식 밈·표현 활용 (hits different, POV, era, green flag 등)
 - 챌린지가 아닌 일상의 한 끼(Ritual)로 포지셔닝. "Challenge에서 Ritual로" 전략.
 - 오케이션 맵 핵심: lazy dinner(+402%), capsaicin health(+50%), buldak sauce(+22%), game day(+22%), swicy trend(+49%)
-- 절대 금지: "광고 부스팅 의심", "오가닉만이 답" 등의 한국어 표현. 모든 출력은 영어.`:""}
+- 절대 금지: "광고 부스팅 의심", "오가닉만이 답" 등의 한국어 표현. 모든 출력은 영어.
+
+★★ STRESS RITUAL 우선순위 (매우 중요):
+5개 아이디어를 생성할 때 다음 우선순위를 따라:
+1순위 (5개 중 2~3개): 스트레스 리추얼에서 출발. 스트레스 상황이 HOOK. 불닭은 해결책으로 등장.
+  - 🔥 Rage Release: "Bad day? Burn it off." 연 1,746,744회
+  - 🏆 Little Treat: "You earned the burn." 연 423,600회
+  - ⚡ Deadline Ignition: "When sleep is not an option." 연 694,620회
+  - 💔 Breakup Burn: "Cry first. Burn later." 연 1,025,760회
+  - 👩‍👧 Mom's 5 Minutes: "Kids asleep. Fire noodles on." 연 19,956회
+  - 🚗 Road Rage Recovery: "Road rage? Cook rage." 연 735,996회
+  - 😰 Sunday Scaries: "Sunday scaries? Make it a Sunday fire." 연 637,992회
+  총 스트레스 검색: 연 4,128,000회 (음식 쪽 684,000회의 6배)
+2순위 (1~2개): 기존 기회 (간편식, K-Food, 레시피, 소스)
+3순위 (0~1개): 크로스 카테고리
+
+과학적 근거: 캡사이신→통증수용체(TRPV1)→뇌에서 엔도르핀 분비→기분전환. 이건 과학.
+핵심: 스트레스→음식 연결은 검색에 없다 = 숏폼으로만 만들 수 있는 기회.`:""}
 - 크리에이터 협업 (매우 중요): 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것 2~3개만 골라서 creatorCollab 필드에 문자열을 넣어. 나머지는 creatorCollab: null로 설정해. 반드시 2~3개는 값이 있어야 함.
   예시: "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도와 신뢰성 극대화"
   예시: "운동 후 식사 맥락 — 피트니스 크리에이터의 '운동 후 먹방'으로 전문가 추천 효과"
@@ -1432,9 +1450,44 @@ const S3=({b,onSelect})=>{
 };
 
 // ── OCCASION MAP (불닭 US 전용 STEP 2) ──
+const StressRitualCard=({r,b})=>{
+  const [open,setOpen]=useState(false);
+  return <div style={{background:"#fff",borderRadius:12,border:`1px solid ${r.color}20`,overflow:"hidden",cursor:"pointer"}} onClick={()=>setOpen(!open)}>
+    <div style={{padding:"16px 18px",display:"flex",alignItems:"center",gap:14}}>
+      <div style={{fontSize:28,flexShrink:0}}>{r.icon}</div>
+      <div style={{flex:1}}>
+        <div style={{fontSize:12,fontWeight:800,color:r.color,marginBottom:2}}>{r.position}</div>
+        <div style={{fontSize:16,fontWeight:900,color:G,lineHeight:1.3}}>"{r.usCopy}"</div>
+        <div style={{display:"flex",gap:4,marginTop:6,flexWrap:"wrap"}}>
+          <span style={{background:r.color+"10",color:r.color,padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>{r.emotion}</span>
+          {r.demographics.slice(0,2).map((d,i)=><span key={i} style={{background:"#f5f5f5",color:"#888",padding:"2px 8px",borderRadius:4,fontSize:8}}>{d}</span>)}
+        </div>
+      </div>
+      <div style={{textAlign:"right",flexShrink:0}}>
+        <div style={{fontSize:14,fontWeight:900,color:r.color}}>연 {r.annualVolume.toLocaleString()}회</div>
+        <div style={{fontSize:8,color:"#999"}}>스트레스 검색</div>
+        <div style={{fontSize:9,color:"#aaa",marginTop:2}}>{open?"▾":"▸"}</div>
+      </div>
+    </div>
+    {open&&<div style={{borderTop:`1px solid ${r.color}15`,padding:"14px 18px",background:r.color+"04"}}>
+      <div style={{fontSize:9,fontWeight:700,color:r.color,letterSpacing:1,marginBottom:6}}>HOOK EXAMPLES</div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}}>
+        {r.hookExamples.slice(0,4).map((h,i)=><span key={i} style={{background:"#fff",border:`1px solid ${r.color}20`,color:"#555",padding:"4px 10px",borderRadius:6,fontSize:9,fontStyle:"italic"}}>"{h}"</span>)}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+        <div><div style={{fontSize:8,color:"#bbb",fontWeight:600,marginBottom:2}}>포맷</div><div style={{fontSize:9,color:"#666"}}>{r.shortformFormats.join(", ")}</div></div>
+        <div><div style={{fontSize:8,color:"#bbb",fontWeight:600,marginBottom:2}}>추천 제품</div><div style={{fontSize:9,color:"#666"}}>{r.buldakProduct}</div></div>
+        <div><div style={{fontSize:8,color:"#bbb",fontWeight:600,marginBottom:2}}>시즌 피크</div><div style={{fontSize:9,color:"#666"}}>{r.seasonPeak}</div></div>
+      </div>
+      <div style={{marginTop:8,fontSize:9,color:"#888",lineHeight:1.6}}>📹 {r.contentAngle}</div>
+    </div>}
+  </div>;
+};
+
 const OccasionMap=({b,go})=>{
   const [activeTab,setActiveTab]=useState("season");
   const om=buldakOccasionMap;
+  const srm=buldakStressRitualMap;
   const totalOccVol=om.searchOccasions.reduce((s,o)=>s+o.volume,0);
   const maxOccVol=Math.max(...om.searchOccasions.map(o=>o.volume));
   const tabList=[{id:"season",l:"📅 시즌캘린더"},{id:"daily",l:"🎭 일상모먼트"},{id:"multi",l:"🌎 다문화세그먼트"},{id:"emotion",l:"💬 감정모먼트"},{id:"meal",l:"🍽️ 식사리추얼"},{id:"weather",l:"🌧️ 날씨/지역"}];
@@ -1443,6 +1496,34 @@ const OccasionMap=({b,go})=>{
     <div style={{marginBottom:20}}>
       <h2 style={{fontSize:18,fontWeight:900,marginBottom:4}}>🗺️ 오케이션 맵 — {b.nm} US Market</h2>
       <p style={{fontSize:11,color:"#999"}}>미국 소비자의 '매운맛이 필요한 순간'을 데이터로 발견합니다</p>
+    </div>
+
+    {/* ★ 섹션 0: STRESS RITUAL MAP (최상단) */}
+    <div style={{background:`linear-gradient(135deg,#1a1a1a,#2d1a0a)`,borderRadius:16,padding:24,marginBottom:16,color:"#fff"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
+        <div>
+          <div style={{fontSize:9,fontWeight:700,color:b.c,letterSpacing:2,marginBottom:4}}>★ CORE STRATEGY</div>
+          <div style={{fontSize:16,fontWeight:900,lineHeight:1.3}}>미국인은 언제 화가 나고<br/>스트레스를 받는가?</div>
+          <div style={{fontSize:10,color:"#aaa",marginTop:6,lineHeight:1.6,maxWidth:500}}>{srm.framework.insight.slice(0,120)}...</div>
+        </div>
+        <div style={{textAlign:"right"}}>
+          <div style={{fontSize:24,fontWeight:900,color:b.c}}>연 {(srm.framework.totalVolume).toLocaleString()}회</div>
+          <div style={{fontSize:9,color:"#888"}}>스트레스 검색량 (음식 쪽의 6배)</div>
+        </div>
+      </div>
+      {/* 과학 근거 배너 */}
+      <div style={{background:"rgba(255,255,255,0.06)",borderRadius:10,padding:"10px 16px",marginBottom:16,display:"flex",gap:12,alignItems:"center",border:"1px solid rgba(255,255,255,0.08)"}}>
+        <span style={{fontSize:16}}>🧬</span>
+        <div style={{fontSize:10,color:"#ccc",lineHeight:1.5}}>
+          <span style={{fontWeight:700,color:"#fff"}}>캡사이신 → 엔도르핀 과학:</span> {srm.scienceProof.keyMessage.slice(0,80)}...
+          <span style={{color:b.c,fontWeight:700}}> capsaicin +50% | endorphins +57% | metabolism +22%</span>
+        </div>
+      </div>
+    </div>
+
+    {/* 7개 Stress Ritual 카드 */}
+    <div style={{display:"grid",gap:8,marginBottom:16}}>
+      {srm.stressRituals.map(r=><StressRitualCard key={r.id} r={r} b={b}/>)}
     </div>
 
     {/* 섹션 A: 검색 데이터 버블 차트 */}
