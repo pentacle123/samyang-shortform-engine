@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { keywordPool, brandAssets, buldakKeywordPool, buldakAssets } from "./keywordPool";
 import { confirmedOpportunities, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
 import { buldakStressRitualMap } from "./stressRitualMap";
+import { tiktokSpec } from "./tiktokSpec";
 
 const O="#FF6B00",G="#1a1a1a";
 const LvS={HIGH:{fg:"#15803d",bg:"#dcfce7"},MEDIUM:{fg:"#a16207",bg:"#fef9c3"},LOW:{fg:"#1d4ed8",bg:"#dbeafe"},ZERO:{fg:"#7c3aed",bg:"#f3e8ff"}};
@@ -1188,7 +1189,18 @@ ${b.market==="us"?`- 아이디어/카피/HOOK은 모두 영어로 생성 (미국
 3순위 (0~1개): 크로스 카테고리
 
 과학적 근거: 캡사이신→통증수용체(TRPV1)→뇌에서 엔도르핀 분비→기분전환. 이건 과학.
-핵심: 스트레스→음식 연결은 검색에 없다 = 숏폼으로만 만들 수 있는 기회.`:""}
+핵심: 스트레스→음식 연결은 검색에 없다 = 숏폼으로만 만들 수 있는 기회.
+
+★ TikTok 전용 시나리오 (반드시 tiktok 필드에 생성):
+- TikTok 참여율 3.15% (Shorts 0.40%, Reels 0.65%의 5~8배)
+- 15~30초 최적 (완시청률 70% 목표)
+- 루프 구조 필수: 영상 끝→처음이 자연스럽게 이어지게
+- 텍스트 오버레이 = TikTok SEO (알고리즘이 OCR로 읽음)
+- 음성에도 키워드 포함 (자동 전사→검색 인덱싱)
+- 니치 해시태그 사용 (#BuldakTok #RamenTok #StressEating). #fyp #foryou 사용 금지
+- sharesTrigger: '이건 친구한테 보내야 해' 반응 유도
+- saveTrigger: '나중에 따라해봐야지' 반응 유도
+- 같은 아이디어라도 TikTok은 더 raw하고 밈 감성으로. 과도한 편집 금지.`:""}
 - 크리에이터 협업 (매우 중요): 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것 2~3개만 골라서 creatorCollab 필드에 문자열을 넣어. 나머지는 creatorCollab: null로 설정해. 반드시 2~3개는 값이 있어야 함.
   예시: "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도와 신뢰성 극대화"
   예시: "운동 후 식사 맥락 — 피트니스 크리에이터의 '운동 후 먹방'으로 전문가 추천 효과"
@@ -1236,10 +1248,27 @@ ${b.market==="us"?`- 아이디어/카피/HOOK은 모두 영어로 생성 (미국
       "time": "업로드 최적시간",
       "cluster": "타깃 클러스터"
     },
+    ${b.market==="us"?`"tiktok": {
+      "title": "TikTok 제목 (검색 키워드 포함)",
+      "hook": "첫 1~3초 텍스트 + 음성",
+      "hookD": "후킹 전략 설명",
+      "duration": "15s/30s (짧을수록 유리)",
+      "structure": "시간별 구조 설명",
+      "scenes": ["씬1", "씬2", "씬3", "씬4"],
+      "textOverlays": ["화면텍스트1 (SEO)", "텍스트2", "텍스트3"],
+      "sound": "트렌딩 사운드 또는 오리지널 ASMR",
+      "loopPoint": "루프 연결 설명",
+      "cta": "댓글 유도 CTA",
+      "hashtags": ["#니치해시태그1", "#니치2", "#니치3"],
+      "postTime": "업로드 최적시간 (EST)",
+      "targetNiche": "초기 배포 니치 커뮤니티",
+      "sharesTrigger": "공유 트리거",
+      "saveTrigger": "저장 트리거"
+    },`:""}
     "adTargeting": {
       "youtube": { "keywords": ["맞춤검색어1","맞춤검색어2","맞춤검색어3"], "interests": ["관심분야1","관심분야2"], "demo": "성별 연령대", "campaignType": "동영상 조회수 획득 또는 디맨드젠" },
       "reels": { "interests": ["관심사1","관심사2","관심사3"], "demo": "성별 연령대", "hashtags": ["#태그1","#태그2","#태그3","#태그4","#태그5"], "campaignType": "도달 또는 전환 최적화" },
-      "budgetSplit": "YouTube 60% / Reels 40%",
+      "budgetSplit": "${b.market==="us"?"YouTube 40% / Reels 20% / TikTok 40%":"YouTube 60% / Reels 40%"}",
       "strategy": "오가닉 참여율 확인 후 광고 부스팅"
     }
   }
@@ -1733,8 +1762,8 @@ const S4=({b,idea,back})=>(
     <span style={{background:idea.typeC+"0C",color:idea.typeC,padding:"3px 10px",borderRadius:4,fontSize:9,fontWeight:700}}>{idea.psp}. {idea.type}</span>
     {idea.ctx.split("|").map((t,i)=><span key={i} style={{background:"#f5f5f5",color:"#666",padding:"3px 10px",borderRadius:4,fontSize:9,fontWeight:600,border:"1px solid #eee"}}>{t.trim()}</span>)}
   </div>
-  {/* Dual columns: Shorts + Reels */}
-  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+  {/* Platform columns: Shorts + Reels (+ TikTok for US) */}
+  <div style={{display:"grid",gridTemplateColumns:b.market==="us"?"1fr 1fr 1fr":"1fr 1fr",gap:16}}>
     {/* YouTube Shorts */}
     <div style={{background:"#fff",borderRadius:16,border:"1px solid #f0f0f0",padding:"24px",overflow:"hidden"}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}>
@@ -1805,6 +1834,66 @@ const S4=({b,idea,back})=>(
         <div><div style={{fontSize:8,color:"#ccc",fontWeight:600,marginBottom:2}}>타깃 클러스터</div><div style={{fontSize:10,color:"#666",lineHeight:1.5}}>{idea.reels.cluster}</div></div>
       </div>
     </div>
+    {/* TikTok — 불닭 US 전용 */}
+    {b.market==="us"&&<div style={{background:"#fff",borderRadius:16,border:"1px solid #f0f0f0",padding:"24px",overflow:"hidden"}}>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:14}}>🎵</span><span style={{fontSize:15,fontWeight:900}}>TikTok</span></div>
+        <div style={{display:"flex",gap:4}}><span style={{background:"#f5f5f5",color:"#333",padding:"2px 8px",borderRadius:4,fontSize:9,fontWeight:700}}>15-30s</span><span style={{background:"#dcfce7",color:"#16a34a",padding:"2px 8px",borderRadius:4,fontSize:9,fontWeight:700}}>3.15% 참여 ★</span></div>
+      </div>
+      {idea.tiktok?<>
+        <div style={{fontSize:18,fontWeight:900,color:G,marginBottom:16}}>{idea.tiktok.title||idea.shorts?.title}</div>
+        <div style={{background:"#1a1a1a",borderRadius:10,padding:"14px 18px",marginBottom:16}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#fff",letterSpacing:1,marginBottom:4}}>✦ HOOK (0~3초)</div>
+          <div style={{fontSize:14,fontWeight:800,color:"#fff",marginBottom:6}}>{idea.tiktok.hook||idea.shorts?.hook}</div>
+          <div style={{fontSize:10,color:"#999",lineHeight:1.6}}>{idea.tiktok.hookD||idea.shorts?.hookD}</div>
+        </div>
+        {idea.tiktok.duration&&<div style={{background:"#f5f5f5",borderRadius:8,padding:"8px 14px",marginBottom:12,display:"flex",justifyContent:"space-between"}}>
+          <span style={{fontSize:9,fontWeight:700,color:"#666"}}>⏱ 목표 길이: {idea.tiktok.duration}</span>
+          {idea.tiktok.structure&&<span style={{fontSize:8,color:"#999"}}>{idea.tiktok.structure.slice(0,60)}...</span>}
+        </div>}
+        <div style={{fontSize:9,fontWeight:700,color:"#22c55e",letterSpacing:1,marginBottom:10}}>✦ SCENE FLOW</div>
+        {(idea.tiktok.scenes||idea.shorts?.scenes||[]).map((s,i)=>(
+          <div key={i} style={{display:"flex",gap:10,marginBottom:10,alignItems:"flex-start"}}>
+            <div style={{width:22,height:22,borderRadius:11,background:"#1a1a1a",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:900,color:"#fff",flexShrink:0}}>{i+1}</div>
+            <div style={{fontSize:11,color:"#555",lineHeight:1.7}}>{s}</div>
+          </div>
+        ))}
+        {/* TikTok 전용 필드 */}
+        {idea.tiktok.textOverlays&&<div style={{background:"#1a1a1a08",borderRadius:8,padding:"10px 14px",marginTop:10,border:"1px solid #e5e7eb"}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#333",marginBottom:4}}>📝 TEXT OVERLAYS (SEO)</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{idea.tiktok.textOverlays.map((t,i)=><span key={i} style={{background:"#1a1a1a",color:"#fff",padding:"3px 8px",borderRadius:4,fontSize:8}}>{t}</span>)}</div>
+        </div>}
+        {idea.tiktok.sound&&<div style={{background:"#faf5ff",borderRadius:8,padding:"10px 14px",marginTop:8,border:"1px solid #e9d5ff"}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#7c3aed",marginBottom:2}}>🔊 SOUND</div>
+          <div style={{fontSize:9,color:"#666"}}>{idea.tiktok.sound}</div>
+        </div>}
+        {idea.tiktok.loopPoint&&<div style={{background:"#fff7ed",borderRadius:8,padding:"10px 14px",marginTop:8,border:"1px solid #fed7aa"}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#ea580c",marginBottom:2}}>🔄 LOOP POINT</div>
+          <div style={{fontSize:9,color:"#666"}}>{idea.tiktok.loopPoint}</div>
+        </div>}
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginTop:10}}>
+          {idea.tiktok.sharesTrigger&&<div style={{background:"#eff6ff",borderRadius:6,padding:"8px 10px",border:"1px solid #dbeafe"}}>
+            <div style={{fontSize:8,fontWeight:700,color:"#2563eb",marginBottom:2}}>📤 SHARE 트리거</div>
+            <div style={{fontSize:8,color:"#555"}}>{idea.tiktok.sharesTrigger}</div>
+          </div>}
+          {idea.tiktok.saveTrigger&&<div style={{background:"#f0fdf4",borderRadius:6,padding:"8px 10px",border:"1px solid #dcfce7"}}>
+            <div style={{fontSize:8,fontWeight:700,color:"#16a34a",marginBottom:2}}>🔖 SAVE 트리거</div>
+            <div style={{fontSize:8,color:"#555"}}>{idea.tiktok.saveTrigger}</div>
+          </div>}
+        </div>
+        <div style={{marginTop:10}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#333",marginBottom:4}}>→ CTA</div>
+          <div style={{fontSize:10,color:"#444"}}>{idea.tiktok.cta||idea.shorts?.cta}</div>
+        </div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:4,marginTop:10}}>
+          {(idea.tiktok.hashtags||[]).map((t,i)=><span key={i} style={{background:"#f5f5f5",color:"#888",padding:"3px 8px",borderRadius:4,fontSize:9}}>{t}</span>)}
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:12,paddingTop:10,borderTop:"1px solid #f0f0f0"}}>
+          <div><div style={{fontSize:8,color:"#ccc",fontWeight:600,marginBottom:2}}>업로드 최적시간</div><div style={{fontSize:10,color:"#666"}}>{idea.tiktok.postTime||"저녁 6-10PM EST"}</div></div>
+          <div><div style={{fontSize:8,color:"#ccc",fontWeight:600,marginBottom:2}}>타깃 니치</div><div style={{fontSize:10,color:"#666"}}>{idea.tiktok.targetNiche||"#BuldakTok #RamenTok"}</div></div>
+        </div>
+      </>:<div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:200,color:"#ccc",fontSize:11}}>AI가 TikTok 시나리오를 생성합니다</div>}
+    </div>}
   </div>
   {/* 📢 광고 노출 추천 */}
   <AdTargetingSection idea={idea} b={b} />
