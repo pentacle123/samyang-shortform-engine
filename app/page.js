@@ -900,7 +900,7 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
                   </div>
                 </div>
                 <div style={{textAlign:"right"}}>
-                  <div style={{fontSize:16,fontWeight:900,color:b.c}}>{a.totalVolume.toLocaleString()}<span style={{fontSize:9,fontWeight:400,color:"#999"}}>회/월</span></div>
+                  <div style={{fontSize:16,fontWeight:900,color:b.c}}>{(a.totalVolume*12).toLocaleString()}<span style={{fontSize:9,fontWeight:400,color:"#999"}}>회/연</span></div>
                   <div style={{fontSize:8,color:"#aaa"}}>TOP: {a.topKeyword.kw} ({a.topKeyword.vol.toLocaleString()})</div>
                 </div>
               </div>
@@ -1019,7 +1019,7 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
         <div style={{display:"flex",gap:12,marginBottom:18}}>
           <div style={{flex:1,background:b.c+"06",borderRadius:10,padding:"14px 16px",border:`1px solid ${b.c}10`}}>
             <div style={{fontSize:9,fontWeight:700,color:"#999",marginBottom:4}}>카테고리 총 검색량</div>
-            <div style={{fontSize:24,fontWeight:900,color:b.c}}>{totalVol.toLocaleString()}<span style={{fontSize:10,fontWeight:400,color:"#999"}}> 회/월</span></div>
+            <div style={{fontSize:24,fontWeight:900,color:b.c}}>{(totalVol*12).toLocaleString()}<span style={{fontSize:10,fontWeight:400,color:"#999"}}> 회/연</span></div>
           </div>
           <div style={{flex:1,background:"#f8f8fa",borderRadius:10,padding:"14px 16px",border:"1px solid #f0f0f0"}}>
             <div style={{fontSize:9,fontWeight:700,color:"#999",marginBottom:4}}>브랜드 vs 카테고리</div>
