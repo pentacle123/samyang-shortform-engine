@@ -69,7 +69,28 @@ const sf=(title,hook,hookD,scenes,proof,cta,tags,time,cluster)=>({title,hook,hoo
 
 // ── BRAND DATA (compressed) ──
 const BRANDS=[
-  {id:"1963",nm:"삼양1963",em:"🍜",c:"#D4520A",cat:"프리미엄 국물라면",def:"스토리가 곧 콘텐츠인 제품.\n우지파동 36년의 서사를 알고리즘 위에 올린다.",str:"Story-hook",strL:"스토리텔링 드리븐",lv:"HIGH",
+  // ── 불닭볶음면 US Market ──
+  {id:"buldak",nm:"불닭볶음면",em:"🔥",c:"#E63E00",cat:"US Market — Spicy Ramen",disabled:false,
+    def:"Challenge를 넘어 Ritual로.\n미국 소비자의 일상 속 '매운맛이 필요한 순간'에 불닭을 배치한다.",
+    str:"Occasion-hook",strL:"오케이션 드리븐 리추얼",lv:"HIGH",
+    market:"us",
+    tags:["Spicy Kick","5 Min Meal","$2 Dinner","K-Food Icon","Hackable","Buldak Sauce","Shareable","Flavor World"],
+    stats:[{k:"TikTok 포스트",v:"3.6억+"},{k:"글로벌 판매",v:"70억 팩"},{k:"소스 성장",v:"4년 5배"}],
+    prof:{gen:"Gen Z/Alpha Core",age:"10-30대 집중",ch:"Walmart·Costco·H-Mart·Amazon",chI:"🏪",persona:"매운맛 경험+K-culture 관심 미국 소비자"},
+    dp:["lazy dinner ideas","spicy food when sick","buldak sauce recipe","capsaicin benefits","game day snacks","comfort food"],
+    cep:["🔥 매운맛 건강 효과 → 과학형 콘텐츠","🍳 5분 간편식 → lazy dinner 진입","🧴 소스 활용 → 리추얼 전환","🎉 파티/게임데이 → 소셜 콘텐츠"],
+    strWhy:"'Challenge에서 Ritual로' — 도전의 대상이 아니라 일상의 한 끼로.",
+    ctxGrid:[
+      {label:"WHO",q:"Who eats Buldak?",color:"#22c55e",tags:["Gen Z/Alpha","College students","K-food enthusiasts","Hispanic community","Fitness lovers"],ev:"buldak ramen 282,666/yr | TikTok 3.6B+ posts | 7yr birthday video 60M views — Gen Alpha cultural icon"},
+      {label:"WHEN",q:"When do they eat it?",color:"#f59e0b",tags:["Lazy dinner (+402%🔥)","Late night 3AM","Game day / Super Bowl","Sick day / Cold weather","Period cravings","Post-workout"],ev:"lazy dinner ideas +402% explosion | spicy food when sick +49% | game day snacks +22%"},
+      {label:"WHERE",q:"Where do they buy?",color:"#3b82f6",tags:["Walmart ($8/5pk)","Costco (bulk)","H-Mart (+22%🔥)","Amazon","Asian grocery"],ev:"H-Mart near me 632,000(+22%) | buldak walmart 1,300 | buldak near me 2,733"},
+      {label:"PAIN",q:"What's their pain?",color:"#ef4444",tags:["Too tired to cook","Broke / budget tight","Stressed out","Sick / stuffy nose","Bored with same food"],ev:"lazy dinner +402% = exhausted consumers | cheap dinner 43,500 = budget pain"},
+      {label:"NEED",q:"What do they need?",color:"#22c55e",tags:["Quick satisfying meal","Affordable dinner","Comfort & warmth","Cultural experience","Recipe variety"],ev:"capsaicin benefits +50%🔥 | buldak sauce +22% | korean food trend +80%"},
+      {label:"INTEREST",q:"What interests them?",color:"#a855f7",tags:["Swicy trend (+49%)","Capsaicin science","K-drama / K-pop","Ramen hacks","Food challenges","ASMR/Mukbang"],ev:"Swicy new products +49% | honey chipotle TikTok +1,000% | 66% consumers want spicy"},
+    ],
+    ideas:[]
+  },
+  {id:"1963",nm:"삼양1963",em:"🍜",c:"#D4520A",cat:"프리미엄 국물라면",disabled:true,def:"스토리가 곧 콘텐츠인 제품.\n우지파동 36년의 서사를 알고리즘 위에 올린다.",str:"Story-hook",strL:"스토리텔링 드리븐",lv:"HIGH",
     tags:["우지 유탕면","36년 만의 복귀","프리미엄 국물","사골육수","한국 최초 라면"],
     stats:[{k:"출시 1개월",v:"700만개"},{k:"자발적 콘텐츠",v:"8,000만뷰"},{k:"팝업 예약",v:"5분 마감"}],
     prof:{gen:"남성 53% · 여성 47%",age:"30대 34% · 40대 31%",ch:"편의점·마트",chI:"🏪",persona:"라면 마니아 + 향수 소비층"},
@@ -112,7 +133,7 @@ const BRANDS=[
     ],
   },
   // ── 맵탱 (compressed) ──
-  {id:"mep",nm:"맵탱",em:"🌶️",c:"#DC2626",cat:"매운 국물라면",def:"매운맛 체험이 도파민.\n신라면과 다른 '5가지 매운맛'을 감각으로 증명한다.",str:"Sensory-hook",strL:"감각 리액션 드리븐",lv:"MEDIUM",
+  {id:"mep",nm:"맵탱",em:"🌶️",c:"#DC2626",cat:"매운 국물라면",disabled:true,def:"매운맛 체험이 도파민.\n신라면과 다른 '5가지 매운맛'을 감각으로 증명한다.",str:"Sensory-hook",strL:"감각 리액션 드리븐",lv:"MEDIUM",
     tags:["5가지 매운맛","스파이시 펜타곤","정호연","글로벌 MEP","섬세한 매운맛"],stats:[{k:"출시 1개월",v:"300만개"},{k:"글로벌",v:"MEP 론칭"},{k:"모델",v:"정호연"}],
     prof:{gen:"여성 64% · 남성 36%",age:"30대 35% · 40대 27%",ch:"편의점·마트",chI:"🏪",persona:"매운맛 스트레스 해소 탐험가"},
     dp:["매운 라면 추천","스트레스 해소 음식","야식 뭐 먹지","해장 라면"],cep:["🔥 스코빌 비교 → 매운맛 강도","⚔️ 신라면 비교 → 블라인드","🐚 마늘조개 선호 → 맛별 시리즈"],strWhy:"감각 자극 숏폼이 구매 충동을 직접 유발합니다.",
@@ -140,7 +161,7 @@ const BRANDS=[
     ],
   },
   // ── 탱글 (compressed) ──
-  {id:"tgl",nm:"탱글",em:"🍝",c:"#16803C",cat:"건강 간편 파스타",def:"카테고리를 설명하지 않는다.\n소비자의 일상 속에서 자연스럽게 발견되게 한다.",str:"Lifestyle-hook",strL:"라이프스타일 어스피레이션",lv:"LOW",
+  {id:"tgl",nm:"탱글",em:"🍝",c:"#16803C",cat:"건강 간편 파스타",disabled:false,def:"카테고리를 설명하지 않는다.\n소비자의 일상 속에서 자연스럽게 발견되게 한다.",str:"Lifestyle-hook",strL:"라이프스타일 어스피레이션",lv:"LOW",
     tags:["병아리콩 건면","단백질 15g","식이섬유 6g","K-파스타","글로벌 통합"],stats:[{k:"단백질",v:"15g/봉지"},{k:"식이섬유",v:"6g"},{k:"핵심 타깃",v:"2530 여성"}],
     prof:{gen:"여성 76% · 남성 24%",age:"30대 34% · 25-29세 20.5%",ch:"온라인·편의점",chI:"🛒",persona:"다이어트 중 면이 먹고 싶은 2530 여성"},
     dp:["다이어트 면","단백질 식단","자취 간편식","편의점 신상"],cep:["💪 다이어트 면 → 건강식 맥락","🔬 단백질 파스타 → 기능 차별화","🏪 편의점 탱글 → 접근성"],strWhy:"'제품 소개'로 시작하면 스와이핑. '내 상황'에서 시작.",
@@ -168,7 +189,7 @@ const BRANDS=[
     ],
   },
   // ── 펄스랩 (compressed) ──
-  {id:"pls",nm:"펄스랩",em:"🥜",c:"#7C3AED",cat:"식물성 단백질 스낵",def:"아무도 모르는 것이 무기.\n의외성으로 시청을 만들고, 시청으로 인지를 만든다.",str:"Discovery-hook",strL:"디스커버리 / 호기심 트리거",lv:"ZERO",
+  {id:"pls",nm:"펄스랩",em:"🥜",c:"#7C3AED",cat:"식물성 단백질 스낵",disabled:true,def:"아무도 모르는 것이 무기.\n의외성으로 시청을 만들고, 시청으로 인지를 만든다.",str:"Discovery-hook",strL:"디스커버리 / 호기심 트리거",lv:"ZERO",
     tags:["식물성 단백질","후무스","식물성 너겟","단백질 47g","길트프리"],stats:[{k:"단백질(너겟)",v:"47g/봉지"},{k:"핵심 타깃",v:"30대 여성"},{k:"브랜드 인지",v:"거의 없음"}],
     prof:{gen:"여성 81% · 남성 19%",age:"30대 52.5% · 25-29세 20%",ch:"쿠팡·컬리",chI:"🛒",persona:"건강한 식습관 관심 30대 여성"},
     dp:["단백질 섭취","건강 간식 추천","다이어트 간식","운동 후 간식"],cep:["🔍 브랜드 검색 거의 없음 → 카테고리 진입 필수","😲 삼양에서 이런 것도? → 모회사 레버리지","👩 30대 여성 52.5% → 정밀 타깃팅"],strWhy:"'뭐야 이건?'이 유일한 무기.",
@@ -194,27 +215,6 @@ const BRANDS=[
         shorts:sf("\"후무스가 뭔지 아세요?\"","한국에서 후무스 먹어본 사람?","퀴즈형 후킹 — '모르는 것'에 대한 호기심이 시청을 유도. 브랜드 없이 시작",["'후무스 아세요?' 거리 질문 or 자막","글로벌 인기 통계 — 전 세계 10조원 시장","펄스랩 후무스 개봉 — 한국에서도 가능","시식 리액션 — 의외의 맛"],"전 세계에서 가장 핫한 건강 간식 중 하나. 삼양식품이 한국형으로 재해석.","프로필에서 구매 →",["#후무스","#글로벌간식","#펄스랩","#건강트렌드","#새로운간식"],"주말 오후","글로벌 트렌드 관심층, 새 간식 탐색자"),
         reels:sf("\"전 세계가 먹는 간식\"","한국인만 모르는 글로벌 TOP 간식","글로벌형 후킹 — '한국인만 모른다'는 FOMO 트리거",["세계 간식 소비 통계 — 후무스 글로벌 인기","한국 출시 소식 + 펄스랩 소개","시식 + 반응 — '이런 맛이었어?'","글로벌 트렌드 정리 + CTA"],"글로벌 10조원 시장의 건강 간식. 삼양식품의 한국형 후무스.","이거 몰랐으면 공유 →",["#글로벌간식","#후무스트렌드","#펄스랩","#건강간식추천","#FOMO"],"주말 오후","푸드 트렌드 팔로워, 글로벌 관심층")},
     ],
-  },
-  // ── 불닭볶음면 US Market ──
-  {id:"buldak",nm:"불닭볶음면",em:"🔥",c:"#E63E00",cat:"US Market — Spicy Ramen",
-    def:"Challenge를 넘어 Ritual로.\n미국 소비자의 일상 속 '매운맛이 필요한 순간'에 불닭을 배치한다.",
-    str:"Occasion-hook",strL:"오케이션 드리븐 리추얼",lv:"HIGH",
-    market:"us",
-    tags:["Spicy Kick","5 Min Meal","$2 Dinner","K-Food Icon","Hackable","Buldak Sauce","Shareable","Flavor World"],
-    stats:[{k:"TikTok 포스트",v:"3.6억+"},{k:"글로벌 판매",v:"70억 팩"},{k:"소스 성장",v:"4년 5배"}],
-    prof:{gen:"Gen Z/Alpha Core",age:"10-30대 집중",ch:"Walmart·Costco·H-Mart·Amazon",chI:"🏪",persona:"매운맛 경험+K-culture 관심 미국 소비자"},
-    dp:["lazy dinner ideas","spicy food when sick","buldak sauce recipe","capsaicin benefits","game day snacks","comfort food"],
-    cep:["🔥 매운맛 건강 효과 → 과학형 콘텐츠","🍳 5분 간편식 → lazy dinner 진입","🧴 소스 활용 → 리추얼 전환","🎉 파티/게임데이 → 소셜 콘텐츠"],
-    strWhy:"'Challenge에서 Ritual로' — 도전의 대상이 아니라 일상의 한 끼로.",
-    ctxGrid:[
-      {label:"WHO",q:"Who eats Buldak?",color:"#22c55e",tags:["Gen Z/Alpha","College students","K-food enthusiasts","Hispanic community","Fitness lovers"],ev:"buldak ramen 282,666/yr | TikTok 3.6B+ posts | 7yr birthday video 60M views — Gen Alpha cultural icon"},
-      {label:"WHEN",q:"When do they eat it?",color:"#f59e0b",tags:["Lazy dinner (+402%🔥)","Late night 3AM","Game day / Super Bowl","Sick day / Cold weather","Period cravings","Post-workout"],ev:"lazy dinner ideas +402% explosion | spicy food when sick +49% | game day snacks +22%"},
-      {label:"WHERE",q:"Where do they buy?",color:"#3b82f6",tags:["Walmart ($8/5pk)","Costco (bulk)","H-Mart (+22%🔥)","Amazon","Asian grocery"],ev:"H-Mart near me 632,000(+22%) | buldak walmart 1,300 | buldak near me 2,733"},
-      {label:"PAIN",q:"What's their pain?",color:"#ef4444",tags:["Too tired to cook","Broke / budget tight","Stressed out","Sick / stuffy nose","Bored with same food"],ev:"lazy dinner +402% = exhausted consumers | cheap dinner 43,500 = budget pain"},
-      {label:"NEED",q:"What do they need?",color:"#22c55e",tags:["Quick satisfying meal","Affordable dinner","Comfort & warmth","Cultural experience","Recipe variety"],ev:"capsaicin benefits +50%🔥 | buldak sauce +22% | korean food trend +80%"},
-      {label:"INTEREST",q:"What interests them?",color:"#a855f7",tags:["Swicy trend (+49%)","Capsaicin science","K-drama / K-pop","Ramen hacks","Food challenges","ASMR/Mukbang"],ev:"Swicy new products +49% | honey chipotle TikTok +1,000% | 66% consumers want spicy"},
-    ],
-    ideas:[]
   },
 ];
 
@@ -1085,11 +1085,12 @@ const Home=({pick,tab,setTab})=>(
       {[{n:"1",l:"브랜드 분석"},{n:"2",l:"맥락 발견"},{n:"3",l:"숏폼 제작"}].map((s,i)=><div key={i} style={{flex:1,display:"flex",alignItems:"center"}}><div style={{display:"flex",alignItems:"center",gap:6}}><div style={{width:20,height:20,borderRadius:6,background:O+"0C",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:900,color:O}}>{s.n}</div><span style={{fontSize:10,fontWeight:700}}>{s.l}</span></div>{i<2&&<div style={{flex:1,height:1,background:"#eee",margin:"0 10px"}}/>}</div>)}
     </div>
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-      {BRANDS.map(b=>{const lv=LvS[b.lv];return(
-        <div key={b.id} onClick={()=>pick(b)} style={{background:"#fff",borderRadius:14,padding:"22px 20px",cursor:"pointer",border:"1px solid #f0f0f0",transition:"all .25s",position:"relative",overflow:"hidden"}}
-          onMouseEnter={e=>{e.currentTarget.style.borderColor=b.c+"30";e.currentTarget.style.boxShadow=`0 8px 28px ${b.c}0A`;e.currentTarget.style.transform="translateY(-2px)"}}
-          onMouseLeave={e=>{e.currentTarget.style.borderColor="#f0f0f0";e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none"}}>
+      {BRANDS.map(b=>{const lv=LvS[b.lv];const dis=b.disabled===true;return(
+        <div key={b.id} onClick={()=>!dis&&pick(b)} style={{background:"#fff",borderRadius:14,padding:"22px 20px",cursor:dis?"not-allowed":"pointer",border:"1px solid #f0f0f0",transition:"all .25s",position:"relative",overflow:"hidden",opacity:dis?0.45:1,filter:dis?"grayscale(0.3)":"none"}}
+          onMouseEnter={e=>{if(dis)return;e.currentTarget.style.borderColor=b.c+"30";e.currentTarget.style.boxShadow=`0 8px 28px ${b.c}0A`;e.currentTarget.style.transform="translateY(-2px)"}}
+          onMouseLeave={e=>{if(dis)return;e.currentTarget.style.borderColor="#f0f0f0";e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none"}}>
           <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,${b.c},${b.c}50)`}}/>
+          {dis&&<div style={{position:"absolute",top:8,right:8,background:"#e5e7eb",color:"#9ca3af",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>준비 중</div>}
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}><span style={{fontSize:34}}>{b.em}</span><div style={{display:"flex",gap:4,alignItems:"center"}}>{b.market==="us"&&<span style={{background:"#1a1a1a",color:"#fff",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>🇺🇸 US MARKET</span>}<span style={{background:lv.bg,color:lv.fg,padding:"2px 10px",borderRadius:5,fontSize:9,fontWeight:800}}>{b.lv}</span></div></div>
           <div style={{fontSize:16,fontWeight:900,marginBottom:2}}>{b.nm}</div>
           <div style={{fontSize:10,color:"#bbb",marginBottom:10}}>{b.cat}</div>
