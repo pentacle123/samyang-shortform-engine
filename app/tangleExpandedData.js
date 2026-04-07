@@ -17,6 +17,16 @@
 
 export const tangleExpandedData = {
 
+  // ═══ 제품 자산 분석 — 신규 자산 5개 (기존 2개에 추가) ═══
+  // 기존: 병아리콩 건면 112,009/mo + 다이어트 면 대안 61,008/mo → 유지
+  newAssets: [
+    { name: "프로틴 파스타", monthlyVolume: 14360, topKeyword: "다이어트 파스타 (9,180)", growth: "+16%", demographic: "여성 74.8%, 30대 36.6%", note: "가장 큰 진입점" },
+    { name: "직장인 점심 대용", monthlyVolume: 5765, topKeyword: "직장인 점심 도시락 (2,050)", growth: "+18~40%", demographic: "여성 82.6%, 30대 35.9%", note: "브리프 직결" },
+    { name: "단백질 간식/보상", monthlyVolume: 5126, topKeyword: "단백질 간식 (4,703)", growth: "+24~40%", demographic: "남성 60.8%", note: "프로틴 피로감 흡수" },
+    { name: "운동 후 단백질 보충", monthlyVolume: 2456, topKeyword: "운동 후 식사 (2,456)", growth: "-17%", demographic: "여성 68.2%", note: "운동 관심사 타겟" },
+    { name: "자취생 간단한 한끼", monthlyVolume: 1250, topKeyword: "자취 한끼 (313, +45%)", growth: "+45%", demographic: "1인가구 20-30대", note: "최고 성장률" },
+  ],
+
   // ═══ 전략 프레임: 프로틴 단독 검색 분석 결과 ═══
   proteinInsight: {
     headline: "프로틴 44,066/mo는 거대하지만, 그들은 파우더를 찾고 있다",

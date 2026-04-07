@@ -141,6 +141,12 @@ export const brandAssets = {
       { name:"단백질 15g", icon:"💪", desc:"면 제품에서 단백질 15g은 차별화 자산", keywords:["단백질 면","단백질 라면","단백질 많은 음식"], totalVolume:26369, topKeyword:{kw:"단백질 많은 음식",vol:25486} },
       { name:"다이어트 면 대안", icon:"🥗", desc:"다이어트 중 면 욕구를 해결하는 포지셔닝", keywords:["다이어트 간식","다이어트 면","다이어트 라면","다이어트 중 라면","다이어트 파스타","콩담백면"], totalVolume:61008, topKeyword:{kw:"다이어트 간식",vol:31046}, pathfinderNote:"'다이어트 면' → '콩담백면'(월 11,156회) 여정에 탱글 부재 — 삽입 기회" },
       { name:"4분 간편 조리", icon:"⏱️", desc:"운동 후/바쁜 일상에서 빠른 단백질 섭취", keywords:["운동 후 식사","운동 후 라면"], totalVolume:2734, topKeyword:{kw:"운동 후 식사",vol:2456}, pathfinderNote:"'운동 후 식사추천' → '운동 후 라면' 경로 실제 존재(월 278회)" },
+      // ── 신규 자산 5개 (캠페인 확장) ──
+      { name:"프로틴 파스타", icon:"🍝", desc:"다이어트 중 파스타 욕구를 프로틴으로 해결", keywords:["다이어트 파스타","파스타 다이어트","단백질 파스타","프로틴 파스타","탱글 파스타 다이어트"], totalVolume:14360, topKeyword:{kw:"다이어트 파스타",vol:9180}, pathfinderNote:"★ 가장 큰 진입점. '탱글 파스타 다이어트' 신규 키워드 생성 = 브랜드 인지 시작" },
+      { name:"직장인 점심 대용", icon:"🏢", desc:"오피스 런치타임에 간편하게 한끼 해결", keywords:["직장인 점심 도시락","점심 대용","점심 간편식","회사 점심 메뉴 추천","한끼대용"], totalVolume:5765, topKeyword:{kw:"직장인 점심 도시락",vol:2050}, pathfinderNote:"★ 브리프 직결. 런치타임 오피스 샘플링과 연계. 구매 인텐트(T) 키워드 다수." },
+      { name:"단백질 간식/보상", icon:"🏋️", desc:"프로틴 파우더 피로감 탈출, 음식으로 단백질", keywords:["단백질 간식","프로틴 간식","단백질 간식 추천"], totalVolume:5126, topKeyword:{kw:"단백질 간식",vol:4703}, pathfinderNote:"남성 세그먼트 기회. +24~40% 급성장." },
+      { name:"운동 후 단백질 보충", icon:"💪", desc:"운동 후 식사로 파스타+단백질 조합", keywords:["운동 후 식사","운동 후 식사 추천"], totalVolume:2456, topKeyword:{kw:"운동 후 식사",vol:2456}, pathfinderNote:"브리프의 '운동 관심사' 타겟 직결. 여성 68.2%가 검색." },
+      { name:"자취생 간단한 한끼", icon:"🏠", desc:"1인가구/자취생의 빠르고 건강한 한끼", keywords:["자취 한끼","간단한 한끼 요리","자취 간편식"], totalVolume:1250, topKeyword:{kw:"자취 한끼",vol:313}, pathfinderNote:"★ 최고 성장률 +45%. 1인가구 트렌드와 직결." },
     ],
   },
   "pls": {
