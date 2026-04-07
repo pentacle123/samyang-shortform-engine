@@ -1530,22 +1530,27 @@ const OccasionMap=({b,go})=>{
     {/* ★ 섹션 0: STRESS RITUAL MAP (최상단) */}
     <div style={{background:`linear-gradient(135deg,#1a1a1a,#2d1a0a)`,borderRadius:16,padding:24,marginBottom:16,color:"#fff"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
-        <div>
+        <div style={{flex:1}}>
           <div style={{fontSize:9,fontWeight:700,color:b.c,letterSpacing:2,marginBottom:4}}>★ CORE STRATEGY</div>
           <div style={{fontSize:16,fontWeight:900,lineHeight:1.3}}>미국인은 언제 화가 나고<br/>스트레스를 받는가?</div>
-          <div style={{fontSize:10,color:"#aaa",marginTop:6,lineHeight:1.6,maxWidth:500}}>{srm.framework.insight.slice(0,120)}...</div>
         </div>
-        <div style={{textAlign:"right"}}>
+        <div style={{textAlign:"right",flexShrink:0}}>
           <div style={{fontSize:24,fontWeight:900,color:b.c}}>연 {(srm.framework.totalVolume).toLocaleString()}회</div>
           <div style={{fontSize:9,color:"#888"}}>스트레스 검색량 (음식 쪽의 6배)</div>
         </div>
       </div>
+      {/* 인사이트 텍스트 — 2줄 분리 */}
+      <div style={{marginBottom:16}}>
+        <div style={{fontSize:13,color:"#ddd",lineHeight:1.8,marginBottom:8,whiteSpace:"normal",wordBreak:"keep-all"}}>사람들은 스트레스를 받을 때 'stress relief food'를 검색하지 않는다. 'i hate my job'을 검색한다. 하지만 집에 와서 매운 거 먹으면서 푼다.</div>
+        <div style={{fontSize:14,color:b.c,fontWeight:800,lineHeight:1.6,whiteSpace:"normal",wordBreak:"keep-all"}}>이 연결은 검색에 존재하지 않는다 — 숏폼 콘텐츠만이 이 연결을 만들 수 있다.</div>
+      </div>
       {/* 과학 근거 배너 */}
-      <div style={{background:"rgba(255,255,255,0.06)",borderRadius:10,padding:"10px 16px",marginBottom:16,display:"flex",gap:12,alignItems:"center",border:"1px solid rgba(255,255,255,0.08)"}}>
-        <span style={{fontSize:16}}>🧬</span>
-        <div style={{fontSize:10,color:"#ccc",lineHeight:1.5}}>
-          <span style={{fontWeight:700,color:"#fff"}}>캡사이신 → 엔도르핀 과학:</span> {srm.scienceProof.keyMessage.slice(0,80)}...
-          <span style={{color:b.c,fontWeight:700}}> capsaicin +50% | endorphins +57% | metabolism +22%</span>
+      <div style={{background:"rgba(255,255,255,0.06)",borderRadius:10,padding:"12px 16px",marginBottom:16,display:"flex",gap:12,alignItems:"flex-start",border:"1px solid rgba(255,255,255,0.08)"}}>
+        <span style={{fontSize:16,flexShrink:0,marginTop:2}}>🧬</span>
+        <div style={{whiteSpace:"normal",wordBreak:"keep-all"}}>
+          <div style={{fontSize:11,fontWeight:700,color:"#fff",marginBottom:4}}>캡사이신 → 엔도르핀 과학</div>
+          <div style={{fontSize:10,color:"#ccc",lineHeight:1.7,marginBottom:4}}>매운맛은 단순한 맛이 아니라 신체적 반응이다. 캡사이신이 통증 수용체(TRPV1)를 자극 → 뇌에서 엔도르핀 분비 → 자연스러운 기분 전환.</div>
+          <div style={{fontSize:10,color:b.c,fontWeight:700}}>capsaicin +50% | endorphins +57% | sinuses +52% | metabolism +22%</div>
         </div>
       </div>
     </div>
