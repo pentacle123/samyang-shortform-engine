@@ -1479,6 +1479,59 @@ const S3=({b,onSelect})=>{
 };
 
 // ── OCCASION MAP (불닭 US 전용 STEP 2) ──
+// ── NOW TRENDING — 스트레스 시그널 (Phase 1: 하드코딩, Phase 2: Google Trends 실시간) ──
+const NowTrending=({b})=>{
+  const [suggests,setSuggests]=useState(null);
+  useEffect(()=>{
+    (async()=>{try{const r=await fetch("/api/youtube-suggest?q=buldak");const d=await r.json();if(d.ok)setSuggests(d.suggestions);}catch(e){}})();
+  },[]);
+  // Phase 1: 하드코딩 시그널 (Phase 2에서 Google Trends API로 교체)
+  const signals=[
+    {id:"rage",icon:"🔥",name:"Rage Release",copy:"Bad day? Burn it off.",color:"#EF4444",current:72,change:18,signal:"🔴"},
+    {id:"reward",icon:"🏆",name:"Little Treat",copy:"You earned the burn.",color:"#F59E0B",current:55,change:8,signal:"🟡"},
+    {id:"deadline",icon:"⚡",name:"Deadline Ignition",copy:"When sleep is not an option.",color:"#8B5CF6",current:84,change:35,signal:"🔴"},
+    {id:"breakup",icon:"💔",name:"Breakup Burn",copy:"Cry first. Burn later.",color:"#EC4899",current:48,change:3,signal:"🟢"},
+    {id:"mom",icon:"👩‍👧",name:"Mom's 5 Min",copy:"Kids asleep. Fire noodles on.",color:"#06B6D4",current:35,change:-2,signal:"🟢"},
+    {id:"road",icon:"🚗",name:"Road Rage Recovery",copy:"Road rage? Cook rage.",color:"#DC2626",current:61,change:12,signal:"🟡"},
+    {id:"sunday",icon:"😰",name:"Sunday Scaries",copy:"Make it a Sunday fire.",color:"#6366F1",current:68,change:22,signal:"🔴"},
+  ];
+  const sigBg={"🔴":"#FEF2F2","🟡":"#FFFBEB","🟢":"#F0FDF4"};
+  const sigBorder={"🔴":"#EF4444","🟡":"#F59E0B","🟢":"#22C55E"};
+  const sigLabel={"🔴":"NOW","🟡":"SOON","🟢":"STABLE"};
+  return(
+  <div style={{marginBottom:20}}>
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+      <div style={{width:8,height:8,borderRadius:"50%",background:"#EF4444",animation:"pulse 1.5s infinite"}}/>
+      <span style={{fontSize:13,fontWeight:900,color:G}}>NOW — 미국 스트레스 시그널</span>
+      <span style={{fontSize:9,color:"#999",marginLeft:"auto"}}>Phase 1 · 하드코딩 데이터</span>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:6}}>
+      {signals.map(s=>(
+        <div key={s.id} style={{background:sigBg[s.signal],border:`2px solid ${sigBorder[s.signal]}`,borderRadius:10,padding:"12px 8px",textAlign:"center",boxShadow:s.signal==="🔴"?`0 0 10px ${sigBorder[s.signal]}30`:"none"}}>
+          <div style={{fontSize:8,fontWeight:700,color:sigBorder[s.signal],marginBottom:2}}>{s.signal} {sigLabel[s.signal]}</div>
+          <div style={{fontSize:18,marginBottom:2}}>{s.icon}</div>
+          <div style={{fontSize:8,fontWeight:800,color:G,marginBottom:2}}>{s.name}</div>
+          <div style={{fontSize:16,fontWeight:900,color:s.color}}>{s.current}</div>
+          <div style={{fontSize:8,color:s.change>0?"#16A34A":"#999",fontWeight:700}}>
+            {s.change>0?"↑":"→"}{Math.abs(s.change)}%
+          </div>
+        </div>
+      ))}
+    </div>
+    <div style={{marginTop:6,fontSize:8,color:"#bbb",textAlign:"center"}}>
+      🔴 NOW = 지금 이 콘텐츠를 올려야 합니다 · 🟡 SOON = 준비하세요 · 🟢 STABLE = 상시 운영
+    </div>
+    {/* YouTube Suggest 시그널 */}
+    {suggests&&suggests.length>0&&<div style={{marginTop:12,background:"#fff",borderRadius:10,padding:"12px 16px",border:"1px solid #f0f0f0"}}>
+      <div style={{fontSize:10,fontWeight:800,color:G,marginBottom:6}}>🔍 YouTube에서 "buldak"을 검색하면...</div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+        {suggests.slice(0,10).map((s,i)=><span key={i} style={{background:"#f5f5f5",color:"#666",padding:"3px 10px",borderRadius:4,fontSize:9,border:"1px solid #eee"}}>{s}</span>)}
+      </div>
+      <div style={{fontSize:8,color:"#bbb",marginTop:6}}>YouTube Search Suggest API 실시간 — 소비자가 지금 궁금한 것</div>
+    </div>}
+  </div>);
+};
+
 const StressRitualCard=({r,b})=>{
   const [open,setOpen]=useState(false);
   return <div style={{background:"#fff",borderRadius:12,border:`1px solid ${r.color}20`,overflow:"hidden",cursor:"pointer"}} onClick={()=>setOpen(!open)}>
@@ -1527,7 +1580,10 @@ const OccasionMap=({b,go})=>{
       <p style={{fontSize:11,color:"#999"}}>미국 소비자의 '매운맛이 필요한 순간'을 데이터로 발견합니다</p>
     </div>
 
-    {/* ★ 섹션 0: STRESS RITUAL MAP (최상단) */}
+    {/* NOW TRENDING — 스트레스 시그널 (Phase 1: 하드코딩) */}
+    <NowTrending b={b}/>
+
+    {/* ★ 섹션 0: STRESS RITUAL MAP */}
     <div style={{background:`linear-gradient(135deg,#1a1a1a,#2d1a0a)`,borderRadius:16,padding:24,marginBottom:16,color:"#fff"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
         <div style={{flex:1}}>
