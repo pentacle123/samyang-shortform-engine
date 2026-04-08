@@ -4,6 +4,7 @@ import { keywordPool, brandAssets, buldakKeywordPool, buldakAssets } from "./key
 import { confirmedOpportunities, tangleOccasionMap, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
 import { tangleExpandedData } from "./tangleExpandedData";
 import { buldakStressRitualMap } from "./stressRitualMap";
+import { buldakSubOccasionRituals } from "./subOccasionRituals";
 import { tiktokSpec } from "./tiktokSpec";
 
 const O="#FF6B00",G="#1a1a1a";
@@ -1228,6 +1229,15 @@ ${b.market==="us"?`- 아이디어/카피/HOOK은 모두 영어로 생성 (미국
 과학적 근거: 캡사이신→통증수용체(TRPV1)→뇌에서 엔도르핀 분비→기분전환. 이건 과학.
 핵심: 스트레스→음식 연결은 검색에 없다 = 숏폼으로만 만들 수 있는 기회.
 
+◆ SUB OCCASION (상황적 이유) — 5개 아이디어 중 1~2개는 여기서 출발:
+- 🍜 간편식사 (연 1,887,588회 +1480%): "Too tired to cook? 5 minutes." — Lazy Night, Hackable Noodle, Dorm Room
+- 🎉 소셜/파티 (연 1,514,784회): "Buldak sauce on your wings. I dare you." — Game Day, Spice Roulette
+- 🫂 감정/위로 (연 663,984회): "Comfort food hits different when it burns." — Anti-Comfort, Rainy Day
+- 💵 가성비 (연 522,000회): "Bank account: $3. Dinner: still fire." — $2 Dinner Club
+- 🌙 야식 (연 443,592회): "2AM. Fridge open. You know what to do." — Midnight Craving
+- 💊 건강/기능 (연 369,504회 +43%): "Spicy food releases endorphins. It's science." — Capsaicin Science
+MAIN × SUB 조합도 가능: "Rage Release + Lazy Dinner" = "열받은 날, 5분 불닭으로 끝낸다"
+
 ★ TikTok 전용 시나리오 (반드시 tiktok 필드에 생성):
 - TikTok 참여율 3.15% (Shorts 0.40%, Reels 0.65%의 5~8배)
 - 15~30초 최적 (완시청률 70% 목표)
@@ -1584,6 +1594,48 @@ const NowTrending=({b})=>{
   </div>);
 };
 
+const SubOccasionCard = ({occ, b}) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{background:"#fff",borderRadius:12,border:`2px solid ${occ.color}20`,overflow:"hidden",cursor:"pointer"}} onClick={()=>setOpen(!open)}>
+      <div style={{padding:"14px 16px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          <span style={{fontSize:24}}>{occ.icon}</span>
+          <div>
+            <div style={{fontSize:12,fontWeight:800,color:occ.color}}>{occ.nameEn}</div>
+            <div style={{fontSize:10,color:"#888"}}>{occ.name}</div>
+          </div>
+        </div>
+        <div style={{textAlign:"right"}}>
+          <div style={{fontSize:14,fontWeight:900,color:occ.color}}>연 {occ.totalVolume.toLocaleString()}회</div>
+          <div style={{fontSize:9,color:occ.growth.startsWith("+")?"#16a34a":"#999"}}>{occ.growth}</div>
+        </div>
+      </div>
+      {open && <div style={{borderTop:`1px solid ${occ.color}15`,padding:"12px 16px"}}>
+        {occ.rituals.map((r,i) => (
+          <div key={i} style={{background:occ.color+"06",borderRadius:10,padding:"12px 14px",marginBottom:i<occ.rituals.length-1?8:0,border:`1px solid ${occ.color}10`}}>
+            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:6}}>
+              <span style={{fontSize:16}}>{r.icon}</span>
+              <span style={{fontSize:11,fontWeight:800,color:occ.color}}>{r.position}</span>
+            </div>
+            <div style={{fontSize:14,fontWeight:900,color:"#1a1a1a",marginBottom:6}}>"{r.usCopy}"</div>
+            <div style={{display:"flex",gap:4,marginBottom:8,flexWrap:"wrap"}}>
+              <span style={{background:occ.color+"10",color:occ.color,padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:600}}>{r.emotion}</span>
+              {r.buldakProduct && <span style={{background:"#f5f5f5",color:"#888",padding:"2px 8px",borderRadius:4,fontSize:8}}>🎯 {r.buldakProduct}</span>}
+              {r.seasonPeak && <span style={{background:"#fef3c7",color:"#92400e",padding:"2px 8px",borderRadius:4,fontSize:8}}>📅 {r.seasonPeak}</span>}
+            </div>
+            <div style={{fontSize:9,fontWeight:700,color:occ.color,letterSpacing:1,marginBottom:4}}>HOOK EXAMPLES</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:6}}>
+              {r.hookExamples.slice(0,3).map((h,j) => <span key={j} style={{background:"#fff",border:`1px solid ${occ.color}15`,color:"#555",padding:"3px 8px",borderRadius:6,fontSize:8,fontStyle:"italic"}}>"{h}"</span>)}
+            </div>
+            <div style={{fontSize:9,color:"#888",lineHeight:1.6}}>📹 {r.contentAngle}</div>
+          </div>
+        ))}
+      </div>}
+    </div>
+  );
+};
+
 const StressRitualCard=({r,b})=>{
   const [open,setOpen]=useState(false);
   return <div style={{background:"#fff",borderRadius:12,border:`1px solid ${r.color}20`,overflow:"hidden",cursor:"pointer"}} onClick={()=>setOpen(!open)}>
@@ -1636,6 +1688,11 @@ const OccasionMap=({b,go})=>{
     <NowTrending b={b}/>
 
     {/* ★ 섹션 0: STRESS RITUAL MAP */}
+    {/* ★ MAIN OCCASION 헤더 */}
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+      <span style={{background:"#EF4444",color:"#fff",padding:"3px 10px",borderRadius:4,fontSize:10,fontWeight:800}}>★ MAIN OCCASION</span>
+      <span style={{fontSize:11,fontWeight:700,color:"#1a1a1a"}}>핵심 전략 — "미국인은 언제 화가 나고 스트레스를 받는가?"</span>
+    </div>
     <div style={{background:`linear-gradient(135deg,#1a1a1a,#2d1a0a)`,borderRadius:16,padding:24,marginBottom:16,color:"#fff"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
         <div style={{flex:1}}>
@@ -1666,6 +1723,26 @@ const OccasionMap=({b,go})=>{
     {/* 7개 Stress Ritual 카드 */}
     <div style={{display:"grid",gap:8,marginBottom:16}}>
       {srm.stressRituals.map(r=><StressRitualCard key={r.id} r={r} b={b}/>)}
+    </div>
+
+    {/* MAIN↔SUB 연결 문구 */}
+    <div style={{background:"#f8f8fc",borderRadius:10,padding:"12px 16px",marginBottom:16,border:"1px solid #e8e8f0",textAlign:"center"}}>
+      <div style={{fontSize:10,color:"#888",lineHeight:1.6}}>
+        MAIN OCCASION은 불닭을 먹는 <span style={{fontWeight:700,color:"#EF4444"}}>감정적 이유</span>,
+        SUB OCCASION은 불닭을 먹는 <span style={{fontWeight:700,color:"#3B82F6"}}>상황적 이유</span>입니다.
+        AI가 숏폼 아이디어를 만들 때 MAIN × SUB를 조합합니다.
+      </div>
+    </div>
+
+    {/* ◆ SUB OCCASION 헤더 */}
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+      <span style={{background:"#3B82F6",color:"#fff",padding:"3px 10px",borderRadius:4,fontSize:10,fontWeight:800}}>◆ SUB OCCASION</span>
+      <span style={{fontSize:11,fontWeight:700,color:"#1a1a1a"}}>검색 데이터 기반 추가 기회</span>
+    </div>
+
+    {/* 6개 서브 오케이션 리추얼 카드 */}
+    <div style={{display:"grid",gap:8,marginBottom:16}}>
+      {Object.values(buldakSubOccasionRituals).map((occ,i) => <SubOccasionCard key={i} occ={occ} b={b} />)}
     </div>
 
     {/* 섹션 A: 검색 데이터 버블 차트 */}
