@@ -1015,10 +1015,13 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
     {/* 기회의 크기 차트 */}
     {(()=>{
       const kwList=getKeywordsForBrand(b.id);
-      const top10=kwList.slice(0,10);
+      const showCount=b.market==="us"?15:10;
+      const top10=kwList.slice(0,showCount);
       const maxVol=top10.length>0?top10[0].vol:1;
       const totalVol=kwList.reduce((s,k)=>s+k.vol,0);
       const brandVol=data.searchVolume||0;
+      const stressVol=b.market==="us"?kwList.filter(k=>k.tags&&k.tags.includes("stress")).reduce((s,k)=>s+k.vol,0):0;
+      const foodVol=b.market==="us"?kwList.filter(k=>!k.tags||!k.tags.includes("stress")).reduce((s,k)=>s+k.vol,0):0;
       return top10.length>0?(
       <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
         <div style={{marginBottom:16}}>
@@ -1043,30 +1046,55 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
             <div style={{fontSize:9,color:"#999",marginTop:4}}>브랜드 점유율 {(brandVol/totalVol*100).toFixed(1)}%</div>
           </div>
         </div>
-        {/* TOP 10 바 차트 */}
+        {/* 범례 — 스트레스/감정 vs 음식/상황 (불닭 전용) */}
+        {b.market==="us"&&<div style={{display:"flex",gap:12,marginBottom:12}}>
+          <div style={{display:"flex",alignItems:"center",gap:4}}><div style={{width:10,height:10,borderRadius:2,background:"#dc2626"}}></div><span style={{fontSize:9,color:"#666"}}>스트레스/감정 (MAIN)</span></div>
+          <div style={{display:"flex",alignItems:"center",gap:4}}><div style={{width:10,height:10,borderRadius:2,background:b.c}}></div><span style={{fontSize:9,color:"#666"}}>음식/상황 (SUB)</span></div>
+        </div>}
+        {/* TOP 키워드 바 차트 */}
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
           {top10.map((k,i)=>{
             const pct=Math.max((k.vol/maxVol)*100,3);
             const trendArrow=k.trend>0?"↑":k.trend<0?"↓":"→";
             const trendColor=k.trend>0?"#16a34a":k.trend<0?"#dc2626":"#999";
+            const isStress=k.tags&&k.tags.includes("stress");
+            const barColor=isStress?"#dc2626":b.c;
             return(
             <div key={i} style={{display:"flex",alignItems:"center",gap:8}}>
               <span style={{fontSize:9,color:"#bbb",width:16,textAlign:"right",flexShrink:0}}>{i+1}</span>
               <div style={{flex:1}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:3}}>
-                  <span style={{fontSize:10,fontWeight:700,color:G}}>{k.kw}</span>
+                  <div style={{display:"flex",alignItems:"center",gap:4}}>
+                    {isStress&&<span style={{fontSize:7,background:"#dc2626",color:"#fff",padding:"1px 4px",borderRadius:3,fontWeight:700}}>STRESS</span>}
+                    <span style={{fontSize:10,fontWeight:700,color:G}}>{k.kw}</span>
+                  </div>
                   <div style={{display:"flex",alignItems:"center",gap:4}}>
                     <span style={{fontSize:10,fontWeight:700,color:"#555"}}>{k.vol.toLocaleString()}</span>
                     <span style={{fontSize:9,color:trendColor,fontWeight:700}}>{trendArrow}</span>
                   </div>
                 </div>
                 <div style={{height:10,background:"#f5f5f5",borderRadius:4,overflow:"hidden"}}>
-                  <div style={{height:"100%",width:`${pct}%`,background:b.c,borderRadius:4,opacity:.6,transition:"width .3s"}}/>
+                  <div style={{height:"100%",width:`${pct}%`,background:barColor,borderRadius:4,opacity:isStress?0.85:0.6,transition:"width .3s"}}/>
                 </div>
               </div>
             </div>);
           })}
         </div>
+        {/* 스트레스 vs 음식 인사이트 (불닭 전용) */}
+        {b.market==="us"&&stressVol>0&&<div style={{background:"linear-gradient(135deg,#dc262610,#ea580c08)",borderRadius:10,padding:"14px 18px",marginTop:16,border:"1px solid #dc262620"}}>
+          <div style={{fontSize:11,fontWeight:800,color:"#dc2626",marginBottom:6}}>😤 핵심 인사이트: 스트레스 검색이 음식 검색의 {Math.round((stressVol/foodVol)*10)/10}배</div>
+          <div style={{display:"flex",gap:12,marginBottom:8}}>
+            <div style={{flex:1,background:"#dc262610",borderRadius:8,padding:"8px 12px"}}>
+              <div style={{fontSize:8,color:"#dc2626",fontWeight:700}}>스트레스/감정 검색</div>
+              <div style={{fontSize:16,fontWeight:900,color:"#dc2626"}}>{(stressVol*12).toLocaleString()}<span style={{fontSize:8,color:"#999"}}> 회/연</span></div>
+            </div>
+            <div style={{flex:1,background:b.c+"10",borderRadius:8,padding:"8px 12px"}}>
+              <div style={{fontSize:8,color:b.c,fontWeight:700}}>음식/상황 검색</div>
+              <div style={{fontSize:16,fontWeight:900,color:b.c}}>{(foodVol*12).toLocaleString()}<span style={{fontSize:8,color:"#999"}}> 회/연</span></div>
+            </div>
+          </div>
+          <div style={{fontSize:9,color:"#666",lineHeight:1.6}}>검색에서 "스트레스→매운 음식" 연결은 보이지 않습니다. 이 연결을 <b>숏폼으로 만드는 것</b>이 핵심 전략입니다. 스트레스 검색자 4,128,000명이 아직 불닭을 모르고 있습니다.</div>
+        </div>}
       </div>):null;
     })()}
 

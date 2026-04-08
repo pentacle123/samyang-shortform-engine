@@ -189,6 +189,16 @@ export const buldakKeywordPool = [
   {kw:"spicy food",vol:69500,trend:-0.18,tags:["occasion","spicy","identity"],brand:"buldak"},
   {kw:"h mart near me",vol:632000,trend:0.22,tags:["purchase","channel","growing"],brand:"buldak"},
   {kw:"mukbang",vol:1720000,trend:-0.18,tags:["occasion","social","content"],brand:"buldak"},
+  // ═══ 스트레스/감정 키워드 (MAIN Occasion) ═══
+  {kw:"stress relief",vol:57000,trend:0.15,tags:["stress","emotional","ritual"],brand:"buldak"},
+  {kw:"i hate my job",vol:20500,trend:0.10,tags:["stress","emotional","rage"],brand:"buldak"},
+  {kw:"bad day",vol:287000,trend:0,tags:["stress","emotional","universal"],brand:"buldak"},
+  {kw:"sunday scaries",vol:15000,trend:0.08,tags:["stress","emotional","ritual","weekly"],brand:"buldak"},
+  {kw:"burnout",vol:100000,trend:0.12,tags:["stress","emotional","chronic"],brand:"buldak"},
+  // ═══ SUB Occasion 추가 키워드 ═══
+  {kw:"late night snack",vol:4733,trend:0,tags:["occasion","latenight"],brand:"buldak"},
+  {kw:"midnight snack ideas",vol:1800,trend:0,tags:["occasion","latenight"],brand:"buldak"},
+  {kw:"drunk food",vol:720,trend:0,tags:["occasion","latenight","social"],brand:"buldak"},
 ];
 
 export const buldakAssets = {
