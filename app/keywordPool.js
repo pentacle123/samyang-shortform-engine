@@ -194,6 +194,7 @@ export const buldakKeywordPool = [
 export const buldakAssets = {
   id:"buldak",market:"us",
   assets:[
+    {icon:"😤",name:"Stress Relief (스트레스 해소)",desc:"스트레스·분노·번아웃 상황에서 매운맛으로 감정 전환",totalVolume:344000,topKeyword:{kw:"stress relief",vol:57000},pathfinderNote:"검색 여정 존재: 스트레스 검색량(연 4,128,000) vs 음식 검색량(연 684,000) = 6배. 'i hate my job'(246,000)+'bad day'(3,444,000). 검색에서는 '스트레스→매운 음식' 연결이 보이지 않음 — 숏폼으로 만드는 것이 핵심 전략 (Stress Ritual)"},
     {icon:"🔥",name:"Spicy Kick (엔도르핀)",desc:"캡사이신→엔도르핀→기분전환. 매운맛의 과학적 기능",totalVolume:78229,topKeyword:{kw:"spicy food",vol:69500},pathfinderNote:"'capsaicin benefits'→'capsaicin for men/skin' / 'spicy food when sick'→'does it help sore throat'"},
     {icon:"🍳",name:"5 Min Meal (5분 완성)",desc:"끓는 물+5분=한 끼. 극한의 간편함",totalVolume:157299,topKeyword:{kw:"quick dinner ideas",vol:79500},pathfinderNote:"'lazy dinner ideas'(+402%🔥)→'quick dinner for family'→'cheap easy meals'"},
     {icon:"💰",name:"$2 Dinner (가성비)",desc:"5팩 $8 이하. 패스트푸드 $10+ 대비 압도적",totalVolume:43500,topKeyword:{kw:"cheap dinner ideas",vol:43500},pathfinderNote:"'cheap dinner'→'under $10 meals'→'fast food near me' (이탈) — 불닭이 가로채는 기회"},
