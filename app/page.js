@@ -166,7 +166,7 @@ const BRANDS=[
   },
   // ── 탱글 (compressed) ──
   {id:"tgl",nm:"탱글",em:"🍝",c:"#16803C",cat:"건강 간편 파스타",disabled:false,def:"카테고리를 설명하지 않는다.\n소비자의 일상 속에서 자연스럽게 발견되게 한다.",str:"Lifestyle-hook",strL:"라이프스타일 어스피레이션",lv:"LOW",
-    tags:["병아리콩 건면","단백질 15g","식이섬유 6g","K-파스타","글로벌 통합","프로틴 파스타","직장인 점심 5분","편의점 한끼"],stats:[{k:"단백질",v:"15g/봉지"},{k:"식이섬유",v:"6g"},{k:"핵심 타깃",v:"2530 여성"}],
+    tags:["병아리콩 건면","단백질 15g","식이섬유 6g","K-파스타","글로벌 통합","프로틴 파스타","직장인 점심 5분","편의점 한끼","Meal-prep"],stats:[{k:"단백질",v:"15g/봉지"},{k:"식이섬유",v:"6g"},{k:"핵심 타깃",v:"2530 여성"}],
     prof:{gen:"여성 76% · 남성 24%",age:"30대 34% · 25-29세 20.5%",ch:"온라인·편의점",chI:"🛒",persona:"다이어트 중 면이 먹고 싶은 2530 여성"},
     dp:["다이어트 면","단백질 식단","자취 간편식","편의점 신상"],cep:["💪 다이어트 면 → 건강식 맥락","🔬 단백질 파스타 → 기능 차별화","🏪 편의점 탱글 → 접근성"],strWhy:"'제품 소개'로 시작하면 스와이핑. '내 상황'에서 시작.",
     ctxGrid:[
@@ -966,6 +966,10 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
             <span style={{fontSize:8,color:"#888"}}>{opp.pathfinder}</span>
           </div>}
           {opp.demo&&<div style={{fontSize:8,color:"#888",marginTop:4}}>📊 {opp.demo}</div>}
+          {(opp.funnelStage||opp.seasonPeak)&&<div style={{display:"flex",gap:6,marginTop:6,flexWrap:"wrap"}}>
+            {opp.funnelStage&&<span style={{background:opp.funnelStage.includes("발견")?"#dbeafe":opp.funnelStage.includes("고려")?"#fef9c3":"#dcfce7",color:opp.funnelStage.includes("발견")?"#1d4ed8":opp.funnelStage.includes("고려")?"#a16207":"#16a34a",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>[{opp.funnelStage}] {opp.funnelKPI}</span>}
+            {opp.seasonPeak&&<span style={{background:"#f5f5f5",color:"#888",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:600}}>📅 {opp.seasonPeak}</span>}
+          </div>}
         </div>))}
       </div>
     </div>}
@@ -1307,6 +1311,15 @@ ${b.id==="tgl"?`
 - 인지형: "이런 파스타 있는 거 알아요?"
 - Trial형: "편의점에서 하나만 사서 먹어보세요" / "오늘 점심 대신 이거 한번"
 - 구매형: "쿠팡/네이버 스토어 → brand.naver.com/syfoodshop"
+
+★ 트라이얼 퍼널 태그 (각 아이디어에 funnelStage 필드 추가):
+- [발견→인지]: 조회수+저장율 KPI — 정보형 콘텐츠 (다이어트 면 대안, 프로틴 파스타, 병아리콩 건면)
+- [고려→Trial]: 댓글참여+공유율 KPI — 공감형/체험형 (직장인 점심, 단백질 간식, 운동 후, Meal-prep)
+- [전환→구매]: 링크클릭+쿠폰 KPI — 프로모/참여형 (편의점 한끼, 자취생 한끼, 4분 간편조리)
+
+★ Meal-prep 오케이션 (NEW — 가장 큰 규모):
+밀프렙 17,216/mo + 다이어트 밀프렙 5,563/mo(+42%) + 단백질 도시락 7,726/mo = 합계 38,734/mo
+일요일 식단 준비에 탱글을 포함하는 루틴. "일요일 밀프렙에 탱글 3개만 넣어두면 주중 점심 해결"
 `:""}
 - 크리에이터 협업 (매우 중요): 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것 2~3개만 골라서 creatorCollab 필드에 문자열을 넣어. 나머지는 creatorCollab: null로 설정해. 반드시 2~3개는 값이 있어야 함.
   예시: "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도와 신뢰성 극대화"

@@ -82,6 +82,14 @@ export const keywordPool = [
   { kw: "자취 한끼", vol: 313, trend: 0.45, brand: "tgl", tags: ["자취","한끼","1인가구","급성장"] },
   { kw: "간단한 한끼 요리", vol: 362, trend: 0.15, brand: "tgl", tags: ["간단","한끼","요리","자취"] },
 
+  // ═══ 탱글 확장 — Meal-prep 식단 준비 키워드 (6) ═══
+  { kw: "밀프렙", vol: 17216, trend: 0.11, brand: "tgl", tags: ["밀프렙","식단","준비","직장인"] },
+  { kw: "단백질 도시락", vol: 7726, trend: -0.07, brand: "tgl", tags: ["단백질","도시락","구매","밀프렙"] },
+  { kw: "다이어트 밀프렙", vol: 5563, trend: 0.42, brand: "tgl", tags: ["다이어트","밀프렙","급성장","식단"] },
+  { kw: "식단 도시락", vol: 4076, trend: 0.06, brand: "tgl", tags: ["식단","도시락","밀프렙","건강"] },
+  { kw: "일주일 식단", vol: 3443, trend: -0.39, brand: "tgl", tags: ["일주일","식단","밀프렙","계획"] },
+  { kw: "일주일 도시락", vol: 710, trend: -0.20, brand: "tgl", tags: ["일주일","도시락","밀프렙","직장인"] },
+
   // ═══ 펄스랩 관련 ═══
   { kw: "병아리콩", vol: 59813, trend: -0.03, brand: "pls", tags: ["병아리콩","원료","건강","콩"] },
   { kw: "캐슈넛", vol: 37723, trend: 0.15, brand: "pls", tags: ["캐슈넛","너트","건강","간식"] },
@@ -147,6 +155,7 @@ export const brandAssets = {
       { name:"단백질 간식/보상", icon:"🏋️", desc:"프로틴 파우더 피로감 탈출, 음식으로 단백질", keywords:["단백질 간식","프로틴 간식","단백질 간식 추천"], totalVolume:5126, topKeyword:{kw:"단백질 간식",vol:4703}, pathfinderNote:"남성 세그먼트 기회. +24~40% 급성장." },
       { name:"운동 후 단백질 보충", icon:"💪", desc:"운동 후 식사로 파스타+단백질 조합", keywords:["운동 후 식사","운동 후 식사 추천"], totalVolume:2456, topKeyword:{kw:"운동 후 식사",vol:2456}, pathfinderNote:"브리프의 '운동 관심사' 타겟 직결. 여성 68.2%가 검색." },
       { name:"자취생 간단한 한끼", icon:"🏠", desc:"1인가구/자취생의 빠르고 건강한 한끼", keywords:["자취 한끼","간단한 한끼 요리","자취 간편식"], totalVolume:1250, topKeyword:{kw:"자취 한끼",vol:313}, pathfinderNote:"★ 최고 성장률 +45%. 1인가구 트렌드와 직결." },
+      { name:"Meal-prep 식단 준비", icon:"📦", desc:"일요일 식단 준비에 탱글을 포함하는 루틴", keywords:["밀프렙","다이어트 밀프렙","단백질 도시락","식단 도시락","일주일 식단","일주일 도시락"], totalVolume:38734, topKeyword:{kw:"밀프렙",vol:17216}, pathfinderNote:"★ NEW — 가장 큰 규모의 새 오케이션. 다이어트 밀프렙 +42% 급성장. 단백질 도시락은 구매 인텐트(T)." },
     ],
   },
   "pls": {
