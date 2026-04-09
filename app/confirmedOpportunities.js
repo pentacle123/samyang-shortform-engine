@@ -202,6 +202,51 @@ export const confirmedOpportunities = {
         micro:[{name:"밀프렙일기",platform:"Instagram",followers:"3.8만",category:"식단 관리",note:"밀프렙 전문, 여성 30대 팔로워 중심. 일요일 루틴 시리즈에 탱글 등장 적합"},{name:"직장인식단",platform:"YouTube",subscribers:"2.4만",category:"직장인 식단",note:"주간 식단 준비 콘텐츠, 직장인 점심 맥락과 연결"}],
       }},
     },
+    // ── 혈당스파이크 대안 (Section 10) ──
+    {
+      asset:"혈당스파이크 대안",assetIcon:"📊",context:"PAIN",
+      contextDetail:"혈당스파이크 걱정하는 건강 관심층 (+90% 급성장)",
+      when:"밀가루 면을 피하고 싶을 때",
+      keyword:"혈당스파이크",volume:40180,verified:true,
+      funnelStage:"발견→인지",funnelKPI:"조회수 + 저장율",seasonPeak:"연중 (건강 관심 상시 수요, 1~3월 피크)",
+      pathfinder:"'혈당스파이크' +90% 급성장 (10배 규모). '글루텐프리' → '글루텐프리 파스타' → '글루텐프리 면' 경로. 밀가루 대안 수요 폭발 중",
+      shortformIdea:"혈당스파이크 걱정 없이 면을 먹는 법? 밀가루가 아닌 면이 있습니다",
+      relatedVolume:{"글루텐프리":10293,"밀가루 끊기":1563,"GI지수 낮은 음식":1183,"혈당스파이크 음식":950,"글루텐프리 파스타":680,"병아리콩 혈당":456,"밀가루 대체":400,"글루텐프리 면":343,"밀가루 없는 면":108},
+      toneWarning:"⚠️ 의료/건강 주장 절대 금지. '혈당을 낮춘다' ✗ → '밀가루 면 대신 병아리콩 면을 선택하는 사람들' ✓. 라이프스타일 선택으로만 접근.",
+      creators:{categories:["건강/웰빙 크리에이터","영양사 콘텐츠","다이어트 일상 브이로거"],reason:"혈당스파이크 맥락 — 건강 정보 크리에이터의 '밀가루 대안' 정보형 콘텐츠. 의료 주장 없이 라이프스타일 선택으로",recommended:{
+        mid:[{name:"영양사언니",platform:"YouTube",subscribers:"38만",category:"영양/건강",note:"영양 정보 전문, 혈당/글루텐프리 콘텐츠 다수. 신뢰도 높음"}],
+        micro:[{name:"저탄고지일기",platform:"Instagram",followers:"4.2만",category:"건강식단",note:"저탄수화물/글루텐프리 식단 전문, 혈당 관심층 팔로워"},{name:"밀가루끊기챌린지",platform:"YouTube",subscribers:"1.8만",category:"건강 라이프스타일",note:"밀가루 대안 콘텐츠 전문, 병아리콩 면 자연스러운 소개"}],
+      }},
+    },
+    // ── 야식 라면 대안 (Section 11) ──
+    {
+      asset:"야식 라면 대안",assetIcon:"🌙",context:"WHEN",
+      contextDetail:"밤 11시, 야식으로 라면 끓이려는 순간",
+      when:"야식으로 라면 대신 건강한 면 선택",
+      keyword:"다이어트 야식",volume:6736,verified:true,
+      funnelStage:"발견→인지",funnelKPI:"조회수 + 저장율",seasonPeak:"연중 (야식 상시 수요)",
+      pathfinder:"'야식 추천' 21,856/mo → '다이어트 야식' 6,736/mo 경로. 야식 = 라면 공식을 깨는 콘텐츠",
+      shortformIdea:"밤 11시, 라면 끓이는 대신 이걸 끓였습니다",
+      relatedVolume:{"야식 건강":1200,"건강한 야식":680,"밤에 라면 대신":320},
+      creators:{categories:["자취 브이로거","야식 먹방 크리에이터","다이어트 일상 크리에이터"],reason:"야식 맥락 — '밤에 라면 대신 이걸 끓였다'는 자취 일상에서 자연스러운 등장",recommended:{
+        micro:[{name:"야식브이로그",platform:"YouTube",subscribers:"3.5만",category:"야식/자취",note:"야식 콘텐츠 전문, 건강한 야식 대안 주제 적합"},{name:"밤라면대신",platform:"Instagram",followers:"2.1만",category:"건강 야식",note:"야식 대안 리뷰 전문, 다이어트 중 야식 고민 공감"}],
+      }},
+    },
+    // ── 키즈 건강 면 (Section 12) ──
+    {
+      asset:"키즈 건강 면",assetIcon:"👶",context:"WHO",
+      contextDetail:"육아맘 — 아이가 라면 달라고 할 때 (여성 92%+)",
+      when:"아이에게 건강한 면을 끓여주고 싶을 때",
+      keyword:"아이 간식",volume:8500,verified:true,
+      funnelStage:"발견→인지",funnelKPI:"조회수 + 저장율",seasonPeak:"연중 (육아 상시 수요)",
+      pathfinder:"'아이 간식' 8,500/mo → '아이 건강 간식' 2,100/mo 경로. 육아맘 세그먼트 진입점",
+      shortformIdea:"아이가 라면 달라고 할 때, 이걸 끓여주면 죄책감 없어요",
+      relatedVolume:{"아이 건강 간식":2100,"어린이 건강식":1350,"아이 라면":950,"키즈 간편식":680,"아이 라면 대안":230},
+      creators:{categories:["육아 브이로거","키즈 요리 크리에이터","맘카페 인플루언서"],reason:"육아맘 맥락 — '아이한테 이거 끓여줬다'는 맘카페에서 자연스러운 공유 유도",recommended:{
+        mid:[{name:"육아맘일기",platform:"YouTube",subscribers:"45만",category:"육아",note:"육아 일상+아이 간식 콘텐츠, 맘 타겟 정확"}],
+        micro:[{name:"아이건강밥상",platform:"Instagram",followers:"3.8만",category:"키즈 요리",note:"아이 건강식 전문, 라면 대안 콘텐츠 적합"},{name:"맘카페추천템",platform:"Instagram",followers:"2.5만",category:"육아 리뷰",note:"육아 용품/식품 리뷰 전문, 맘 커뮤니티 영향력"}],
+      }},
+    },
   ],
 
   // ═══ 맵탱 ═══

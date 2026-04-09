@@ -165,17 +165,17 @@ const BRANDS=[
     ],
   },
   // ── 탱글 (compressed) ──
-  {id:"tgl",nm:"탱글",em:"🍝",c:"#16803C",cat:"건강 간편 파스타",disabled:false,def:"카테고리를 설명하지 않는다.\n소비자의 일상 속에서 자연스럽게 발견되게 한다.",str:"Lifestyle-hook",strL:"라이프스타일 어스피레이션",lv:"LOW",
-    tags:["병아리콩 건면","단백질 15g","식이섬유 6g","K-파스타","글로벌 통합","프로틴 파스타","직장인 점심 5분","편의점 한끼","Meal-prep"],stats:[{k:"단백질",v:"15g/봉지"},{k:"식이섬유",v:"6g"},{k:"핵심 타깃",v:"2530 여성"}],
+  {id:"tgl",nm:"탱글",em:"🍝",c:"#16803C",cat:"건강한 면의 새 기준",disabled:false,def:"건강한 면의 새 기준.\n'라면 대신 탱글'이 모든 일상의 면 선택지에 들어간다.",str:"Lifestyle-hook",strL:"라이프스타일 어스피레이션",lv:"LOW",
+    tags:["병아리콩 건면","단백질 15g","식이섬유 6g","K-파스타","글로벌 통합","프로틴 파스타","직장인 점심 5분","편의점 한끼","Meal-prep","🌱 비건/식물성","혈당스파이크 대안","야식 대안","키즈 건강 면"],stats:[{k:"단백질",v:"15g/봉지"},{k:"식이섬유",v:"6g"},{k:"핵심 타깃",v:"2530 여성"}],
     prof:{gen:"여성 76% · 남성 24%",age:"30대 34% · 25-29세 20.5%",ch:"온라인·편의점",chI:"🛒",persona:"다이어트 중 면이 먹고 싶은 2530 여성"},
     dp:["다이어트 면","단백질 식단","자취 간편식","편의점 신상"],cep:["💪 다이어트 면 → 건강식 맥락","🔬 단백질 파스타 → 기능 차별화","🏪 편의점 탱글 → 접근성"],strWhy:"'제품 소개'로 시작하면 스와이핑. '내 상황'에서 시작.",
     ctxGrid:[
-      {label:"WHO",q:"누가 찾는가?",color:"#22c55e",tags:["다이어트 2530 여성","자취 1인가구","운동 직장인","건강식 탐색자","직장인 점심 여성 82.6%","프로틴 피로 남성 60.8%"],ev:"여성 76.1% | 30대 34.3% · 25-29세 20.5% | '탱글 파스타' 연 84,480회 | '직장인 점심 도시락' 여성 82.6% · 30대 35.9% | '프로틴 간식' 남성 60.8% · 30대 44.6% — 남성 세그먼트"},
-      {label:"WHEN",q:"언제?",color:"#f59e0b",tags:["다이어트 중 면 욕구","운동 후","빠른 한 끼","직장인 점심시간","다이어트 중 파스타 욕구"],ev:"🔀 '운동 후 식사추천'→'운동 후 라면' 경로 존재!(연 3,336회) | '다이어트 중 라면 먹고 싶을때' 연 2,412회 — PAIN 검증됨 | '점심 간편식' +36% · '회사 점심 메뉴 추천' +40% 급성장 | '다이어트 파스타' 연 110,160회"},
-      {label:"WHERE",q:"어디서?",color:"#3b82f6",tags:["편의점 파스타","쿠팡/컬리","건강식 SNS","오피스 런치타임","자취방 전자레인지"],ev:"'편의점 신상' 연 173,400회 · 여성 80% · 30대 47% — 편의점 발견 채널 대형 | '직장인 점심 도시락' 연 24,600회 — 오피스 유통 기회 | '자취 한끼' +45% 최고 성장률"},
-      {label:"PAIN",q:"어떤 불만?",color:"#ef4444",tags:["면=살찌는 죄책감","간편식 영양 부족","맛없는 다이어트식","프로틴 쉐이크 지겨움","점심 매번 고민"],ev:"🔗 '다이어트 라면' ClusterFinder: '다이어트 중 라면 먹고 싶을때' 연 2,412회 · '건면 다이어트' 연 6,516회 | 실제 경쟁자: 콩담백면 연 133,872회 · 여성 85% | '프로틴' 44,066/mo 중 100%가 파우더 → 음식형 프로틴 부재가 PAIN | '점심 메뉴 추천' 80,730/mo — 매일 반복되는 고민"},
-      {label:"NEED",q:"어떤 욕구?",color:"#22c55e",tags:["죄책감 없는 면","건강한 한 끼","단백질 보충","파스타인데 프로틴","점심 대용 간편식"],ev:"'단백질 식단' 연 67,080회 · 여성 68% · 30대 34% | 광고경쟁 HIGH — 시장 수요 검증 | '다이어트 파스타'+'파스타 다이어트' 합계 14,360/mo — 파스타 욕구가 더 큰 진입점 | '점심 대용' '한끼대용' 모두 구매 인텐트(T)"},
-      {label:"INTEREST",q:"관심사?",color:"#a855f7",tags:["다이어트/건강식단","자취 브이로그","편의점 신상","운동 후 식사","직장인 브이로그"],ev:"'편의점 신상' 연 173,400회 + 상승세(+22% YoY) — Z세대 발견 콘텐츠 핵심 채널 | '운동 후 식사' 연 29,472회 · 여성 68.2% | '직장인 점심 도시락 메뉴' 여성 87.4% +19% 급성장"},
+      {label:"WHO",q:"누가 찾는가?",color:"#22c55e",tags:["다이어트 2530 여성","자취 1인가구","운동 직장인","건강식 탐색자","직장인 점심 여성 82.6%","프로틴 피로 남성 60.8%","혈당 관심층 +90%","육아맘"],ev:"여성 76.1% | 30대 34.3% · 25-29세 20.5% | '탱글 파스타' 연 84,480회 | '직장인 점심 도시락' 여성 82.6% · 30대 35.9% | '프로틴 간식' 남성 60.8% · 30대 44.6% — 남성 세그먼트 | '혈당스파이크' 40,180/mo +90% 급성장 — 건강 관심층 대규모 유입 | '아이 간식' 8,500/mo — 육아맘 세그먼트"},
+      {label:"WHEN",q:"언제?",color:"#f59e0b",tags:["다이어트 중 면 욕구","운동 후","빠른 한 끼","직장인 점심시간","다이어트 중 파스타 욕구","밤 11시 야식","아이 라면 요청 시","혈당 관리 식사"],ev:"🔀 '운동 후 식사추천'→'운동 후 라면' 경로 존재!(연 3,336회) | '다이어트 중 라면 먹고 싶을때' 연 2,412회 — PAIN 검증됨 | '점심 간편식' +36% · '회사 점심 메뉴 추천' +40% 급성장 | '다이어트 파스타' 연 110,160회 | '다이어트 야식' 연 80,832회 — 야식 시간대 건강 면 수요 | '혈당스파이크' 연 482,160회 — 식사 시 혈당 관리 수요"},
+      {label:"WHERE",q:"어디서?",color:"#3b82f6",tags:["편의점 파스타","쿠팡/컬리","건강식 SNS","오피스 런치타임","자취방 전자레인지","맘카페/육아 커뮤니티"],ev:"'편의점 신상' 연 173,400회 · 여성 80% · 30대 47% — 편의점 발견 채널 대형 | '직장인 점심 도시락' 연 24,600회 — 오피스 유통 기회 | '자취 한끼' +45% 최고 성장률 | 맘카페 — 육아맘 커뮤니티 입소문 채널"},
+      {label:"PAIN",q:"어떤 불만?",color:"#ef4444",tags:["면=살찌는 죄책감","간편식 영양 부족","맛없는 다이어트식","프로틴 쉐이크 지겨움","점심 매번 고민","밀가루 면 혈당 걱정","야식 라면 죄책감","아이에게 라면 주는 죄책감"],ev:"🔗 '다이어트 라면' ClusterFinder: '다이어트 중 라면 먹고 싶을때' 연 2,412회 · '건면 다이어트' 연 6,516회 | 실제 경쟁자: 콩담백면 연 133,872회 · 여성 85% | '프로틴' 44,066/mo 중 100%가 파우더 → 음식형 프로틴 부재 | '혈당스파이크' 40,180/mo — 밀가루 면 자체가 PAIN | '다이어트 야식' 6,736/mo — 야식 라면 죄책감"},
+      {label:"NEED",q:"어떤 욕구?",color:"#22c55e",tags:["죄책감 없는 면","건강한 한 끼","단백질 보충","파스타인데 프로틴","점심 대용 간편식","밀가루 없는 면","글루텐프리 대안","아이도 안심 면"],ev:"'단백질 식단' 연 67,080회 · 여성 68% · 30대 34% | 광고경쟁 HIGH — 시장 수요 검증 | '다이어트 파스타'+'파스타 다이어트' 합계 14,360/mo — 파스타 욕구가 더 큰 진입점 | '글루텐프리' 10,293/mo + '밀가루 끊기' 1,563/mo — 밀가루 대안 욕구 | '아이 건강 간식' 2,100/mo — 안심 먹이기 욕구"},
+      {label:"INTEREST",q:"관심사?",color:"#a855f7",tags:["다이어트/건강식단","자취 브이로그","편의점 신상","운동 후 식사","직장인 브이로그","혈당 관리","글루텐프리 라이프","육아/키즈 건강"],ev:"'편의점 신상' 연 173,400회 + 상승세(+22% YoY) — Z세대 발견 콘텐츠 핵심 채널 | '운동 후 식사' 연 29,472회 · 여성 68.2% | '직장인 점심 도시락 메뉴' 여성 87.4% +19% 급성장 | '혈당스파이크' +90% — 건강 관심 폭발 | '글루텐프리' 트렌드 확산"},
     ],
     ideas:[
       {score:93,psp:"A",type:"라이프스타일형",typeC:"#16803C",ctx:"WHO: 자취 1인가구 | PAIN: 면=살찌는 죄책감",data:"📊 '탱글 파스타' 연 84,480회 · 여성 76% | 🔗 ClusterFinder: '다이어트 라면' 커뮤니티에 '단백질 라면' '건면 다이어트' '다이어트 중 라면 먹고 싶을때'(연 2,412회) 키워드 확인 — PAIN 데이터 검증",hook:"\"자취 3년차, 라면으로 단백질 15g 채우는 법\"",hookD:"상황형 — 자취 일상에서 시작, '내 이야기'로 인식",scenes:["자취방 냉장고 열기","탱글 조리","성분표 서프라이즈","만족 시식"],
@@ -773,8 +773,12 @@ const BrandInsight=({b,go})=>{
   const [aiOppLd,setAiOppLd]=useState(false);
   const [aiOppErr,setAiOppErr]=useState(null);
   const [aiOppGen,setAiOppGen]=useState(0);
+  const [lifeStage,setLifeStage]=useState("전체");
   if(!data)return <div style={{padding:40,textAlign:"center",color:"#ccc"}}>데이터 준비 중...</div>;
-  const confirmed=(b.id==="buldak"?buldakConfirmedOpportunities:confirmedOpportunities[b.id])||[];
+  const allConfirmed=(b.id==="buldak"?buldakConfirmedOpportunities:confirmedOpportunities[b.id])||[];
+  // ── 라이프스테이지 필터 (탱글 전용, Section 15) ──
+  const lifeStageMap={"학생/자취":["4분 간편조리","자취생 간단한 한끼","야식 라면 대안"],"직장인":["직장인 점심 대용","Meal-prep 식단 준비","프로틴 파스타"],"운동":["단백질 15g","단백질 간식/보상","운동 후 단백질 보충"],"육아맘":["키즈 건강 면"],"건강관심":["혈당스파이크 대안","병아리콩 건면","다이어트 면 대안"]};
+  const confirmed=b.id==="tgl"&&lifeStage!=="전체"?allConfirmed.filter(o=>(lifeStageMap[lifeStage]||[]).includes(o.asset)):allConfirmed;
   const ctxColors={WHO:"#3b82f6",WHEN:"#f59e0b",WHERE:"#16a34a",PAIN:"#dc2626",NEED:"#a855f7",INTEREST:"#06b6d4"};
   const handleAiOpp=async()=>{
     setAiOppLd(true);setAiOppErr(null);
@@ -932,10 +936,19 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
     })()}
 
     {/* ✅ 확인된 기회 매트릭스 */}
-    {confirmed.length>0&&<div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
+    {allConfirmed.length>0&&<div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
       <div style={{marginBottom:16}}>
-        <div style={{fontSize:14,fontWeight:900,color:G,marginBottom:4}}>✅ 확인된 기회</div>
-        <div style={{fontSize:10,color:"#999"}}>데이터로 검증된 자산 × 맥락 교차점 — 숏폼 콘텐츠의 출발점</div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+          <div>
+            <div style={{fontSize:14,fontWeight:900,color:G,marginBottom:4}}>✅ 확인된 기회</div>
+            <div style={{fontSize:10,color:"#999"}}>데이터로 검증된 자산 × 맥락 교차점 — 숏폼 콘텐츠의 출발점</div>
+          </div>
+          {b.id==="tgl"&&<div style={{fontSize:9,color:"#888"}}>{confirmed.length}/{allConfirmed.length}개 표시</div>}
+        </div>
+        {/* 라이프스테이지 필터 탭 (탱글 전용) */}
+        {b.id==="tgl"&&<div style={{display:"flex",gap:6,marginTop:12,flexWrap:"wrap"}}>
+          {["전체","학생/자취","직장인","운동","육아맘","건강관심"].map(s=><button key={s} onClick={()=>setLifeStage(s)} style={{background:lifeStage===s?b.c:"#f5f5f5",color:lifeStage===s?"#fff":"#666",border:lifeStage===s?"none":"1px solid #e5e5e5",borderRadius:20,padding:"5px 14px",fontSize:10,fontWeight:lifeStage===s?800:600,cursor:"pointer",transition:"all .2s"}}>{s==="전체"?"전체 보기":s}{s!=="전체"&&<span style={{marginLeft:4,fontSize:8,opacity:.7}}>({(lifeStageMap[s]||[]).length})</span>}</button>)}
+        </div>}
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:12}}>
         {confirmed.map((opp,i)=>(
@@ -966,6 +979,7 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
             <span style={{fontSize:8,color:"#888"}}>{opp.pathfinder}</span>
           </div>}
           {opp.demo&&<div style={{fontSize:8,color:"#888",marginTop:4}}>📊 {opp.demo}</div>}
+          {opp.toneWarning&&<div style={{background:"#fef2f2",border:"1px solid #fecaca",borderRadius:6,padding:"6px 10px",marginTop:6,fontSize:8,color:"#dc2626",fontWeight:600}}>{opp.toneWarning}</div>}
           {(opp.funnelStage||opp.seasonPeak)&&<div style={{display:"flex",gap:6,marginTop:6,flexWrap:"wrap"}}>
             {opp.funnelStage&&<span style={{background:opp.funnelStage.includes("발견")?"#dbeafe":opp.funnelStage.includes("고려")?"#fef9c3":"#dcfce7",color:opp.funnelStage.includes("발견")?"#1d4ed8":opp.funnelStage.includes("고려")?"#a16207":"#16a34a",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>[{opp.funnelStage}] {opp.funnelKPI}</span>}
             {opp.seasonPeak&&<span style={{background:"#f5f5f5",color:"#888",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:600}}>📅 {opp.seasonPeak}</span>}
@@ -1320,6 +1334,26 @@ ${b.id==="tgl"?`
 ★ Meal-prep 오케이션 (NEW — 가장 큰 규모):
 밀프렙 17,216/mo + 다이어트 밀프렙 5,563/mo(+42%) + 단백질 도시락 7,726/mo = 합계 38,734/mo
 일요일 식단 준비에 탱글을 포함하는 루틴. "일요일 밀프렙에 탱글 3개만 넣어두면 주중 점심 해결"
+
+★ 혈당스파이크 대안 오케이션 (NEW — 10배 성장):
+혈당스파이크 40,180/mo(+90%!) + 글루텐프리 10,293/mo + 밀가루 끊기 1,563/mo = 합계 56,156/mo
+병아리콩 건면 = 밀가루 없는 저GI 면. ⚠️ 절대 의료/건강 주장 금지. "혈당을 낮춘다" ✗ → "밀가루 면 대신 병아리콩 면이라는 선택" ✓
+라이프스타일 선택으로만 접근할 것.
+
+★ 야식 라면 대안 오케이션 (NEW):
+다이어트 야식 6,736/mo + 야식 건강 1,200/mo = 합계 8,936/mo
+"밤 11시, 라면 끓이는 대신 이걸 끓였습니다" — 야식=라면 공식을 깨는 콘텐츠
+
+★ 키즈 건강 면 오케이션 (NEW — 육아맘 세그먼트):
+아이 간식 8,500/mo + 아이 건강 간식 2,100/mo = 합계 12,860/mo
+"아이가 라면 달라고 할 때, 이걸 끓여주면 죄책감 없어요" — 맘카페 입소문 전략
+
+★ 라이프스테이지별 콘텐츠 방향:
+- [학생/자취]: 자취 한끼, 편의점 한끼 → 가성비+편의성 중심
+- [직장인]: 직장인 점심, 밀프렙 → 시간절약+건강 밸런스
+- [운동]: 운동 후 단백질, 프로틴 간식 → 기능성 중심
+- [육아맘]: 키즈 건강 면 → 죄책감 해소+안심 먹이기
+- [건강관심]: 혈당스파이크, 글루텐프리 → 라이프스타일 선택 (의료 주장 금지)
 `:""}
 - 크리에이터 협업 (매우 중요): 5개 아이디어 중 크리에이터와 협업했을 때 특히 효과적인 것 2~3개만 골라서 creatorCollab 필드에 문자열을 넣어. 나머지는 creatorCollab: null로 설정해. 반드시 2~3개는 값이 있어야 함.
   예시: "푸드 역사 콘텐츠 — 다큐 크리에이터의 '역사 재현 스토리텔링'으로 몰입도와 신뢰성 극대화"
@@ -2081,7 +2115,7 @@ const TangleCreatorGuide = ({b}) => {
   <div style={{marginTop:16}}>
     <button onClick={()=>setOpen(!open)} style={{width:"100%",background:open?"#f0fdf4":"#fafafa",border:open?"1px solid #16803C20":"1px solid #eee",borderRadius:10,padding:"14px 20px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
       <span style={{fontSize:13,fontWeight:800,color:open?"#16803C":"#666"}}>{open?"▾":"▸"} 크리에이터 100명 매칭 가이드</span>
-      <span style={{fontSize:9,color:"#aaa"}}>7개 오케이션 x 8개 카테고리</span>
+      <span style={{fontSize:9,color:"#aaa"}}>11개 오케이션 x 8개 카테고리</span>
     </button>
     {open&&<div style={{background:"#fff",border:"1px solid #f0f0f0",borderTop:"none",borderRadius:"0 0 10px 10px",padding:20}}>
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:16}}>
