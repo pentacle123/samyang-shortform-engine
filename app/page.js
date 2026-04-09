@@ -1789,7 +1789,7 @@ const OccasionMap=({b,go})=>{
       </div>
     </div>
 
-    {/* 7개 Stress Ritual 카드 */}
+    {/* 8개 Stress Ritual 카드 */}
     <div style={{display:"grid",gap:8,marginBottom:16}}>
       {srm.stressRituals.map(r=><StressRitualCard key={r.id} r={r} b={b}/>)}
     </div>
@@ -1853,22 +1853,41 @@ const OccasionMap=({b,go})=>{
       })}
     </div>
 
+    {/* 섹션 C-0: 시즌 NOW 하이라이트 */}
+    {(()=>{const m=new Date().getMonth()+1;const monthNames=["","January","February","March","April","May","June","July","August","September","October","November","December"];const seasonData=[{months:[1,2],events:["🏈 NFL Playoffs / Super Bowl"],rituals:["Social Burn (Game Day)","Stress × Budget (New Year)"],sauce:null},{months:[2],events:["💕 Valentine's Day"],rituals:["Comfort Burn","Breakup Burn"],sauce:null},{months:[3],events:["🏀 March Madness","🌴 Spring Break"],rituals:["Social Burn","Late Night Burn"],sauce:null},{months:[4,5],events:["📚 Finals Week","🌮 Cinco de Mayo (5/5)","🌏 Asian Heritage Month (5월)"],rituals:["Deadline Ignition (Finals 직결)","간편식사 (학기말)"],sauce:"Swicy 트렌드 (BBQ 시즌 진입)"},{months:[6,7,8],events:["🔥 BBQ Season","🇺🇸 4th of July (7/4)"],rituals:["Social Burn (BBQ/파티)","Buldak Sauce × Swicy"],sauce:"BBQ 시즌 피크 — Swicy 소스 맥락"},{months:[9],events:["🏈 NFL Season Opener","🎓 Back to School"],rituals:["Social Burn (NFL)","Budget × 간편식"],sauce:null},{months:[10],events:["🎃 Halloween"],rituals:["Shareable (매운맛 도전)"],sauce:null},{months:[11],events:["🦃 Thanksgiving"],rituals:["Hackable (레시피 변형)","K-Food Icon"],sauce:null},{months:[11,12,1],events:["🤧 Flu Season","🎄 Holiday Parties"],rituals:["Comfort Burn","Stress Relief (연말)"],sauce:null}];const now=seasonData.find(s=>s.months.includes(m));return now?(
+    <div style={{background:"linear-gradient(135deg,#E63E0008,#E63E0015)",borderRadius:14,padding:"16px 20px",border:"1px solid #E63E0020",marginBottom:16}}>
+      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+        <span style={{background:"#E63E00",color:"#fff",padding:"3px 10px",borderRadius:4,fontSize:10,fontWeight:800}}>NOW</span>
+        <span style={{fontSize:13,fontWeight:800,color:"#E63E00"}}>{monthNames[m]} 2026</span>
+      </div>
+      <div style={{display:"flex",gap:16,flexWrap:"wrap"}}>
+        <div style={{flex:1,minWidth:180}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#999",marginBottom:6}}>📅 다가오는 시즌</div>
+          {now.events.map((e,i)=><div key={i} style={{fontSize:10,color:"#333",marginBottom:2}}>{e}</div>)}
+        </div>
+        <div style={{flex:1,minWidth:180}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#999",marginBottom:6}}>💡 지금 밀어야 할 리추얼</div>
+          {now.rituals.map((r,i)=><div key={i} style={{fontSize:10,color:"#333",marginBottom:2}}>{i===0?"MAIN":"SUB"}: {r}</div>)}
+          {now.sauce&&<div style={{fontSize:10,color:"#E63E00",fontWeight:600,marginTop:2}}>SAUCE: {now.sauce}</div>}
+        </div>
+      </div>
+    </div>):null})()}
     {/* 섹션 C: 문화적 오케이션 탭 */}
     <div style={{background:"#fff",borderRadius:14,padding:24,border:"1px solid #f0f0f0",marginBottom:16}}>
       <div style={{fontSize:13,fontWeight:800,marginBottom:12}}>🎯 문화적 오케이션</div>
       <div style={{display:"flex",gap:4,marginBottom:16,flexWrap:"wrap"}}>
         {tabList.map(t=><button key={t.id} onClick={()=>setActiveTab(t.id)} style={{background:activeTab===t.id?b.c+"10":"#f5f5f5",color:activeTab===t.id?b.c:"#999",border:activeTab===t.id?`1px solid ${b.c}30`:"1px solid #eee",borderRadius:6,padding:"6px 12px",fontSize:9,fontWeight:700,cursor:"pointer"}}>{t.l}</button>)}
       </div>
-      {activeTab==="season"&&<div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8}}>
-        {om.culturalTabs.seasonCalendar.map((s,i)=><div key={i} style={{background:"#fafafa",borderRadius:8,padding:"10px 14px",border:"1px solid #f0f0f0"}}>
+      {activeTab==="season"&&(()=>{const mAbbr=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][new Date().getMonth()+1];return <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:8}}>
+        {om.culturalTabs.seasonCalendar.map((s,i)=>{const isNow=s.month.includes(mAbbr);return <div key={i} style={{background:isNow?b.c+"08":"#fafafa",borderRadius:8,padding:"10px 14px",border:isNow?`1px solid ${b.c}30`:"1px solid #f0f0f0"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
-            <span style={{fontSize:10,fontWeight:700}}>{s.event}</span>
-            <span style={{fontSize:8,color:"#999"}}>{s.month}</span>
+            <span style={{fontSize:10,fontWeight:700}}>{isNow&&<span style={{background:b.c,color:"#fff",padding:"1px 6px",borderRadius:3,fontSize:7,fontWeight:800,marginRight:4}}>NOW</span>}{s.event}</span>
+            <span style={{fontSize:8,color:isNow?b.c:"#999"}}>{s.month}</span>
           </div>
           <div style={{fontSize:10,color:"#666"}}>{s.idea}</div>
           {s.volume>0&&<div style={{fontSize:8,color:b.c,fontWeight:700,marginTop:4}}>연 {(s.volume*12).toLocaleString()}회 검색</div>}
-        </div>)}
-      </div>}
+        </div>})}
+      </div>})()}
       {activeTab==="daily"&&<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
         {om.culturalTabs.dailyMoments.map((m,i)=><div key={i} style={{background:"#fafafa",borderRadius:8,padding:"10px 14px",border:"1px solid #f0f0f0"}}>
           <div style={{fontSize:10,fontWeight:700,marginBottom:4}}>{m.moment}</div>

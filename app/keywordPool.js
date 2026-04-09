@@ -208,6 +208,16 @@ export const buldakKeywordPool = [
   {kw:"late night snack",vol:4733,trend:0,tags:["occasion","latenight"],brand:"buldak"},
   {kw:"midnight snack ideas",vol:1800,trend:0,tags:["occasion","latenight"],brand:"buldak"},
   {kw:"drunk food",vol:720,trend:0,tags:["occasion","latenight","social"],brand:"buldak"},
+  // ═══ Period Cravings 키워드 ═══
+  {kw:"period food cravings",vol:2800,trend:0,tags:["stress","emotional","health","female"],brand:"buldak"},
+  {kw:"why do i crave spicy food",vol:633,trend:0,tags:["stress","emotional","health","female"],brand:"buldak"},
+  {kw:"craving spicy food meaning",vol:180,trend:0,tags:["stress","emotional","health"],brand:"buldak"},
+  // ═══ Swicy (Sweet+Spicy) 트렌드 키워드 ═══
+  {kw:"hot honey",vol:60500,trend:0.22,tags:["occasion","sauce","swicy","growing"],brand:"buldak"},
+  {kw:"sweet chili sauce",vol:53166,trend:0.22,tags:["occasion","sauce","swicy","growing"],brand:"buldak"},
+  {kw:"sweet and spicy sauce",vol:3366,trend:0,tags:["occasion","sauce","swicy"],brand:"buldak"},
+  {kw:"sweet and spicy",vol:2900,trend:0,tags:["occasion","sauce","swicy"],brand:"buldak"},
+  {kw:"swicy",vol:2033,trend:1.40,tags:["occasion","sauce","swicy","growing"],brand:"buldak"},
 ];
 
 export const buldakAssets = {
@@ -219,7 +229,7 @@ export const buldakAssets = {
     {icon:"💰",name:"$2 Dinner (가성비)",desc:"5팩 $8 이하. 패스트푸드 $10+ 대비 압도적",totalVolume:43500,topKeyword:{kw:"cheap dinner ideas",vol:43500},pathfinderNote:"'cheap dinner'→'under $10 meals'→'fast food near me' (이탈) — 불닭이 가로채는 기회"},
     {icon:"🌎",name:"K-Food Icon (한국 문화)",desc:"K-pop/K-drama와 함께 가장 인지도 높은 한국 음식",totalVolume:373496,topKeyword:{kw:"korean food",vol:323333},pathfinderNote:"'korean food trend'(+80%🔥) 급성장 중"},
     {icon:"🍜",name:"Hackable (무한 변형)",desc:"치즈/계란/크림/김치 무한 조합. 나만의 레시피",totalVolume:27499,topKeyword:{kw:"ramen egg recipe",vol:15900},pathfinderNote:"'buldak ramen recipe'→'with egg'→'how to make creamy'→'how to make less spicy'"},
-    {icon:"🧴",name:"Buldak Sauce (만능 소스)",desc:"라면 넘어 조미료로 활용. 4년간 5배 구조적 성장",totalVolume:18100,topKeyword:{kw:"buldak sauce",vol:18100},pathfinderNote:"'buldak sauce'→'recipe'→'ingredients'→'where to buy' (리추얼 전환 핵심 증거)"},
+    {icon:"🧴",name:"Buldak Sauce (만능 소스)",desc:"라면 넘어 조미료로 활용. 4년간 5배 구조적 성장. Swicy 트렌드의 핵심 플레이어 — Hot Honey(60,500/mo)+Gochujang(50,166/mo)과 같은 생태계. 'sweet and spicy' 172,131/mo의 거대 Swicy 시장에서 유일한 '라면 브랜드 소스' 포지션",totalVolume:18100,topKeyword:{kw:"buldak sauce",vol:18100},pathfinderNote:"'buldak sauce'→'recipe'→'ingredients'→'where to buy' (리추얼 전환 핵심 증거). Swicy 생태계: hot honey 60,500 + gochujang 50,166 + sweet chili 53,166 = 163,832/mo"},
     {icon:"🎭",name:"Shareable (공유 경험)",desc:"같이 먹으면 콘텐츠가 되는 음식",totalVolume:1720000,topKeyword:{kw:"mukbang",vol:1720000},pathfinderNote:"TikTok 3.6억+ 포스트. 60M뷰 생일선물 영상"},
     {icon:"🌶️",name:"Flavor World (맛 탐험)",desc:"카보나라/로제/치즈/짜장 10+가지 맛 라인업",totalVolume:62432,topKeyword:{kw:"buldak carbonara",vol:50166},pathfinderNote:"'buldak flavors'→'flavors list'→'spicy level'→'least spicy to most spicy'"},
   ]

@@ -241,6 +241,37 @@ export const buldakStressRitualMap = {
       seasonPeak: "매주 일요일 밤 8-11PM",
       contentAngle: "일요일 밤 우울한 분위기 → 불닭 조리 → '이것만은 기대된다' → 먹으면서 월요일 준비. 매주 반복 = 리추얼.",
     },
+    // ── 8. Period Craving Cure ──
+    {
+      id: "period-craving",
+      nameKo: "생리 갈망 해소",
+      nameEn: "Period Craving Cure",
+      tagline: "Your body knows what it needs. Feed the craving.",
+      emotion: "갈망, 짜증, 자기 위로, 호르몬",
+      triggerMoment: "생리 기간 매운맛 갈망",
+      searchData: {
+        primary: { kw: "period food cravings", vol: 2800, trend: 0 },
+        secondary: [
+          { kw: "why do i crave spicy food", vol: 633, trend: 0 },
+          { kw: "craving spicy food meaning", vol: 180, trend: 0 },
+          { kw: "period cravings list", vol: 63, trend: 0 },
+        ],
+        totalMonthly: 3676,
+        insight: "생리 중 매운맛 갈망은 과학적 현상. 캡사이신→엔도르핀으로 생리통 완화. MAIN Occasion(감정) + 건강/기능(SUB)의 교차점.",
+      },
+      demographics: ["18-34세 여성", "Millennial 여성", "Gen Z 여성"],
+      hookExamples: [
+        "POV: Day 2 of your period and only fire noodles will fix it",
+        "Why do I crave spicy food on my period? Science has answers.",
+        "Period craving: ice cream? No. FIRE NOODLES.",
+        "My period said: you need Buldak. Who am I to argue?",
+        "Your body literally craves this. Science.",
+      ],
+      shortformFormats: ["POV 공감형", "과학 설명형", "Period routine", "Craving tier list"],
+      buldakProduct: "Carbonara — 크리미+스파이시 = 위로+갈망 동시 해소",
+      seasonPeak: "연중 (매월 반복)",
+      contentAngle: "'왜 생리 기간에 매운 음식이 당기는지' 과학적 설명 (캡사이신→엔도르핀→통증 완화) → 불닭 먹는 장면 → 'Your body literally craves this. Science.'",
+    },
   ],
 
   // ═══ 추가 스트레스 마이크로 모먼트 (AI 참고용) ═══
