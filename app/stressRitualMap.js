@@ -18,7 +18,7 @@ export const buldakStressRitualMap = {
 
   // ★ 전략 프레임
   framework: {
-    insight: "사람들은 스트레스를 받을 때 'stress relief food'를 검색하지 않는다. 'i hate my job'을 검색한다. 하지만 집에 와서 매운 거 먹으면서 푼다. 이 연결은 검색에 존재하지 않는다 — 숏폼 콘텐츠만이 이 연결을 만들 수 있다.",
+    insight: "미국인은 \"stress relief food\"를 검색하지 않는다. \"i hate my job\"을 검색하고, \"bad day\"를 검색한다. 연 4,128,000번. 그런 상황을 찾아내면 우리가 원하는 [불닭 리추얼]의 기회를 포착할 수 있다.",
     science: "캡사이신 → 통증 신호 → 뇌에서 엔도르핀 분비 → 기분 전환. 이건 과학이다. capsaicin benefits +50%, endorphins +57%, metabolism +22% 성장 중.",
     opportunity: "스트레스 상황 검색 연 4,128,000회. 이 모든 순간이 불닭의 기회다. 불닭은 comfort food가 아니라 rage release ritual이다.",
     totalVolume: 4128000, // 연간

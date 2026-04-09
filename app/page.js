@@ -1775,8 +1775,8 @@ const OccasionMap=({b,go})=>{
       </div>
       {/* 인사이트 텍스트 — 2줄 분리 */}
       <div style={{marginBottom:16}}>
-        <div style={{fontSize:13,color:"#ddd",lineHeight:1.8,marginBottom:8,whiteSpace:"normal",wordBreak:"keep-all"}}>사람들은 스트레스를 받을 때 'stress relief food'를 검색하지 않는다. 'i hate my job'을 검색한다. 하지만 집에 와서 매운 거 먹으면서 푼다.</div>
-        <div style={{fontSize:14,color:b.c,fontWeight:800,lineHeight:1.6,whiteSpace:"normal",wordBreak:"keep-all"}}>이 연결은 검색에 존재하지 않는다 — 숏폼 콘텐츠만이 이 연결을 만들 수 있다.</div>
+        <div style={{fontSize:13,color:"#ddd",lineHeight:1.8,marginBottom:8,whiteSpace:"normal",wordBreak:"keep-all"}}>미국인은 "stress relief food"를 검색하지 않는다. "i hate my job"을 검색하고, "bad day"를 검색한다. 연 4,128,000번.</div>
+        <div style={{fontSize:14,color:b.c,fontWeight:800,lineHeight:1.6,whiteSpace:"normal",wordBreak:"keep-all"}}>그런 상황을 찾아내면 우리가 원하는 [불닭 리추얼]의 기회를 포착할 수 있다.</div>
       </div>
       {/* 과학 근거 배너 */}
       <div style={{background:"rgba(255,255,255,0.06)",borderRadius:10,padding:"12px 16px",marginBottom:16,display:"flex",gap:12,alignItems:"flex-start",border:"1px solid rgba(255,255,255,0.08)"}}>
