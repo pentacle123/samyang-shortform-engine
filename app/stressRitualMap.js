@@ -243,22 +243,21 @@ export const buldakStressRitualMap = {
     },
     // ── 8. Period Craving Cure ──
     {
-      id: "period-craving",
-      nameKo: "생리 갈망 해소",
-      nameEn: "Period Craving Cure",
-      tagline: "Your body knows what it needs. Feed the craving.",
+      id: "period_craving",
+      position: "Period Craving Cure",
+      situation: "생리 기간 매운맛 갈망",
       emotion: "갈망, 짜증, 자기 위로, 호르몬",
-      triggerMoment: "생리 기간 매운맛 갈망",
-      searchData: {
-        primary: { kw: "period food cravings", vol: 2800, trend: 0 },
-        secondary: [
-          { kw: "why do i crave spicy food", vol: 633, trend: 0 },
-          { kw: "craving spicy food meaning", vol: 180, trend: 0 },
-          { kw: "period cravings list", vol: 63, trend: 0 },
-        ],
-        totalMonthly: 3676,
-        insight: "생리 중 매운맛 갈망은 과학적 현상. 캡사이신→엔도르핀으로 생리통 완화. MAIN Occasion(감정) + 건강/기능(SUB)의 교차점.",
+      usCopy: "Your body knows what it needs. Feed the craving.",
+      reason: "생리 중 매운맛 갈망은 과학적 현상. 캡사이신→엔도르핀으로 생리통 완화. MAIN Occasion(감정) + 건강/기능(SUB)의 교차점. 여성 타겟 확장에 강력.",
+      color: "#EC4899",
+      icon: "🩸",
+      searchVolume: {
+        "period food cravings": 2800,
+        "why do i crave spicy food": 633,
+        "craving spicy food meaning": 180,
+        "period cravings list": 63,
       },
+      annualVolume: 44112, // 3,676 × 12
       demographics: ["18-34세 여성", "Millennial 여성", "Gen Z 여성"],
       hookExamples: [
         "POV: Day 2 of your period and only fire noodles will fix it",
