@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { keywordPool, brandAssets, buldakKeywordPool, buldakAssets } from "./keywordPool";
 import { confirmedOpportunities, tangleOccasionMap, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
+import { opportunityTargetProfiles, assetToProfileId } from "./opportunityTargetProfiles";
 import { tangleExpandedData } from "./tangleExpandedData";
 import { buldakStressRitualMap } from "./stressRitualMap";
 import { buldakSubOccasionRituals } from "./subOccasionRituals";
@@ -984,6 +985,45 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
             {opp.funnelStage&&<span style={{background:opp.funnelStage.includes("발견")?"#dbeafe":opp.funnelStage.includes("고려")?"#fef9c3":"#dcfce7",color:opp.funnelStage.includes("발견")?"#1d4ed8":opp.funnelStage.includes("고려")?"#a16207":"#16a34a",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>[{opp.funnelStage}] {opp.funnelKPI}</span>}
             {opp.seasonPeak&&<span style={{background:"#f5f5f5",color:"#888",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:600}}>📅 {opp.seasonPeak}</span>}
           </div>}
+          {(()=>{
+            const profileId=assetToProfileId[opp.asset];
+            const profile=profileId?opportunityTargetProfiles[profileId]:null;
+            if(!profile) return null;
+            const medals=["🥇","🥈","🥉"];
+            const genderColor=(g)=>g.includes("여")&&!g.includes("남")?"#db2777":g.includes("남")&&!g.includes("여")?"#2563eb":"#7c3aed";
+            const skewBg=profile.genderSkew==="female_strong"?"#fdf2f8":profile.genderSkew==="female_moderate"?"#fef7fb":"#f5f3ff";
+            const skewBorder=profile.genderSkew==="female_strong"?"#fbcfe8":profile.genderSkew==="female_moderate"?"#f9d7e8":"#ddd6fe";
+            const highlightRing=profile.maleHighlight?"2px solid #3b82f6":`1px solid ${skewBorder}`;
+            return (
+              <div style={{marginTop:10,background:skewBg,border:highlightRing,borderRadius:8,padding:"10px 12px"}}>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                  <div style={{fontSize:9,fontWeight:800,color:"#374151",letterSpacing:".3px"}}>👤 TOP 타겟</div>
+                  {profile.maleHighlight&&<span style={{fontSize:7,fontWeight:800,color:"#fff",background:"#3b82f6",padding:"1px 6px",borderRadius:3}}>♂ 남성 타겟</span>}
+                </div>
+                <div style={{display:"flex",flexDirection:"column",gap:4,marginBottom:8}}>
+                  {profile.targets.map((t,ti)=>(
+                    <div key={ti} style={{display:"flex",alignItems:"center",gap:6,fontSize:9}}>
+                      <span style={{fontSize:12,width:16}}>{medals[t.rank-1]}</span>
+                      <span style={{fontWeight:800,color:genderColor(t.gender),minWidth:32}}>{t.gender}</span>
+                      <span style={{fontWeight:700,color:"#374151",minWidth:44}}>{t.age}</span>
+                      <span style={{fontWeight:900,color:genderColor(t.gender),minWidth:32}}>{t.percent}%</span>
+                      <span style={{color:"#6b7280",flex:1}}>{t.note}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:6}}>
+                  <span style={{fontSize:8,color:"#db2777",fontWeight:800}}>● 여성 {profile.femaleRatio}%</span>
+                  <div style={{flex:1,height:5,background:"#e0e7ff",borderRadius:3,overflow:"hidden",display:"flex"}}>
+                    <div style={{height:"100%",width:`${profile.femaleRatio}%`,background:"#ec4899"}}/>
+                    <div style={{height:"100%",width:`${100-profile.femaleRatio}%`,background:"#3b82f6"}}/>
+                  </div>
+                  <span style={{fontSize:8,color:"#2563eb",fontWeight:800}}>남성 {100-profile.femaleRatio}% ○</span>
+                </div>
+                {profile.specialNote&&<div style={{marginTop:8,background:"#fef3c7",border:"1px solid #fde68a",borderRadius:4,padding:"4px 8px",fontSize:8,fontWeight:700,color:"#a16207"}}>⚡ {profile.specialNote}</div>}
+                {profile.topKeywordSource&&<div style={{marginTop:6,fontSize:7,color:"#9ca3af",fontStyle:"italic"}}>출처: {profile.topKeywordSource}</div>}
+              </div>
+            );
+          })()}
         </div>))}
       </div>
     </div>}
