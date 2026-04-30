@@ -45,9 +45,8 @@ const TabDNA = () => (
     </div>
 
     <div style={{ background: "linear-gradient(135deg,#fef2f2,#ffedd5)", border: `1px solid ${MEP_COLOR}30`, borderRadius: 12, padding: "20px 22px", marginBottom: 14 }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+      <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 9, fontWeight: 800, color: MEP_COLOR, letterSpacing: 2 }}>CURRENT BRAND STORY</div>
-        <span style={{ background: "#fef3c7", color: "#a16207", fontSize: 8, fontWeight: 700, padding: "3px 8px", borderRadius: 4 }}>⚠️ 데이터 미검증</span>
       </div>
       <div style={{ fontSize: 22, fontWeight: 900, color: G, lineHeight: 1.4, marginBottom: 6 }}>
         "{productDNA.currentBrandStory.concept}"
@@ -58,7 +57,6 @@ const TabDNA = () => (
       <div style={{ fontSize: 11, color: "#666", lineHeight: 1.6, marginBottom: 8 }}>{productDNA.currentBrandStory.valueProposition}</div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <span style={{ background: "#fff", border: "1px solid #fecaca", color: MEP_COLOR, fontSize: 9, fontWeight: 700, padding: "3px 8px", borderRadius: 4 }}>🎯 {productDNA.currentBrandStory.target}</span>
-        <span style={{ background: "#fff", border: "1px solid #e5e7eb", color: "#6b7280", fontSize: 9, fontWeight: 600, padding: "3px 8px", borderRadius: 4 }}>{productDNA.currentBrandStory.status}</span>
       </div>
     </div>
 
