@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { keywordPool, brandAssets, buldakKeywordPool, buldakAssets } from "./keywordPool";
 import { confirmedOpportunities, tangleOccasionMap, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
 import { opportunityTargetProfiles, assetToProfileId } from "./opportunityTargetProfiles";
+import MEPConceptDev from "./MEPConceptDev";
 import { tangleExpandedData } from "./tangleExpandedData";
 import { buldakStressRitualMap } from "./stressRitualMap";
 import { buldakSubOccasionRituals } from "./subOccasionRituals";
@@ -2383,16 +2384,56 @@ const S4=({b,idea,back})=>(
 </div>);
 
 // ── APP ──
+// ── MEP Branch Picker — 분석 vs 컨셉 Dev ──
+const MEPBranchPicker=({b,pickAnalysis,pickConcept})=>(
+  <div style={{animation:"fi .4s"}}>
+    <div style={{background:`linear-gradient(135deg,${b.c},#7f1d1d)`,color:"#fff",borderRadius:14,padding:"24px 28px",marginBottom:20,position:"relative",overflow:"hidden"}}>
+      <div style={{position:"absolute",top:-30,right:-30,width:140,height:140,borderRadius:"50%",background:"rgba(255,255,255,0.06)"}}/>
+      <div style={{fontSize:9,fontWeight:700,opacity:.7,letterSpacing:2,marginBottom:6}}>{b.em} MEP × US MARKET</div>
+      <div style={{fontSize:22,fontWeight:900,marginBottom:6}}>두 가지 접근 중 선택하세요</div>
+      <div style={{fontSize:11,opacity:.85,lineHeight:1.6}}>기존 브랜드 분석 플로우 또는 미국 시장 신규 컨셉 개발 플로우</div>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
+      <div onClick={pickAnalysis} style={{background:"#fff",borderRadius:14,padding:"22px 24px",border:"1px solid #f0f0f0",cursor:"pointer",transition:"all .25s",position:"relative",overflow:"hidden"}}
+        onMouseEnter={e=>{e.currentTarget.style.borderColor=b.c+"40";e.currentTarget.style.boxShadow=`0 8px 28px ${b.c}10`;e.currentTarget.style.transform="translateY(-2px)"}}
+        onMouseLeave={e=>{e.currentTarget.style.borderColor="#f0f0f0";e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none"}}>
+        <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,#94a3b8,#64748b)`}}/>
+        <div style={{fontSize:34,marginBottom:10}}>📊</div>
+        <div style={{fontSize:8,fontWeight:700,color:"#94a3b8",letterSpacing:2,marginBottom:6}}>EXISTING FLOW</div>
+        <div style={{fontSize:16,fontWeight:900,marginBottom:6,color:"#1a1a1a"}}>브랜드 분석</div>
+        <div style={{fontSize:10,color:"#888",lineHeight:1.6,marginBottom:12}}>맵탱 기존 4-step 플로우 (Brand Insight → Context → AI Ideas → Shortform)</div>
+        <div style={{display:"flex",alignItems:"center",gap:5,fontSize:9,color:"#94a3b8",fontWeight:700}}>
+          <span>→</span><span>한국 시장 데이터 / 숏폼 제작</span>
+        </div>
+      </div>
+      <div onClick={pickConcept} style={{background:`linear-gradient(135deg,#fff,#fef2f2)`,borderRadius:14,padding:"22px 24px",border:`2px solid ${b.c}30`,cursor:"pointer",transition:"all .25s",position:"relative",overflow:"hidden"}}
+        onMouseEnter={e=>{e.currentTarget.style.borderColor=b.c;e.currentTarget.style.boxShadow=`0 8px 28px ${b.c}20`;e.currentTarget.style.transform="translateY(-2px)"}}
+        onMouseLeave={e=>{e.currentTarget.style.borderColor=b.c+"30";e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none"}}>
+        <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,${b.c},#7f1d1d)`}}/>
+        <div style={{position:"absolute",top:10,right:12,background:b.c,color:"#fff",padding:"3px 10px",borderRadius:4,fontSize:8,fontWeight:800,letterSpacing:1}}>★ NEW</div>
+        <div style={{fontSize:34,marginBottom:10}}>✨</div>
+        <div style={{fontSize:8,fontWeight:700,color:b.c,letterSpacing:2,marginBottom:6}}>CONCEPT DEVELOPMENT</div>
+        <div style={{fontSize:16,fontWeight:900,marginBottom:6,color:"#1a1a1a"}}>NEW 컨셉 Dev</div>
+        <div style={{fontSize:10,color:"#888",lineHeight:1.6,marginBottom:12}}>미국 시장 진입 컨셉 개발 (5-tab: 제품DNA → 소비자언어 → 검색여정 → 경쟁 → AI 컨셉)</div>
+        <div style={{display:"flex",alignItems:"center",gap:5,fontSize:9,color:b.c,fontWeight:700}}>
+          <span>→</span><span>US 검색 데이터 6.2억회 / Claude AI 컨셉 생성</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 export default function App(){
   const [st,setSt]=useState(1);
   const [br,setBr]=useState(null);
   const [selIdea,setSelIdea]=useState(null);
   const [tab,setTab]=useState("brands");
   const [maxStage,setMaxStage]=useState(0); // tracks highest stage reached
-  // st: 1=home, 1.5=brand insight, 2=context, 3=ideas, 4=storyboard
-  const goStage=(s)=>{setSt(s);setMaxStage(prev=>Math.max(prev,{1:0,1.5:1,2:2,3:3,4:4}[s]||0));};
-  const pick=(b)=>{setBr(b);goStage(1.5)};
-  const rst=()=>{setSt(1);setBr(null);setSelIdea(null);setTab("brands");setMaxStage(0)};
+  const [mepMode,setMepMode]=useState(null); // null | "analysis" | "concept" — only used when br.id==="mep"
+  // st: 1=home, 1.2=mep branch, 1.3=mep concept dev, 1.5=brand insight, 2=context, 3=ideas, 4=storyboard
+  const goStage=(s)=>{setSt(s);setMaxStage(prev=>Math.max(prev,{1:0,1.2:1,1.3:1,1.5:1,2:2,3:3,4:4}[s]||0));};
+  const pick=(b)=>{setBr(b);if(b.id==="mep"){setMepMode(null);goStage(1.2);}else{goStage(1.5);}};
+  const rst=()=>{setSt(1);setBr(null);setSelIdea(null);setTab("brands");setMaxStage(0);setMepMode(null);};
   const isUS=br?.market==="us";
   const progressSteps=isUS?STEPS_BULDAK:STEPS;
   const progressMap=isUS?{1.5:1,2:2,2.5:3,3:4,4:5}:{1.5:1,2:2,3:3,4:4};
@@ -2413,7 +2454,7 @@ export default function App(){
         </div>
       </div>
       {/* Progress — clickable for any visited step */}
-      {st>1&&<div style={{display:"flex",gap:3,marginBottom:16}}>
+      {st>1&&st!==1.2&&st!==1.3&&<div style={{display:"flex",gap:3,marginBottom:16}}>
         {progressSteps.map((s,i)=>{
           const stageMap=isUS?[1,1.5,2,2.5,3]:[1,1.5,2,3];
           const isCurrent=i+1===curProgress;
@@ -2431,6 +2472,8 @@ export default function App(){
       </div>}
 
       {st===1&&<Home pick={pick} tab={tab} setTab={setTab}/>}
+      {st===1.2&&br&&br.id==="mep"&&<MEPBranchPicker b={br} pickAnalysis={()=>{setMepMode("analysis");goStage(1.5);}} pickConcept={()=>{setMepMode("concept");goStage(1.3);}}/>}
+      {st===1.3&&br&&br.id==="mep"&&<MEPConceptDev back={()=>{setSt(1.2);}}/>}
       {st===1.5&&br&&<BrandInsight b={br} go={()=>goStage(isUS?2:2)}/>}
       {st===2&&br&&!isUS&&<S2 b={br} go={()=>goStage(3)}/>}
       {st===2&&br&&isUS&&<OccasionMap b={br} go={()=>goStage(2.5)}/>}
@@ -2439,7 +2482,10 @@ export default function App(){
       {st===4&&br&&selIdea&&<S4 b={br} idea={selIdea} back={()=>{setSt(3)}}/>}
 
       {st>1&&st<4&&<button onClick={()=>{
-        if(st===1.5)rst();
+        if(st===1.2)rst();
+        else if(st===1.3)setSt(1.2);
+        else if(st===1.5&&br?.id==="mep")setSt(1.2);
+        else if(st===1.5)rst();
         else if(st===2)setSt(1.5);
         else if(st===2.5)setSt(2);
         else if(st===3&&isUS)setSt(2.5);
