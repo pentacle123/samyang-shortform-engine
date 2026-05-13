@@ -34,34 +34,34 @@ export const keywordPool = [
   { kw: "매운맛 라면", vol: 77, trend: -0.06, brand: "mep", tags: ["매운맛","라면"] },
 
   // ═══ 탱글 관련 ═══
-  { kw: "다이어트 간식", vol: 36896, trend: 0.73, brand: "tgl", tags: ["다이어트","간식","건강","체중"] },
-  { kw: "다이어트 파스타", vol: 9980, trend: 0.32, brand: "tgl", tags: ["다이어트","파스타","면","건강"] },
+  { kw: "다이어트 간식", vol: 36896, trend: 0.73, prevVol: 31046, change: "+18.8%", brand: "tgl", tags: ["다이어트","간식","건강","체중"] },
+  { kw: "다이어트 파스타", vol: 9980, trend: 0.32, prevVol: 9180, change: "+8.7%", brand: "tgl", tags: ["다이어트","파스타","면","건강"] },
   { kw: "다이어트 라면", vol: 7203, trend: -0.08, brand: "tgl", tags: ["다이어트","라면","면","건강"] },
-  { kw: "콩담백면", vol: 10783, trend: -0.13, brand: "tgl", tags: ["콩담백면","다이어트","면","경쟁자"] },
+  { kw: "콩담백면", vol: 10783, trend: -0.13, prevVol: 11156, change: "-3.3%", brand: "tgl", tags: ["콩담백면","다이어트","면","경쟁자"] },
   { kw: "건면", vol: 5000, trend: -0.17, brand: "tgl", tags: ["건면","면","다이어트","건강"] },
-  { kw: "운동 후 식사", vol: 2686, trend: 0.32, brand: "tgl", tags: ["운동","식사","피트니스","단백질"] },
-  { kw: "다이어트 면", vol: 1870, trend: 0.47, brand: "tgl", tags: ["다이어트","면","건강","체중"] },
+  { kw: "운동 후 식사", vol: 2686, trend: 0.32, prevVol: 2456, change: "+9.4%", brand: "tgl", tags: ["운동","식사","피트니스","단백질"] },
+  { kw: "다이어트 면", vol: 1870, trend: 0.47, prevVol: 1633, change: "+14.5%", brand: "tgl", tags: ["다이어트","면","건강","체중"] },
   { kw: "다이어트 중 라면", vol: 890, trend: -0.07, brand: "tgl", tags: ["다이어트","라면","욕구","면"] },
-  { kw: "단백질 면", vol: 533, trend: 0.06, brand: "tgl", tags: ["단백질","면","건강","피트니스"] },
+  { kw: "단백질 면", vol: 533, trend: 0.06, prevVol: 523, change: "+1.9%", brand: "tgl", tags: ["단백질","면","건강","피트니스"] },
   { kw: "단백질 라면", vol: 360, trend: -0.14, brand: "tgl", tags: ["단백질","라면","운동","건강"] },
   { kw: "운동 후 라면", vol: 278, trend: -0.11, brand: "tgl", tags: ["운동","라면","피트니스","식사"] },
 
   // ═══ 탱글 확장 — 프로틴 × 파스타 키워드 (10) ═══
-  { kw: "파스타 다이어트", vol: 5623, trend: 0.27, brand: "tgl", tags: ["파스타","다이어트","건강","면"] },
-  { kw: "편의점 파스타", vol: 1480, trend: -0.12, brand: "tgl", tags: ["편의점","파스타","유통","채널"] },
+  { kw: "파스타 다이어트", vol: 5623, trend: 0.27, prevVol: 5180, change: "+8.6%", brand: "tgl", tags: ["파스타","다이어트","건강","면"] },
+  { kw: "편의점 파스타", vol: 1480, trend: -0.12, prevVol: 1546, change: "-4.3%", brand: "tgl", tags: ["편의점","파스타","유통","채널"] },
   { kw: "파스타 단백질", vol: 936, trend: 0, brand: "tgl", tags: ["파스타","단백질","영양","건강"] },
-  { kw: "단백질 파스타", vol: 550, trend: 0.34, brand: "tgl", tags: ["단백질","파스타","건강","피트니스"] },
+  { kw: "단백질 파스타", vol: 550, trend: 0.34, prevVol: 493, change: "+11.6%", brand: "tgl", tags: ["단백질","파스타","건강","피트니스"] },
   { kw: "하이 프로틴 치킨면", vol: 150, trend: -0.97, brand: "tgl", tags: ["프로틴","치킨면","트렌드"] },
-  { kw: "프로틴 파스타", vol: 133, trend: 0.50, brand: "tgl", tags: ["프로틴","파스타","구매","단백질"] },
-  { kw: "탱글 파스타 다이어트", vol: 98, trend: -0.07, brand: "tgl", tags: ["탱글","파스타","다이어트","브랜드인지"] },
+  { kw: "프로틴 파스타", vol: 133, trend: 0.50, prevVol: 116, change: "+14.7%", brand: "tgl", tags: ["프로틴","파스타","구매","단백질"] },
+  { kw: "탱글 파스타 다이어트", vol: 98, trend: -0.07, prevVol: 100, change: "-2.0%", brand: "tgl", tags: ["탱글","파스타","다이어트","브랜드인지"] },
   { kw: "고단백 면", vol: 56, trend: -0.28, brand: "tgl", tags: ["고단백","면","건강"] },
   { kw: "프로틴 면", vol: 50, trend: -0.20, brand: "tgl", tags: ["프로틴","면","건강"] },
   { kw: "다이어트 간편식", vol: 890, trend: 0.13, brand: "tgl", tags: ["다이어트","간편식","건강","비교"] },
 
   // ═══ 탱글 확장 — 직장인/대학생 점심 오케이션 (16) ═══
   { kw: "점심 메뉴 추천", vol: 80730, trend: 0, brand: "tgl", tags: ["점심","메뉴","추천","직장인"] },
-  { kw: "직장인 점심 도시락", vol: 2450, trend: 0.66, brand: "tgl", tags: ["직장인","점심","도시락","성장"] },
-  { kw: "직장인 점심", vol: 1140, trend: 0.37, brand: "tgl", tags: ["직장인","점심","일상"] },
+  { kw: "직장인 점심 도시락", vol: 2450, trend: 0.66, prevVol: 2050, change: "+19.5%", brand: "tgl", tags: ["직장인","점심","도시락","성장"] },
+  { kw: "직장인 점심", vol: 1140, trend: 0.37, prevVol: 1023, change: "+11.4%", brand: "tgl", tags: ["직장인","점심","일상"] },
   { kw: "점심 배달", vol: 776, trend: -0.02, brand: "tgl", tags: ["점심","배달","편의"] },
   { kw: "편의점 점심", vol: 620, trend: -0.20, brand: "tgl", tags: ["편의점","점심","채널"] },
   { kw: "직장인 점심 메뉴", vol: 596, trend: -0.34, brand: "tgl", tags: ["직장인","점심","메뉴"] },
@@ -77,30 +77,30 @@ export const keywordPool = [
   { kw: "직장인 다이어트 점심", vol: 120, trend: -0.38, brand: "tgl", tags: ["직장인","다이어트","점심"] },
 
   // ═══ 탱글 확장 — 운동/자취/간식 새 맥락 (6) ═══
-  { kw: "단백질 간식", vol: 5723, trend: 0.78, brand: "tgl", tags: ["단백질","간식","구매","성장"] },
+  { kw: "단백질 간식", vol: 5723, trend: 0.78, prevVol: 4703, change: "+21.7%", brand: "tgl", tags: ["단백질","간식","구매","성장"] },
   { kw: "프로틴 간식", vol: 423, trend: 0.40, brand: "tgl", tags: ["프로틴","간식","남성","급성장"] },
-  { kw: "자취 한끼", vol: 357, trend: 0.49, brand: "tgl", tags: ["자취","한끼","1인가구","급성장"] },
+  { kw: "자취 한끼", vol: 357, trend: 0.49, prevVol: 313, change: "+14.1%", brand: "tgl", tags: ["자취","한끼","1인가구","급성장"] },
   { kw: "간단한 한끼 요리", vol: 362, trend: 0.15, brand: "tgl", tags: ["간단","한끼","요리","자취"] },
 
   // ═══ 탱글 확장 — Meal-prep 식단 준비 키워드 (6) ═══
-  { kw: "밀프렙", vol: 7956, trend: 0.69, brand: "tgl", tags: ["밀프렙","식단","준비","직장인"] },
-  { kw: "밀프랩", vol: 20013, trend: 0.57, brand: "tgl", tags: ["밀프랩","밀프렙","식단","준비","직장인"] },
-  { kw: "단백질 도시락", vol: 7946, trend: 0.09, brand: "tgl", tags: ["단백질","도시락","구매","밀프렙"] },
-  { kw: "다이어트 밀프렙", vol: 5952, trend: 0.78, brand: "tgl", tags: ["다이어트","밀프렙","급성장","식단"] },
-  { kw: "식단 도시락", vol: 4426, trend: 0.29, brand: "tgl", tags: ["식단","도시락","밀프렙","건강"] },
-  { kw: "일주일 식단", vol: 3293, trend: -0.12, brand: "tgl", tags: ["일주일","식단","밀프렙","계획"] },
+  { kw: "밀프렙", vol: 7956, trend: 0.69, prevVol: 17216, change: "-53.8%", brand: "tgl", tags: ["밀프렙","식단","준비","직장인"] },
+  { kw: "밀프랩", vol: 20013, trend: 0.57, isNew: true, change: "NEW", brand: "tgl", tags: ["밀프랩","밀프렙","식단","준비","직장인"] },
+  { kw: "단백질 도시락", vol: 7946, trend: 0.09, prevVol: 7726, change: "+2.8%", brand: "tgl", tags: ["단백질","도시락","구매","밀프렙"] },
+  { kw: "다이어트 밀프렙", vol: 5952, trend: 0.78, prevVol: 5563, change: "+7.0%", brand: "tgl", tags: ["다이어트","밀프렙","급성장","식단"] },
+  { kw: "식단 도시락", vol: 4426, trend: 0.29, prevVol: 4076, change: "+8.6%", brand: "tgl", tags: ["식단","도시락","밀프렙","건강"] },
+  { kw: "일주일 식단", vol: 3293, trend: -0.12, prevVol: 3443, change: "-4.4%", brand: "tgl", tags: ["일주일","식단","밀프렙","계획"] },
   { kw: "일주일 도시락", vol: 710, trend: -0.20, brand: "tgl", tags: ["일주일","도시락","밀프렙","직장인"] },
 
   // ═══ 탱글 확장 — 혈당스파이크/글루텐프리 키워드 (10) ═══
-  { kw: "혈당스파이크", vol: 37576, trend: -0.18, brand: "tgl", tags: ["혈당","스파이크","건강","급성장"] },
-  { kw: "글루텐프리", vol: 11093, trend: 0.23, brand: "tgl", tags: ["글루텐프리","건강","알레르기"] },
-  { kw: "밀가루 끊기", vol: 1623, trend: 0.14, brand: "tgl", tags: ["밀가루","끊기","건강","대체"] },
+  { kw: "혈당스파이크", vol: 37576, trend: -0.18, prevVol: 40180, change: "-6.5%", brand: "tgl", tags: ["혈당","스파이크","건강","급성장"] },
+  { kw: "글루텐프리", vol: 11093, trend: 0.23, prevVol: 10293, change: "+7.8%", brand: "tgl", tags: ["글루텐프리","건강","알레르기"] },
+  { kw: "밀가루 끊기", vol: 1623, trend: 0.14, prevVol: 1563, change: "+3.8%", brand: "tgl", tags: ["밀가루","끊기","건강","대체"] },
   { kw: "GI지수 낮은 음식", vol: 1183, trend: 0.10, brand: "tgl", tags: ["GI지수","혈당","건강","다이어트"] },
   { kw: "혈당스파이크 음식", vol: 950, trend: 0.80, brand: "tgl", tags: ["혈당","스파이크","음식","급성장"] },
-  { kw: "글루텐프리 파스타", vol: 683, trend: 0.01, brand: "tgl", tags: ["글루텐프리","파스타","대체"] },
+  { kw: "글루텐프리 파스타", vol: 683, trend: 0.01, prevVol: 680, change: "+0.4%", brand: "tgl", tags: ["글루텐프리","파스타","대체"] },
   { kw: "병아리콩 혈당", vol: 456, trend: 0.15, brand: "tgl", tags: ["병아리콩","혈당","건강"] },
-  { kw: "밀가루 대체", vol: 440, trend: 0.36, brand: "tgl", tags: ["밀가루","대체","건강"] },
-  { kw: "글루텐프리 면", vol: 376, trend: 0.37, brand: "tgl", tags: ["글루텐프리","면","대체"] },
+  { kw: "밀가루 대체", vol: 440, trend: 0.36, prevVol: 400, change: "+10.0%", brand: "tgl", tags: ["밀가루","대체","건강"] },
+  { kw: "글루텐프리 면", vol: 376, trend: 0.37, prevVol: 343, change: "+9.6%", brand: "tgl", tags: ["글루텐프리","면","대체"] },
   { kw: "밀가루 없는 면", vol: 108, trend: 0.30, brand: "tgl", tags: ["밀가루","없는","면","대체"] },
 
   // ═══ 탱글 확장 — 야식 라면 대안 키워드 (5) ═══
@@ -111,17 +111,17 @@ export const keywordPool = [
   { kw: "밤에 라면 대신", vol: 320, trend: 0.30, brand: "tgl", tags: ["밤","라면","대신","대안"] },
 
   // ═══ 탱글 확장 — 키즈 건강 면 키워드 (5) ═══
-  { kw: "아이 간식", vol: 3376, trend: 0.50, brand: "tgl", tags: ["아이","간식","키즈","건강"] },
+  { kw: "아이 간식", vol: 3376, trend: 0.50, prevVol: 8500, change: "-60.3%", brand: "tgl", tags: ["아이","간식","키즈","건강"] },
   { kw: "아이 건강 간식", vol: 2100, trend: 0.18, brand: "tgl", tags: ["아이","건강","간식","키즈"] },
   { kw: "어린이 건강식", vol: 1350, trend: 0.14, brand: "tgl", tags: ["어린이","건강식","키즈"] },
   { kw: "키즈 간편식", vol: 680, trend: 0.22, brand: "tgl", tags: ["키즈","간편식","아이","건강"] },
   { kw: "아이 라면 대안", vol: 230, trend: 0.35, brand: "tgl", tags: ["아이","라면","대안","키즈","건강"] },
 
   // ═══ 펄스랩 관련 ═══
-  { kw: "병아리콩", vol: 73993, trend: 0.75, brand: "pls", tags: ["병아리콩","원료","건강","콩"] },
+  { kw: "병아리콩", vol: 73993, trend: 0.75, prevVol: 59813, change: "+23.7%", brand: "pls", tags: ["병아리콩","원료","건강","콩"] },
   { kw: "캐슈넛", vol: 37723, trend: 0.15, brand: "pls", tags: ["캐슈넛","너트","건강","간식"] },
-  { kw: "병아리콩 효능", vol: 31913, trend: 0.29, brand: "pls", tags: ["병아리콩","효능","건강","영양"] },
-  { kw: "단백질 많은 음식", vol: 26873, trend: 0.16, brand: "pls", tags: ["단백질","음식","건강","영양"] },
+  { kw: "병아리콩 효능", vol: 31913, trend: 0.29, prevVol: 29180, change: "+9.4%", brand: "pls", tags: ["병아리콩","효능","건강","영양"] },
+  { kw: "단백질 많은 음식", vol: 26873, trend: 0.16, prevVol: 25486, change: "+5.4%", brand: "pls", tags: ["단백질","음식","건강","영양"] },
   { kw: "병아리콩 요리", vol: 23016, trend: 0.12, brand: "pls", tags: ["병아리콩","요리","레시피"] },
   { kw: "후무스", vol: 22196, trend: -0.05, brand: "pls", tags: ["후무스","건강","중동","간식"] },
   { kw: "캐슈넛 효능", vol: 16060, trend: 0.09, brand: "pls", tags: ["캐슈넛","효능","건강","영양"] },
@@ -131,7 +131,7 @@ export const keywordPool = [
   { kw: "건강 간식", vol: 8640, trend: -0.23, brand: "pls", tags: ["건강","간식","영양","웰빙"] },
   { kw: "후무스 만들기", vol: 8363, trend: 0.0, brand: "pls", tags: ["후무스","만들기","레시피","요리"] },
   { kw: "식물성 단백질", vol: 7230, trend: -0.22, brand: "pls", tags: ["식물성","단백질","비건","건강"] },
-  { kw: "단백질 간식", vol: 5723, trend: 0.78, brand: "pls", tags: ["단백질","간식","건강","운동"] },
+  { kw: "단백질 간식", vol: 5723, trend: 0.78, prevVol: 4703, change: "+21.7%", brand: "pls", tags: ["단백질","간식","건강","운동"] },
   { kw: "편의점 다이어트 간식", vol: 2810, trend: -0.07, brand: "pls", tags: ["편의점","다이어트","간식"] },
   { kw: "단백질 간식 추천", vol: 626, trend: 0.07, brand: "pls", tags: ["단백질","간식","추천"] },
   { kw: "체중관리", vol: 476, trend: -0.24, brand: "pls", tags: ["체중","관리","다이어트","건강"] },
@@ -142,7 +142,7 @@ export const keywordPool = [
   { kw: "식이섬유 간식", vol: 110, trend: 0.25, brand: "pls", tags: ["식이섬유","간식","건강","소화"] },
 
   // ═══ 탱글 + 펄스랩 공통 ═══
-  { kw: "다이어트 간식", vol: 36896, trend: 0.73, brand: "tgl,pls", tags: ["다이어트","간식","건강","체중"] },
+  { kw: "다이어트 간식", vol: 36896, trend: 0.73, prevVol: 31046, change: "+18.8%", brand: "tgl,pls", tags: ["다이어트","간식","건강","체중"] },
 ];
 
 // ═══ 플랫폼 동작 방식 ═══
