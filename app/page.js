@@ -917,7 +917,16 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
                 </div>
                 <div style={{textAlign:"right"}}>
                   <div style={{fontSize:16,fontWeight:900,color:b.c}}>{(a.totalVolume*12).toLocaleString()}<span style={{fontSize:9,fontWeight:400,color:"#999"}}>회/연</span></div>
-                  <div style={{fontSize:8,color:"#aaa"}}>TOP: {a.topKeyword.kw} ({a.topKeyword.vol.toLocaleString()})</div>
+                  {a.change&&(()=>{
+                    const v=parseFloat(a.change.replace(/[+%]/g,""))||0;
+                    let bg="#f3f4f6",fg="#9ca3af",icon="—";
+                    if(v>=10){bg="#dcfce7";fg="#16a34a";icon="▲";}
+                    else if(v>0){bg="#ecfccb";fg="#65a30d";icon="▲";}
+                    else if(v<=-10){bg="#fee2e2";fg="#dc2626";icon="▼";}
+                    else if(v<0){bg="#ffedd5";fg="#ea580c";icon="▼";}
+                    return <span style={{display:"inline-block",fontSize:8,background:bg,color:fg,padding:"1px 6px",borderRadius:3,fontWeight:800,marginTop:2}}>{icon} {a.change} vs 이전</span>;
+                  })()}
+                  <div style={{fontSize:8,color:"#aaa",marginTop:2}}>TOP: {a.topKeyword.kw} ({a.topKeyword.vol.toLocaleString()})</div>
                 </div>
               </div>
               <div style={{height:10,background:"#eee",borderRadius:4,overflow:"hidden",marginBottom:a.pathfinderNote?8:0}}>
@@ -969,6 +978,15 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
             <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4}}>
               <span style={{background:"#dcfce7",color:"#16a34a",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>✅ 카테고리 기회</span>
               {opp.relatedVolume&&Object.keys(opp.relatedVolume).length>0&&<span style={{fontSize:13,fontWeight:900,color:b.c}}>연 {(((opp.volume||0)+Object.values(opp.relatedVolume).reduce((a,v)=>a+v,0))*12).toLocaleString()}회</span>}
+              {opp.change&&(()=>{
+                const v=parseFloat(opp.change.replace(/[+%]/g,""))||0;
+                let bg="#f3f4f6",fg="#9ca3af",icon="—";
+                if(v>=10){bg="#dcfce7";fg="#16a34a";icon="▲";}
+                else if(v>0){bg="#ecfccb";fg="#65a30d";icon="▲";}
+                else if(v<=-10){bg="#fee2e2";fg="#dc2626";icon="▼";}
+                else if(v<0){bg="#ffedd5";fg="#ea580c";icon="▼";}
+                return <span style={{fontSize:8,background:bg,color:fg,padding:"1px 6px",borderRadius:3,fontWeight:800}}>{icon} {opp.change} vs 이전</span>;
+              })()}
               {opp.volume&&<span style={{fontSize:8,color:"#999"}}>PathFinder: '{opp.keyword}' 연 {(opp.volume*12).toLocaleString()}회</span>}
             </div>
           </div>
