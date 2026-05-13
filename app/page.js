@@ -899,7 +899,10 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
       return(
       <div style={{background:"#fff",borderRadius:14,padding:"20px 24px",border:"1px solid #f0f0f0",marginBottom:20}}>
         <div style={{marginBottom:16}}>
-          <div style={{fontSize:14,fontWeight:900,color:G,marginBottom:4}}>🔬 제품 자산 분석</div>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:4}}>
+            <div style={{fontSize:14,fontWeight:900,color:G}}>🔬 제품 자산 분석</div>
+            <span style={{fontSize:9,fontWeight:700,color:"#888",background:"#f5f5f7",border:"1px solid #e5e7eb",padding:"3px 8px",borderRadius:4}}>📅 업데이트 2025. 5월 기준</span>
+          </div>
           <div style={{fontSize:10,color:"#999",lineHeight:1.6}}>이 제품의 핵심 자산을 분해하고, 각 자산이 연결되는 카테고리 기회를 분석했습니다</div>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:12}}>
