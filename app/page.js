@@ -968,7 +968,7 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
             </div>
             <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4}}>
               <span style={{background:"#dcfce7",color:"#16a34a",padding:"2px 8px",borderRadius:4,fontSize:8,fontWeight:700}}>✅ 카테고리 기회</span>
-              {opp.relatedVolume&&Object.keys(opp.relatedVolume).length>0&&<span style={{fontSize:13,fontWeight:900,color:b.c}}>연 {(Object.values(opp.relatedVolume).reduce((a,v)=>a+v,0)*12).toLocaleString()}회</span>}
+              {opp.relatedVolume&&Object.keys(opp.relatedVolume).length>0&&<span style={{fontSize:13,fontWeight:900,color:b.c}}>연 {(((opp.volume||0)+Object.values(opp.relatedVolume).reduce((a,v)=>a+v,0))*12).toLocaleString()}회</span>}
               {opp.volume&&<span style={{fontSize:8,color:"#999"}}>PathFinder: '{opp.keyword}' 연 {(opp.volume*12).toLocaleString()}회</span>}
             </div>
           </div>
