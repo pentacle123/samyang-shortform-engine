@@ -4,6 +4,8 @@ import { keywordPool, brandAssets, buldakKeywordPool, buldakAssets } from "./key
 import { confirmedOpportunities, tangleOccasionMap, buldakConfirmedOpportunities, buldakOccasionMap } from "./confirmedOpportunities";
 import { opportunityTargetProfiles, assetToProfileId } from "./opportunityTargetProfiles";
 import MEPConceptDev from "./MEPConceptDev";
+import TangleOpportunityDetail from "./TangleOpportunityDetail";
+import { tangleOpportunityDetails } from "./tangleOpportunityDetails";
 import { tangleExpandedData } from "./tangleExpandedData";
 import { buldakStressRitualMap } from "./stressRitualMap";
 import { buldakSubOccasionRituals } from "./subOccasionRituals";
@@ -776,7 +778,10 @@ const BrandInsight=({b,go})=>{
   const [aiOppErr,setAiOppErr]=useState(null);
   const [aiOppGen,setAiOppGen]=useState(0);
   const [lifeStage,setLifeStage]=useState("전체");
+  const [selOppDetail,setSelOppDetail]=useState(null);
   if(!data)return <div style={{padding:40,textAlign:"center",color:"#ccc"}}>데이터 준비 중...</div>;
+  // 탱글에서 opp 카드 클릭 시 상세 페이지 표시
+  if(b.id==="tgl"&&selOppDetail)return <TangleOpportunityDetail opp={selOppDetail} brandColor={b.c} back={()=>setSelOppDetail(null)}/>;
   const allConfirmed=(b.id==="buldak"?buldakConfirmedOpportunities:confirmedOpportunities[b.id])||[];
   // ── 라이프스테이지 필터 (탱글 전용, Section 15) ──
   const lifeStageMap={"학생/자취":["4분 간편조리","자취생 간단한 한끼","야식 라면 대안"],"직장인":["직장인 점심 대용","Meal-prep 식단 준비","프로틴 파스타"],"운동":["단백질 15g","단백질 간식/보상","운동 후 단백질 보충"],"육아맘":["키즈 건강 면"],"건강관심":["혈당스파이크 대안","병아리콩 건면","다이어트 면 대안"]};
@@ -984,8 +989,12 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
         </div>}
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:12}}>
-        {confirmed.map((opp,i)=>(
-        <div key={i} style={{background:"#f8f8fa",borderRadius:12,padding:"16px 18px",border:"1px solid #f0f0f0"}}>
+        {confirmed.map((opp,i)=>{
+          const hasDetail=b.id==="tgl"&&tangleOpportunityDetails[opp.asset];
+          return (
+        <div key={i} onClick={()=>hasDetail&&setSelOppDetail(opp)} style={{background:"#f8f8fa",borderRadius:12,padding:"16px 18px",border:"1px solid #f0f0f0",cursor:hasDetail?"pointer":"default",transition:"all .2s",position:"relative"}}
+          onMouseEnter={e=>{if(hasDetail){e.currentTarget.style.borderColor=b.c+"40";e.currentTarget.style.boxShadow=`0 4px 14px ${b.c}10`;e.currentTarget.style.transform="translateY(-1px)";}}}
+          onMouseLeave={e=>{if(hasDetail){e.currentTarget.style.borderColor="#f0f0f0";e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none";}}}>
           <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:10}}>
             <div style={{display:"flex",alignItems:"center",gap:8}}>
               <span style={{fontSize:22}}>{opp.assetIcon}</span>
@@ -1065,7 +1074,11 @@ CTA는 삼양식품 공식몰(brand.naver.com/syfoodshop)로 연결.
               </div>
             );
           })()}
-        </div>))}
+          {hasDetail&&<div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:4,marginTop:8,fontSize:9,fontWeight:700,color:b.c}}>
+            <span>상세 분석 보기</span><span style={{fontSize:11}}>→</span>
+          </div>}
+        </div>);
+        })}
       </div>
     </div>}
 
